@@ -9,8 +9,8 @@ namespace project_api.Entities
 
 		[Required]
 		[StringLength(50)]
-		public string Name { get; set; }
+		public string? Name { get; set; }
 
-		public virtual Countries Country { get; set; }
+		public virtual Countries? Country { get; set; }
 	}
 }

@@ -2,15 +2,16 @@
 
 namespace project_api.Entities
 {
-	public class Addresses
+	public class Accounts
 	{
 		[Key]
 		public int Id { get; set; }
 
 		[Required]
 		[StringLength(50)]
-		public string Address { get; set; }
+		public string? UserName { get; set; }
 
-		public virtual Cities City { get; set; }
+		[Required]
+		public string? Password { get; set; }
 	}
 }

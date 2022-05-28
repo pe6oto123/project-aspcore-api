@@ -9,10 +9,10 @@ namespace project_api.Entities
 
 		[Required]
 		[StringLength(50)]
-		public string Name { get; set; }
+		public string? Name { get; set; }
 
-		public virtual Universities University { get; set; }
+		public virtual Universities? University { get; set; }
 
-		public virtual ICollection<Teachers> Teachers { get; set; }
+		public virtual ICollection<Teachers>? Teachers { get; set; }
 	}
 }
