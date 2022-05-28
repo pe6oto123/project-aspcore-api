@@ -5,10 +5,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace project_api.Migrations
 {
-    public partial class Filled_Database_Tables : Migration
+    public partial class Initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "Accounts",
                 columns: table => new
@@ -52,7 +55,7 @@ namespace project_api.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CountryId = table.Column<int>(type: "int", nullable: false)
+                    CountryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,30 +64,28 @@ namespace project_api.Migrations
                         name: "FK_Cities_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Addresss",
+                name: "Address",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CityId = table.Column<int>(type: "int", nullable: false)
+                    CityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresss", x => x.Id);
+                    table.PrimaryKey("PK_Address", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Addresss_Cities_CityId",
+                        name: "FK_Address_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -96,17 +97,16 @@ namespace project_api.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AddressId = table.Column<int>(type: "int", nullable: false)
+                    AddressId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Universities", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Universities_Addresss_AddressId",
+                        name: "FK_Universities_Address_AddressId",
                         column: x => x.AddressId,
-                        principalTable: "Addresss",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "Address",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -118,7 +118,7 @@ namespace project_api.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UniversityId = table.Column<int>(type: "int", nullable: false)
+                    UniversityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -127,8 +127,7 @@ namespace project_api.Migrations
                         name: "FK_Departments_Universities_UniversityId",
                         column: x => x.UniversityId,
                         principalTable: "Universities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -144,18 +143,17 @@ namespace project_api.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Position = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: true),
                     UniversitiesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teachers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teachers_Addresss_AddressId",
+                        name: "FK_Teachers_Address_AddressId",
                         column: x => x.AddressId,
-                        principalTable: "Addresss",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "Address",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Teachers_Universities_UniversitiesId",
                         column: x => x.UniversitiesId,
@@ -176,18 +174,23 @@ namespace project_api.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FacultyNum = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    AddressesId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: true),
                     UniversitiesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Students_Address_AddressesId",
+                        column: x => x.AddressesId,
+                        principalTable: "Address",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Students_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Students_Universities_UniversitiesId",
                         column: x => x.UniversitiesId,
@@ -204,7 +207,7 @@ namespace project_api.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false)
+                    DepartmentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -213,8 +216,7 @@ namespace project_api.Migrations
                         name: "FK_Subjects_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -269,8 +271,8 @@ namespace project_api.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresss_CityId",
-                table: "Addresss",
+                name: "IX_Address_CityId",
+                table: "Address",
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
@@ -287,6 +289,11 @@ namespace project_api.Migrations
                 name: "IX_DepartmentsTeachers_TeachersId",
                 table: "DepartmentsTeachers",
                 column: "TeachersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_AddressesId",
+                table: "Students",
+                column: "AddressesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_DepartmentId",
@@ -351,7 +358,7 @@ namespace project_api.Migrations
                 name: "Universities");
 
             migrationBuilder.DropTable(
-                name: "Addresss");
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Cities");

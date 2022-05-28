@@ -11,8 +11,8 @@ using project_api.Contexts;
 namespace project_api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220528123713_Update_Nullable_Strings")]
-    partial class Update_Nullable_Strings
+    [Migration("20220528165100_Initialize")]
+    partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,7 +74,7 @@ namespace project_api.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Addresss");
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("project_api.Entities.Cities", b =>
@@ -149,6 +149,9 @@ namespace project_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("AddressesId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
@@ -170,6 +173,8 @@ namespace project_api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressesId");
 
                     b.HasIndex("DepartmentId");
 
@@ -315,6 +320,10 @@ namespace project_api.Migrations
 
             modelBuilder.Entity("project_api.Entities.Students", b =>
                 {
+                    b.HasOne("project_api.Entities.Addresses", "Addresses")
+                        .WithMany()
+                        .HasForeignKey("AddressesId");
+
                     b.HasOne("project_api.Entities.Departments", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId");
@@ -322,6 +331,8 @@ namespace project_api.Migrations
                     b.HasOne("project_api.Entities.Universities", null)
                         .WithMany("Students")
                         .HasForeignKey("UniversitiesId");
+
+                    b.Navigation("Addresses");
 
                     b.Navigation("Department");
                 });

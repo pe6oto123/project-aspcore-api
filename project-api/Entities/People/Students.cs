@@ -18,6 +18,8 @@ namespace project_api.Entities
 		[Required]
 		public string? FacultyNum { get; set; }
 
+		public virtual Addresses? Address { get; set; }
+
 		public virtual Departments? Department { get; set; }
 
 		public virtual ICollection<Subjects>? Subjects { get; set; }

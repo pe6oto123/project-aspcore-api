@@ -16,7 +16,7 @@ namespace project_api.Contexts
 		public DbSet<Subjects> Subjects => Set<Subjects>();
 		public DbSet<Students> Students => Set<Students>();
 		public DbSet<Teachers> Teachers => Set<Teachers>();
-		public DbSet<Addresses> Addresss => Set<Addresses>();
+		public DbSet<Addresses> Address => Set<Addresses>();
 		public DbSet<Cities> Cities => Set<Cities>();
 		public DbSet<Countries> Countries => Set<Countries>();
 	}
