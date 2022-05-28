@@ -12,8 +12,8 @@ builder.Services.AddSwaggerGen();
 
 // Add MySql connection
 
-string mySqlConnectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContextPool<ApiDatabaseContext>(options =>
+string mySqlConnectionStr = builder.Configuration.GetConnectionString("MySqlConn");
+builder.Services.AddDbContextPool<DatabaseContext>(options =>
 {
 	options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr));
 });
