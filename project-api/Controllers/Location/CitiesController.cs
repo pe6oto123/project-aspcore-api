@@ -119,8 +119,7 @@ namespace project_api.Controllers.Location
 					await _context.SaveChangesAsync();
 					return NoContent();
 				}
-
-				return Conflict();
+				return Conflict(new { message = $"ERROR 1451: Cannot delete or update a parent row: a foreign key constraint fails." });
 			}
 
 			return NoContent();

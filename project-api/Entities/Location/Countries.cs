@@ -11,11 +11,7 @@ namespace project_api.Entities
 		[StringLength(50)]
 		public string? Name { get; set; }
 
-		[Required]
 		[StringLength(50)]
 		public string? Continent { get; set; }
-
-		[Required]
-		public int Population { get; set; }
 	}
 }

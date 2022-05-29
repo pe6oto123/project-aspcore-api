@@ -144,7 +144,7 @@ namespace project_api.Controllers.Location
 					return NoContent();
 				}
 
-				return Conflict();
+				return Conflict(new { message = $"An existing record with the id '{id}' was already found." });
 			}
 
 			return NoContent();

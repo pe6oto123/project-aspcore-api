@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace project_api.Entities
 {
@@ -16,12 +17,45 @@ namespace project_api.Entities
 		public string? LastName { get; set; }
 
 		[Required]
-		public string? FacultyNum { get; set; }
+		public virtual Enrolment? Enrolment { get; set; }
 
+		[Required]
 		public virtual Addresses? Address { get; set; }
 
 		public virtual Departments? Department { get; set; }
 
-		public virtual ICollection<Subjects>? Subjects { get; set; }
+		public virtual ICollection<StudentsSubjects>? StudentsSubjects { get; set; }
+	}
+
+	public class Enrolment
+	{
+		[Key]
+		public int Id { get; set; }
+
+		[Required]
+		public DateTime EnrolmentDate { get; set; }
+
+		[Required]
+		[StringLength(12)]
+		public string? FacultyNumber { get; set; }
+
+		[Required]
+		public virtual Students? Student { get; set; }
+	}
+
+	public class StudentsSubjects
+	{
+		[Key, Column(Order = 0)]
+		public int StudentsId { get; set; }
+
+		[Key, Column(Order = 1)]
+		public int SubjectsId { get; set; }
+
+		public virtual Students? Student { get; set; }
+
+		public virtual Subjects? Subject { get; set; }
+
+		[MaxLength(20)]
+		public string? Grade { get; set; }
 	}
 }

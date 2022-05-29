@@ -9,7 +9,7 @@ namespace project_api.Entities
 
 		[Required]
 		[StringLength(50)]
-		public string? Address { get; set; }
+		public string? MainAddress { get; set; }
 
 		public virtual Cities? City { get; set; }
 	}

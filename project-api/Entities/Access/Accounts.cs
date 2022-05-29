@@ -13,5 +13,8 @@ namespace project_api.Entities
 
 		[Required]
 		public string? Password { get; set; }
+
+		[Required]
+		public bool IsAdmin { get; set; }
 	}
 }
