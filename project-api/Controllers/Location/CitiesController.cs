@@ -93,7 +93,7 @@ namespace project_api.Controllers.Location
 
 		// DELETE: api/Cities/5
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteCities(int id, bool forceDelete = false)
+		public async Task<IActionResult> DeleteCities(int id)
 		{
 			if (_context.Cities == null)
 			{
@@ -105,22 +105,9 @@ namespace project_api.Controllers.Location
 				return NotFound();
 			}
 
+			_context.Address.Include(s => s.City).Where(s => s.City.Id == id).Load();
 			_context.Cities.Remove(cities);
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateException ex)
-			when (ex?.InnerException?.Message.Contains("foreign key constraint fails") ?? false)
-			{
-				if (forceDelete)
-				{
-					_context.Address.Include(s => s.City).Where(s => s.City.Id == id).Single().City = null;
-					await _context.SaveChangesAsync();
-					return NoContent();
-				}
-				return Conflict(new { message = $"ERROR 1451: Cannot delete or update a parent row: a foreign key constraint fails." });
-			}
+			await _context.SaveChangesAsync();
 
 			return NoContent();
 		}

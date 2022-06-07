@@ -2,19 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using project_api.Contexts;
 
 #nullable disable
 
-namespace project_api.Migrations
+namespace project_api.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220603112602_Initialize")]
-    partial class Initialize
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -367,13 +365,15 @@ namespace project_api.Migrations
                         .WithMany()
                         .HasForeignKey("DepartmentId");
 
-                    b.HasOne("project_api.Entities.Universities", null)
-                        .WithMany("Students")
+                    b.HasOne("project_api.Entities.Universities", "Universities")
+                        .WithMany()
                         .HasForeignKey("UniversitiesId");
 
                     b.Navigation("Address");
 
                     b.Navigation("Department");
+
+                    b.Navigation("Universities");
                 });
 
             modelBuilder.Entity("project_api.Entities.StudentsSubjects", b =>
@@ -412,11 +412,13 @@ namespace project_api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("project_api.Entities.Universities", null)
-                        .WithMany("Teachers")
+                    b.HasOne("project_api.Entities.Universities", "Universities")
+                        .WithMany()
                         .HasForeignKey("UniversitiesId");
 
                     b.Navigation("Address");
+
+                    b.Navigation("Universities");
                 });
 
             modelBuilder.Entity("project_api.Entities.Universities", b =>
@@ -441,13 +443,6 @@ namespace project_api.Migrations
             modelBuilder.Entity("project_api.Entities.Subjects", b =>
                 {
                     b.Navigation("StudentsSubjects");
-                });
-
-            modelBuilder.Entity("project_api.Entities.Universities", b =>
-                {
-                    b.Navigation("Students");
-
-                    b.Navigation("Teachers");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,6 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Forms\DataForms\n15yarpg.gr2~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Forms\AccountForms\LoginWindow.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -93,7 +93,7 @@ namespace project_api.Controllers.Location
 
 		// DELETE: api/Countries/5
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteCountries(int id, bool forceDelete = false)
+		public async Task<IActionResult> DeleteCountries(int id)
 		{
 			if (_context.Countries == null)
 			{
@@ -105,8 +105,10 @@ namespace project_api.Controllers.Location
 				return NotFound();
 			}
 
+			_context.Cities.Include(s => s.Country).Where(s => s.Country.Id == id).Load();
 			_context.Countries.Remove(countries);
-			try
+			await _context.SaveChangesAsync();
+			/*try
 			{
 				await _context.SaveChangesAsync();
 			}
@@ -115,13 +117,19 @@ namespace project_api.Controllers.Location
 			{
 				if (forceDelete)
 				{
-					_context.Cities.Include(s => s.Country).Where(s => s.Country.Id == id).Single().Country = null;
+					foreach (var city in _context.Cities.Include(s => s.Country).Where(s => s.Country.Id == id))
+						city.Country = null;
+
 					await _context.SaveChangesAsync();
 					return NoContent();
 				}
 
-				return Conflict();
-			}
+				List<dynamic> parentTables = new() { };
+				foreach (var city in _context.Cities.Include(s => s.Country).Where(s => s.Country.Id == id))
+					parentTables.Add(new { city.Id, city.Name, city.Region, city.Population });
+
+				return Conflict(new { title = "Conflict", status = 409, reason = "Foreign key constraint fails", entry = countries, parentTables });
+			}*/
 
 			return NoContent();
 		}

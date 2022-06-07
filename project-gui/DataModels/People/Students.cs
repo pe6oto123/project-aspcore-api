@@ -6,6 +6,7 @@
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
 		public virtual Addresses? Address { get; set; }
+		public virtual Universities? Universities { get; set; }
 		public virtual Departments? Department { get; set; }
 		public virtual ICollection<Subjects>? Subjects { get; set; }
 	}

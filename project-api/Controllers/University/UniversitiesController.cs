@@ -105,6 +105,8 @@ namespace project_api.Controllers.University
 				return NotFound();
 			}
 
+			_context.Students.Include(s => s.Universities).Where(s => s.Universities.Id == id).Load();
+			_context.Teachers.Include(s => s.Universities).Where(s => s.Universities.Id == id).Load();
 			_context.Universities.Remove(universities);
 			await _context.SaveChangesAsync();
 

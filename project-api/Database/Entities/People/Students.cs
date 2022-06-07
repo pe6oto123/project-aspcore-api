@@ -22,6 +22,8 @@ namespace project_api.Entities
 		[Required]
 		public virtual Addresses? Address { get; set; }
 
+		public virtual Universities? Universities { get; set; }
+
 		public virtual Departments? Department { get; set; }
 
 		public virtual ICollection<StudentsSubjects>? StudentsSubjects { get; set; }

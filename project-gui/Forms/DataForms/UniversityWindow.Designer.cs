@@ -83,13 +83,13 @@
 			this.groupBox_deleteUniversity = new System.Windows.Forms.GroupBox();
 			this.button_deleteUniversity = new System.Windows.Forms.Button();
 			this.groupBox_addUniversity = new System.Windows.Forms.GroupBox();
+			this.label_addUniversityCity = new System.Windows.Forms.Label();
+			this.comboBox_addUniversityCity = new System.Windows.Forms.ComboBox();
 			this.textBox_addUniversityAddress = new System.Windows.Forms.TextBox();
 			this.label_addUniversityAddress = new System.Windows.Forms.Label();
 			this.button_addUniversity = new System.Windows.Forms.Button();
 			this.textBox_addUniversityName = new System.Windows.Forms.TextBox();
 			this.label_addUniversityName = new System.Windows.Forms.Label();
-			this.comboBox_addUniversityCity = new System.Windows.Forms.ComboBox();
-			this.label_addUniversityCity = new System.Windows.Forms.Label();
 			this.groupBox_editUniversity = new System.Windows.Forms.GroupBox();
 			this.label_editUniversityCity = new System.Windows.Forms.Label();
 			this.comboBox_editUniversityCity = new System.Windows.Forms.ComboBox();
@@ -143,6 +143,7 @@
 			this.dataGridView_departments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_departments.Location = new System.Drawing.Point(6, 51);
 			this.dataGridView_departments.Name = "dataGridView_departments";
+			this.dataGridView_departments.ReadOnly = true;
 			this.dataGridView_departments.RowHeadersVisible = false;
 			this.dataGridView_departments.RowTemplate.Height = 25;
 			this.dataGridView_departments.Size = new System.Drawing.Size(276, 266);
@@ -276,6 +277,7 @@
 			this.dataGridView_subjects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_subjects.Location = new System.Drawing.Point(6, 51);
 			this.dataGridView_subjects.Name = "dataGridView_subjects";
+			this.dataGridView_subjects.ReadOnly = true;
 			this.dataGridView_subjects.RowHeadersVisible = false;
 			this.dataGridView_subjects.RowTemplate.Height = 25;
 			this.dataGridView_subjects.Size = new System.Drawing.Size(276, 268);
@@ -625,6 +627,7 @@
 			this.dataGridView_universities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_universities.Location = new System.Drawing.Point(6, 51);
 			this.dataGridView_universities.Name = "dataGridView_universities";
+			this.dataGridView_universities.ReadOnly = true;
 			this.dataGridView_universities.RowHeadersVisible = false;
 			this.dataGridView_universities.RowTemplate.Height = 25;
 			this.dataGridView_universities.Size = new System.Drawing.Size(276, 598);
@@ -681,6 +684,23 @@
 			this.groupBox_addUniversity.TabStop = false;
 			this.groupBox_addUniversity.Text = "Add University";
 			// 
+			// label_addUniversityCity
+			// 
+			this.label_addUniversityCity.AutoSize = true;
+			this.label_addUniversityCity.Location = new System.Drawing.Point(6, 104);
+			this.label_addUniversityCity.Name = "label_addUniversityCity";
+			this.label_addUniversityCity.Size = new System.Drawing.Size(28, 15);
+			this.label_addUniversityCity.TabIndex = 24;
+			this.label_addUniversityCity.Text = "City";
+			// 
+			// comboBox_addUniversityCity
+			// 
+			this.comboBox_addUniversityCity.FormattingEnabled = true;
+			this.comboBox_addUniversityCity.Location = new System.Drawing.Point(80, 100);
+			this.comboBox_addUniversityCity.Name = "comboBox_addUniversityCity";
+			this.comboBox_addUniversityCity.Size = new System.Drawing.Size(150, 23);
+			this.comboBox_addUniversityCity.TabIndex = 22;
+			// 
 			// textBox_addUniversityAddress
 			// 
 			this.textBox_addUniversityAddress.Location = new System.Drawing.Point(80, 61);
@@ -721,23 +741,6 @@
 			this.label_addUniversityName.Size = new System.Drawing.Size(44, 15);
 			this.label_addUniversityName.TabIndex = 9;
 			this.label_addUniversityName.Text = "Name*";
-			// 
-			// comboBox_addUniversityCity
-			// 
-			this.comboBox_addUniversityCity.FormattingEnabled = true;
-			this.comboBox_addUniversityCity.Location = new System.Drawing.Point(80, 100);
-			this.comboBox_addUniversityCity.Name = "comboBox_addUniversityCity";
-			this.comboBox_addUniversityCity.Size = new System.Drawing.Size(150, 23);
-			this.comboBox_addUniversityCity.TabIndex = 22;
-			// 
-			// label_addUniversityCity
-			// 
-			this.label_addUniversityCity.AutoSize = true;
-			this.label_addUniversityCity.Location = new System.Drawing.Point(6, 104);
-			this.label_addUniversityCity.Name = "label_addUniversityCity";
-			this.label_addUniversityCity.Size = new System.Drawing.Size(28, 15);
-			this.label_addUniversityCity.TabIndex = 24;
-			this.label_addUniversityCity.Text = "City";
 			// 
 			// groupBox_editUniversity
 			// 

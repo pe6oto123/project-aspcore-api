@@ -6,10 +6,5 @@
 		{
 			InitializeComponent();
 		}
-
-		private void groupBox_editTeacher_Enter(object sender, EventArgs e)
-		{
-
-		}
 	}
 }

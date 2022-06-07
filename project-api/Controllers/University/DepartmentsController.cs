@@ -93,7 +93,7 @@ namespace project_api.Controllers.University
 
 		// DELETE: api/Departments/5
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteDepartments(int id, bool forceDelete = false)
+		public async Task<IActionResult> DeleteDepartments(int id)
 		{
 			if (_context.Departments == null)
 			{
@@ -105,24 +105,9 @@ namespace project_api.Controllers.University
 				return NotFound();
 			}
 
+			_context.Subjects.Include(s => s.Department).Where(s => s.Department.Id == id).Load();
 			_context.Departments.Remove(departments);
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateException ex)
-			when (ex?.InnerException?.Message.Contains("foreign key constraint fails") ?? false)
-			{
-				if (forceDelete)
-				{
-					_context.Students.Include(s => s.Department).Where(s => s.Department.Id == id).Single().Department = null;
-					_context.Subjects.Include(s => s.Department).Where(s => s.Department.Id == id).Single().Department = null;
-					await _context.SaveChangesAsync();
-					return NoContent();
-				}
-
-				return Conflict();
-			}
+			await _context.SaveChangesAsync();
 
 			return NoContent();
 		}

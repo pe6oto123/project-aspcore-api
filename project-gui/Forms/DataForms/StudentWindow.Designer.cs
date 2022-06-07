@@ -117,6 +117,7 @@
 			this.dataGridView_students.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_students.Location = new System.Drawing.Point(6, 51);
 			this.dataGridView_students.Name = "dataGridView_students";
+			this.dataGridView_students.ReadOnly = true;
 			this.dataGridView_students.RowHeadersVisible = false;
 			this.dataGridView_students.RowTemplate.Height = 25;
 			this.dataGridView_students.Size = new System.Drawing.Size(570, 600);

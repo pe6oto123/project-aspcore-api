@@ -13,9 +13,5 @@ namespace project_api.Entities
 
 		[Required]
 		public virtual Addresses? Address { get; set; }
-
-		public virtual ICollection<Students>? Students { get; set; }
-
-		public virtual ICollection<Teachers>? Teachers { get; set; }
 	}
 }

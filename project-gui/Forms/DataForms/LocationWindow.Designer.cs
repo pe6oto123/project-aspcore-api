@@ -30,8 +30,8 @@
 		{
 			this.groupBox_departmentsTable = new System.Windows.Forms.GroupBox();
 			this.dataGridView_countries = new System.Windows.Forms.DataGridView();
-			this.button_searchDepartments = new System.Windows.Forms.Button();
-			this.textBox_searchDepartments = new System.Windows.Forms.TextBox();
+			this.button_searchCountries = new System.Windows.Forms.Button();
+			this.textBox_searchCountries = new System.Windows.Forms.TextBox();
 			this.groupBox_search = new System.Windows.Forms.GroupBox();
 			this.groupBox_searchByCity = new System.Windows.Forms.GroupBox();
 			this.radioButton_cityPopulation = new System.Windows.Forms.RadioButton();
@@ -57,27 +57,27 @@
 			this.label_addCountryName = new System.Windows.Forms.Label();
 			this.textBox_addCountryName = new System.Windows.Forms.TextBox();
 			this.groupBox_editCity = new System.Windows.Forms.GroupBox();
-			this.checkBox_editCityHasCountry = new System.Windows.Forms.CheckBox();
+			this.checkBox_editCityCountry = new System.Windows.Forms.CheckBox();
 			this.comboBox_editCityCountry = new System.Windows.Forms.ComboBox();
 			this.button_editCity = new System.Windows.Forms.Button();
 			this.numericUpDown_editCityPopulation = new System.Windows.Forms.NumericUpDown();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
+			this.label_editCityRegion = new System.Windows.Forms.Label();
+			this.label_editCityCountry = new System.Windows.Forms.Label();
 			this.textBox_editCityRegion = new System.Windows.Forms.TextBox();
-			this.label10 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
+			this.label_editCityPopulation = new System.Windows.Forms.Label();
+			this.label_editCityName = new System.Windows.Forms.Label();
 			this.textBox_editCityName = new System.Windows.Forms.TextBox();
 			this.groupBox_addCity = new System.Windows.Forms.GroupBox();
-			this.checkBox_addCityHasCountry = new System.Windows.Forms.CheckBox();
+			this.checkBox_addCityCountry = new System.Windows.Forms.CheckBox();
 			this.comboBox_addCityCountry = new System.Windows.Forms.ComboBox();
 			this.numericUpDown_addCityPopulation = new System.Windows.Forms.NumericUpDown();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
+			this.label_addCityCountry = new System.Windows.Forms.Label();
+			this.label_addCityPopulation = new System.Windows.Forms.Label();
 			this.button_addCity = new System.Windows.Forms.Button();
-			this.label3 = new System.Windows.Forms.Label();
+			this.label_addCityRegion = new System.Windows.Forms.Label();
 			this.textBox_addCityName = new System.Windows.Forms.TextBox();
 			this.textBox_addCityRegion = new System.Windows.Forms.TextBox();
-			this.label4 = new System.Windows.Forms.Label();
+			this.label_addCityName = new System.Windows.Forms.Label();
 			this.groupBox_deleteCity = new System.Windows.Forms.GroupBox();
 			this.button_deleteCity = new System.Windows.Forms.Button();
 			this.groupBox_deleteCountry = new System.Windows.Forms.GroupBox();
@@ -105,8 +105,8 @@
 			// groupBox_departmentsTable
 			// 
 			this.groupBox_departmentsTable.Controls.Add(this.dataGridView_countries);
-			this.groupBox_departmentsTable.Controls.Add(this.button_searchDepartments);
-			this.groupBox_departmentsTable.Controls.Add(this.textBox_searchDepartments);
+			this.groupBox_departmentsTable.Controls.Add(this.button_searchCountries);
+			this.groupBox_departmentsTable.Controls.Add(this.textBox_searchCountries);
 			this.groupBox_departmentsTable.Location = new System.Drawing.Point(12, 12);
 			this.groupBox_departmentsTable.Name = "groupBox_departmentsTable";
 			this.groupBox_departmentsTable.Size = new System.Drawing.Size(288, 657);
@@ -124,27 +124,33 @@
 			this.dataGridView_countries.BackgroundColor = System.Drawing.Color.White;
 			this.dataGridView_countries.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_countries.Location = new System.Drawing.Point(6, 51);
+			this.dataGridView_countries.MultiSelect = false;
 			this.dataGridView_countries.Name = "dataGridView_countries";
+			this.dataGridView_countries.ReadOnly = true;
 			this.dataGridView_countries.RowHeadersVisible = false;
 			this.dataGridView_countries.RowTemplate.Height = 25;
+			this.dataGridView_countries.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_countries.Size = new System.Drawing.Size(276, 600);
 			this.dataGridView_countries.TabIndex = 2;
+			this.dataGridView_countries.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_countries_CellClick);
+			this.dataGridView_countries.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_countries_ColumnHeaderMouseClick);
 			// 
-			// button_searchDepartments
+			// button_searchCountries
 			// 
-			this.button_searchDepartments.Location = new System.Drawing.Point(216, 22);
-			this.button_searchDepartments.Name = "button_searchDepartments";
-			this.button_searchDepartments.Size = new System.Drawing.Size(66, 23);
-			this.button_searchDepartments.TabIndex = 1;
-			this.button_searchDepartments.Text = "Search";
-			this.button_searchDepartments.UseVisualStyleBackColor = true;
+			this.button_searchCountries.Location = new System.Drawing.Point(216, 22);
+			this.button_searchCountries.Name = "button_searchCountries";
+			this.button_searchCountries.Size = new System.Drawing.Size(66, 23);
+			this.button_searchCountries.TabIndex = 1;
+			this.button_searchCountries.Text = "Search";
+			this.button_searchCountries.UseVisualStyleBackColor = true;
+			this.button_searchCountries.Click += new System.EventHandler(this.Button_searchCountries_Click);
 			// 
-			// textBox_searchDepartments
+			// textBox_searchCountries
 			// 
-			this.textBox_searchDepartments.Location = new System.Drawing.Point(6, 22);
-			this.textBox_searchDepartments.Name = "textBox_searchDepartments";
-			this.textBox_searchDepartments.Size = new System.Drawing.Size(204, 23);
-			this.textBox_searchDepartments.TabIndex = 0;
+			this.textBox_searchCountries.Location = new System.Drawing.Point(6, 22);
+			this.textBox_searchCountries.Name = "textBox_searchCountries";
+			this.textBox_searchCountries.Size = new System.Drawing.Size(204, 23);
+			this.textBox_searchCountries.TabIndex = 0;
 			// 
 			// groupBox_search
 			// 
@@ -257,6 +263,7 @@
 			this.dataGridView_cities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_cities.Location = new System.Drawing.Point(6, 51);
 			this.dataGridView_cities.Name = "dataGridView_cities";
+			this.dataGridView_cities.ReadOnly = true;
 			this.dataGridView_cities.RowHeadersVisible = false;
 			this.dataGridView_cities.RowTemplate.Height = 25;
 			this.dataGridView_cities.Size = new System.Drawing.Size(276, 600);
@@ -300,6 +307,7 @@
 			this.button_editCountry.TabIndex = 7;
 			this.button_editCountry.Text = "Edit";
 			this.button_editCountry.UseVisualStyleBackColor = true;
+			this.button_editCountry.Click += new System.EventHandler(this.Button_editCountry_Click);
 			// 
 			// label1
 			// 
@@ -355,6 +363,7 @@
 			this.button_addCountry.TabIndex = 1;
 			this.button_addCountry.Text = "Add";
 			this.button_addCountry.UseVisualStyleBackColor = true;
+			this.button_addCountry.Click += new System.EventHandler(this.Button_addCountry_Click);
 			// 
 			// label_addCountryContinent
 			// 
@@ -390,15 +399,15 @@
 			// 
 			// groupBox_editCity
 			// 
-			this.groupBox_editCity.Controls.Add(this.checkBox_editCityHasCountry);
+			this.groupBox_editCity.Controls.Add(this.checkBox_editCityCountry);
 			this.groupBox_editCity.Controls.Add(this.comboBox_editCityCountry);
 			this.groupBox_editCity.Controls.Add(this.button_editCity);
 			this.groupBox_editCity.Controls.Add(this.numericUpDown_editCityPopulation);
-			this.groupBox_editCity.Controls.Add(this.label5);
-			this.groupBox_editCity.Controls.Add(this.label9);
+			this.groupBox_editCity.Controls.Add(this.label_editCityRegion);
+			this.groupBox_editCity.Controls.Add(this.label_editCityCountry);
 			this.groupBox_editCity.Controls.Add(this.textBox_editCityRegion);
-			this.groupBox_editCity.Controls.Add(this.label10);
-			this.groupBox_editCity.Controls.Add(this.label6);
+			this.groupBox_editCity.Controls.Add(this.label_editCityPopulation);
+			this.groupBox_editCity.Controls.Add(this.label_editCityName);
 			this.groupBox_editCity.Controls.Add(this.textBox_editCityName);
 			this.groupBox_editCity.Location = new System.Drawing.Point(1016, 345);
 			this.groupBox_editCity.Name = "groupBox_editCity";
@@ -407,19 +416,22 @@
 			this.groupBox_editCity.TabStop = false;
 			this.groupBox_editCity.Text = "Edit City";
 			// 
-			// checkBox_editCityHasCountry
+			// checkBox_editCityCountry
 			// 
-			this.checkBox_editCityHasCountry.AutoSize = true;
-			this.checkBox_editCityHasCountry.Location = new System.Drawing.Point(88, 168);
-			this.checkBox_editCityHasCountry.Name = "checkBox_editCityHasCountry";
-			this.checkBox_editCityHasCountry.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkBox_editCityHasCountry.Size = new System.Drawing.Size(142, 19);
-			this.checkBox_editCityHasCountry.TabIndex = 19;
-			this.checkBox_editCityHasCountry.Text = "?Add city to a country";
-			this.checkBox_editCityHasCountry.UseVisualStyleBackColor = true;
+			this.checkBox_editCityCountry.AutoSize = true;
+			this.checkBox_editCityCountry.Location = new System.Drawing.Point(88, 168);
+			this.checkBox_editCityCountry.Name = "checkBox_editCityCountry";
+			this.checkBox_editCityCountry.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_editCityCountry.Size = new System.Drawing.Size(142, 19);
+			this.checkBox_editCityCountry.TabIndex = 19;
+			this.checkBox_editCityCountry.Text = "?Add city to a country";
+			this.checkBox_editCityCountry.UseVisualStyleBackColor = true;
+			this.checkBox_editCityCountry.CheckedChanged += new System.EventHandler(this.CheckBox_CityCountry_CheckedChanged);
 			// 
 			// comboBox_editCityCountry
 			// 
+			this.comboBox_editCityCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_editCityCountry.Enabled = false;
 			this.comboBox_editCityCountry.FormattingEnabled = true;
 			this.comboBox_editCityCountry.Location = new System.Drawing.Point(80, 139);
 			this.comboBox_editCityCountry.Name = "comboBox_editCityCountry";
@@ -438,27 +450,32 @@
 			// numericUpDown_editCityPopulation
 			// 
 			this.numericUpDown_editCityPopulation.Location = new System.Drawing.Point(80, 100);
+			this.numericUpDown_editCityPopulation.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
 			this.numericUpDown_editCityPopulation.Name = "numericUpDown_editCityPopulation";
 			this.numericUpDown_editCityPopulation.Size = new System.Drawing.Size(150, 23);
 			this.numericUpDown_editCityPopulation.TabIndex = 20;
 			// 
-			// label5
+			// label_editCityRegion
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(6, 64);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(44, 15);
-			this.label5.TabIndex = 11;
-			this.label5.Text = "Region";
+			this.label_editCityRegion.AutoSize = true;
+			this.label_editCityRegion.Location = new System.Drawing.Point(6, 64);
+			this.label_editCityRegion.Name = "label_editCityRegion";
+			this.label_editCityRegion.Size = new System.Drawing.Size(44, 15);
+			this.label_editCityRegion.TabIndex = 11;
+			this.label_editCityRegion.Text = "Region";
 			// 
-			// label9
+			// label_editCityCountry
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(6, 143);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(50, 15);
-			this.label9.TabIndex = 19;
-			this.label9.Text = "Country";
+			this.label_editCityCountry.AutoSize = true;
+			this.label_editCityCountry.Location = new System.Drawing.Point(6, 143);
+			this.label_editCityCountry.Name = "label_editCityCountry";
+			this.label_editCityCountry.Size = new System.Drawing.Size(50, 15);
+			this.label_editCityCountry.TabIndex = 19;
+			this.label_editCityCountry.Text = "Country";
 			// 
 			// textBox_editCityRegion
 			// 
@@ -467,23 +484,23 @@
 			this.textBox_editCityRegion.Size = new System.Drawing.Size(150, 23);
 			this.textBox_editCityRegion.TabIndex = 10;
 			// 
-			// label10
+			// label_editCityPopulation
 			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(6, 104);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(44, 15);
-			this.label10.TabIndex = 18;
-			this.label10.Text = "Region";
+			this.label_editCityPopulation.AutoSize = true;
+			this.label_editCityPopulation.Location = new System.Drawing.Point(6, 104);
+			this.label_editCityPopulation.Name = "label_editCityPopulation";
+			this.label_editCityPopulation.Size = new System.Drawing.Size(65, 15);
+			this.label_editCityPopulation.TabIndex = 18;
+			this.label_editCityPopulation.Text = "Population";
 			// 
-			// label6
+			// label_editCityName
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(6, 25);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(44, 15);
-			this.label6.TabIndex = 9;
-			this.label6.Text = "Name*";
+			this.label_editCityName.AutoSize = true;
+			this.label_editCityName.Location = new System.Drawing.Point(6, 25);
+			this.label_editCityName.Name = "label_editCityName";
+			this.label_editCityName.Size = new System.Drawing.Size(44, 15);
+			this.label_editCityName.TabIndex = 9;
+			this.label_editCityName.Text = "Name*";
 			// 
 			// textBox_editCityName
 			// 
@@ -494,16 +511,16 @@
 			// 
 			// groupBox_addCity
 			// 
-			this.groupBox_addCity.Controls.Add(this.checkBox_addCityHasCountry);
+			this.groupBox_addCity.Controls.Add(this.checkBox_addCityCountry);
 			this.groupBox_addCity.Controls.Add(this.comboBox_addCityCountry);
 			this.groupBox_addCity.Controls.Add(this.numericUpDown_addCityPopulation);
-			this.groupBox_addCity.Controls.Add(this.label8);
-			this.groupBox_addCity.Controls.Add(this.label7);
+			this.groupBox_addCity.Controls.Add(this.label_addCityCountry);
+			this.groupBox_addCity.Controls.Add(this.label_addCityPopulation);
 			this.groupBox_addCity.Controls.Add(this.button_addCity);
-			this.groupBox_addCity.Controls.Add(this.label3);
+			this.groupBox_addCity.Controls.Add(this.label_addCityRegion);
 			this.groupBox_addCity.Controls.Add(this.textBox_addCityName);
 			this.groupBox_addCity.Controls.Add(this.textBox_addCityRegion);
-			this.groupBox_addCity.Controls.Add(this.label4);
+			this.groupBox_addCity.Controls.Add(this.label_addCityName);
 			this.groupBox_addCity.Location = new System.Drawing.Point(772, 345);
 			this.groupBox_addCity.Name = "groupBox_addCity";
 			this.groupBox_addCity.Size = new System.Drawing.Size(236, 325);
@@ -511,19 +528,22 @@
 			this.groupBox_addCity.TabStop = false;
 			this.groupBox_addCity.Text = "Add City";
 			// 
-			// checkBox_addCityHasCountry
+			// checkBox_addCityCountry
 			// 
-			this.checkBox_addCityHasCountry.AutoSize = true;
-			this.checkBox_addCityHasCountry.Location = new System.Drawing.Point(88, 168);
-			this.checkBox_addCityHasCountry.Name = "checkBox_addCityHasCountry";
-			this.checkBox_addCityHasCountry.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.checkBox_addCityHasCountry.Size = new System.Drawing.Size(142, 19);
-			this.checkBox_addCityHasCountry.TabIndex = 18;
-			this.checkBox_addCityHasCountry.Text = "?Add city to a country";
-			this.checkBox_addCityHasCountry.UseVisualStyleBackColor = true;
+			this.checkBox_addCityCountry.AutoSize = true;
+			this.checkBox_addCityCountry.Location = new System.Drawing.Point(88, 168);
+			this.checkBox_addCityCountry.Name = "checkBox_addCityCountry";
+			this.checkBox_addCityCountry.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_addCityCountry.Size = new System.Drawing.Size(142, 19);
+			this.checkBox_addCityCountry.TabIndex = 18;
+			this.checkBox_addCityCountry.Text = "?Add city to a country";
+			this.checkBox_addCityCountry.UseVisualStyleBackColor = true;
+			this.checkBox_addCityCountry.CheckedChanged += new System.EventHandler(this.CheckBox_CityCountry_CheckedChanged);
 			// 
 			// comboBox_addCityCountry
 			// 
+			this.comboBox_addCityCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_addCityCountry.Enabled = false;
 			this.comboBox_addCityCountry.FormattingEnabled = true;
 			this.comboBox_addCityCountry.Location = new System.Drawing.Point(80, 139);
 			this.comboBox_addCityCountry.Name = "comboBox_addCityCountry";
@@ -533,27 +553,32 @@
 			// numericUpDown_addCityPopulation
 			// 
 			this.numericUpDown_addCityPopulation.Location = new System.Drawing.Point(80, 100);
+			this.numericUpDown_addCityPopulation.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
 			this.numericUpDown_addCityPopulation.Name = "numericUpDown_addCityPopulation";
 			this.numericUpDown_addCityPopulation.Size = new System.Drawing.Size(150, 23);
 			this.numericUpDown_addCityPopulation.TabIndex = 16;
 			// 
-			// label8
+			// label_addCityCountry
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(6, 143);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(50, 15);
-			this.label8.TabIndex = 15;
-			this.label8.Text = "Country";
+			this.label_addCityCountry.AutoSize = true;
+			this.label_addCityCountry.Location = new System.Drawing.Point(6, 143);
+			this.label_addCityCountry.Name = "label_addCityCountry";
+			this.label_addCityCountry.Size = new System.Drawing.Size(50, 15);
+			this.label_addCityCountry.TabIndex = 15;
+			this.label_addCityCountry.Text = "Country";
 			// 
-			// label7
+			// label_addCityPopulation
 			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(6, 104);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(65, 15);
-			this.label7.TabIndex = 13;
-			this.label7.Text = "Population";
+			this.label_addCityPopulation.AutoSize = true;
+			this.label_addCityPopulation.Location = new System.Drawing.Point(6, 104);
+			this.label_addCityPopulation.Name = "label_addCityPopulation";
+			this.label_addCityPopulation.Size = new System.Drawing.Size(65, 15);
+			this.label_addCityPopulation.TabIndex = 13;
+			this.label_addCityPopulation.Text = "Population";
 			// 
 			// button_addCity
 			// 
@@ -564,14 +589,14 @@
 			this.button_addCity.Text = "Add";
 			this.button_addCity.UseVisualStyleBackColor = true;
 			// 
-			// label3
+			// label_addCityRegion
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(6, 65);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(44, 15);
-			this.label3.TabIndex = 11;
-			this.label3.Text = "Region";
+			this.label_addCityRegion.AutoSize = true;
+			this.label_addCityRegion.Location = new System.Drawing.Point(6, 65);
+			this.label_addCityRegion.Name = "label_addCityRegion";
+			this.label_addCityRegion.Size = new System.Drawing.Size(44, 15);
+			this.label_addCityRegion.TabIndex = 11;
+			this.label_addCityRegion.Text = "Region";
 			// 
 			// textBox_addCityName
 			// 
@@ -587,14 +612,14 @@
 			this.textBox_addCityRegion.Size = new System.Drawing.Size(150, 23);
 			this.textBox_addCityRegion.TabIndex = 10;
 			// 
-			// label4
+			// label_addCityName
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(6, 26);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(44, 15);
-			this.label4.TabIndex = 9;
-			this.label4.Text = "Name*";
+			this.label_addCityName.AutoSize = true;
+			this.label_addCityName.Location = new System.Drawing.Point(6, 26);
+			this.label_addCityName.Name = "label_addCityName";
+			this.label_addCityName.Size = new System.Drawing.Size(44, 15);
+			this.label_addCityName.TabIndex = 9;
+			this.label_addCityName.Text = "Name*";
 			// 
 			// groupBox_deleteCity
 			// 
@@ -633,6 +658,7 @@
 			this.button_deleteCountry.TabIndex = 0;
 			this.button_deleteCountry.Text = "Delete";
 			this.button_deleteCountry.UseVisualStyleBackColor = true;
+			this.button_deleteCountry.Click += new System.EventHandler(this.Button_deleteCountry_Click);
 			// 
 			// groupBox_reset
 			// 
@@ -652,6 +678,7 @@
 			this.button_reset.TabIndex = 0;
 			this.button_reset.Text = "Reset";
 			this.button_reset.UseVisualStyleBackColor = true;
+			this.button_reset.Click += new System.EventHandler(this.Button_reset_Click);
 			// 
 			// LocationWindow
 			// 
@@ -715,8 +742,8 @@
 		private Button button_deleteCountry;
 		private GroupBox groupBox_reset;
 		private Button button_reset;
-		private Button button_searchDepartments;
-		private TextBox textBox_searchDepartments;
+		private Button button_searchCountries;
+		private TextBox textBox_searchCountries;
 		private Button button_searchCities;
 		private TextBox textBox_searchCities;
 		private DataGridView dataGridView_countries;
@@ -738,25 +765,25 @@
 		private TextBox textBox_editCountryContinent;
 		private Label label2;
 		private Button button_editCity;
-		private Label label5;
+		private Label label_editCityRegion;
 		private TextBox textBox_editCityRegion;
-		private Label label6;
+		private Label label_editCityName;
 		private TextBox textBox_editCityName;
 		private Button button_addCity;
-		private Label label3;
+		private Label label_addCityRegion;
 		private TextBox textBox_addCityName;
 		private TextBox textBox_addCityRegion;
-		private Label label4;
-		private Label label8;
-		private Label label7;
+		private Label label_addCityName;
+		private Label label_addCityCountry;
+		private Label label_addCityPopulation;
 		private ComboBox comboBox_editCityCountry;
 		private NumericUpDown numericUpDown_editCityPopulation;
-		private Label label9;
-		private Label label10;
+		private Label label_editCityCountry;
+		private Label label_editCityPopulation;
 		private ComboBox comboBox_addCityCountry;
 		private NumericUpDown numericUpDown_addCityPopulation;
-		private CheckBox checkBox_editCityHasCountry;
-		private CheckBox checkBox_addCityHasCountry;
+		private CheckBox checkBox_editCityCountry;
+		private CheckBox checkBox_addCityCountry;
 		private RadioButton radioButton_cityPopulation;
 	}
 }

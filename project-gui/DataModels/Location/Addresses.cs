@@ -6,4 +6,9 @@
 		public string? Address { get; set; }
 		public virtual Cities? City { get; set; }
 	}
+
+	public static class AddressController
+	{
+
+	}
 }

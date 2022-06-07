@@ -93,7 +93,7 @@ namespace project_api.Controllers.Location
 
 		// DELETE: api/Addresses/5
 		[HttpDelete("{id}&{parentTable}")]
-		public async Task<IActionResult> DeleteAddresses(int id, bool forceDelete = false, string? parentTable = null)
+		public async Task<IActionResult> DeleteAddresses(int id, string? parentTable = null)
 		{
 			List<string> parentTables = new()
 			{
@@ -115,37 +115,24 @@ namespace project_api.Controllers.Location
 				return NotFound();
 			}
 
+			switch (parentTable)
+			{
+				case "universities":
+					_context.Universities.Include(s => s.Address).Where(s => s.Address.Id == id).Load();
+					break;
+
+				case "teachers":
+					_context.Teachers.Include(s => s.Address).Where(s => s.Address.Id == id).Load();
+					break;
+
+				case "students":
+					_context.Students.Include(s => s.Address).Where(s => s.Address.Id == id).Load();
+					break;
+				default:
+					return BadRequest();
+			}
 
 			_context.Address.Remove(addresses);
-			try
-			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateException ex)
-			when (ex?.InnerException?.Message.Contains("foreign key constraint fails") ?? false)
-			{
-				if (forceDelete)
-				{
-					switch (parentTable)
-					{
-						case "universities":
-							_context.Universities.Include(s => s.Address).Where(s => s.Address.Id == id).Single().Address = null;
-							break;
-
-						case "teachers":
-							_context.Teachers.Include(s => s.Address).Where(s => s.Address.Id == id).Single().Address = null;
-							break;
-
-						case "students":
-							_context.Students.Include(s => s.Address).Where(s => s.Address.Id == id).Single().Address = null;
-							break;
-					}
-					await _context.SaveChangesAsync();
-					return NoContent();
-				}
-
-				return Conflict(new { message = $"An existing record with the id '{id}' was already found." });
-			}
 
 			return NoContent();
 		}
