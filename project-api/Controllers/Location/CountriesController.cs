@@ -81,6 +81,7 @@ namespace project_api.Controllers.Location
 		[HttpPost]
 		public async Task<ActionResult<Countries>> PostCountries(Countries countries)
 		{
+			ModelState.Remove("Id");
 			if (_context.Countries == null)
 			{
 				return Problem("Entity set 'DatabaseContext.Countries'  is null.");

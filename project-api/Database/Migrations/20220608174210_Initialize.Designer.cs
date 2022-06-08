@@ -11,7 +11,7 @@ using project_api.Contexts;
 namespace project_api.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220607202245_Initialize")]
+    [Migration("20220608174210_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

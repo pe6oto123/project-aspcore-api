@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using project_api.Contexts;
 using project_api.Entities;
 
@@ -18,11 +19,18 @@ namespace project_api.Controllers.Location
 
 		// GET: api/Cities
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Cities>>> GetCities()
+		public async Task<ActionResult<IEnumerable<Cities>>> GetCities(int? countryId)
 		{
 			if (_context.Cities == null)
 			{
 				return NotFound();
+			}
+			if (countryId != null)
+			{
+				var cities = await _context.Cities.Include(s => s.Country).Where(s => s.Country.Id == countryId).ToListAsync();
+				if (!cities.Any())
+					return NotFound();
+				return cities;
 			}
 			return await _context.Cities.Include(s => s.Country).ToListAsync();
 		}
@@ -35,7 +43,7 @@ namespace project_api.Controllers.Location
 			{
 				return NotFound();
 			}
-			var cities = await _context.Cities.FindAsync(id);
+			var cities = await _context.Cities.Include(s => s.Country).Where(s => s.Id == id).FirstOrDefaultAsync();
 
 			if (cities == null)
 			{
@@ -51,12 +59,19 @@ namespace project_api.Controllers.Location
 		public async Task<IActionResult> PutCities(int id, Cities cities)
 		{
 			if (id != cities.Id)
-			{
 				return BadRequest();
-			}
 
-			_context.Entry(cities).State = EntityState.Modified;
+			//	AsNoTracking() => creates a read-only entry and its not tracked when updating the state
+			var country = await _context.Countries.AsNoTracking().Where(s => s.Id == cities.Country.Id).FirstOrDefaultAsync();
+			if (JsonConvert.SerializeObject(cities.Country) != JsonConvert.SerializeObject(country))
+				return BadRequest(new
+				{
+					title = "Bad Request",
+					status = 400,
+					reason = "Country with set parameters do not exist"
+				});
 
+			_context.Update(cities).State = EntityState.Modified;
 			try
 			{
 				await _context.SaveChangesAsync();
@@ -85,6 +100,9 @@ namespace project_api.Controllers.Location
 			{
 				return Problem("Entity set 'DatabaseContext.Cities'  is null.");
 			}
+
+			//	EntityState.Added => used to add an exsiting entry linked to the primary and only checks the id
+			_context.Entry(cities).State = EntityState.Added;
 			_context.Cities.Add(cities);
 			await _context.SaveChangesAsync();
 

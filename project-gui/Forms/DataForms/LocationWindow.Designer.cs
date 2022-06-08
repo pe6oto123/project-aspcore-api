@@ -262,12 +262,16 @@
 			this.dataGridView_cities.BackgroundColor = System.Drawing.Color.White;
 			this.dataGridView_cities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_cities.Location = new System.Drawing.Point(6, 51);
+			this.dataGridView_cities.MultiSelect = false;
 			this.dataGridView_cities.Name = "dataGridView_cities";
 			this.dataGridView_cities.ReadOnly = true;
 			this.dataGridView_cities.RowHeadersVisible = false;
 			this.dataGridView_cities.RowTemplate.Height = 25;
+			this.dataGridView_cities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_cities.Size = new System.Drawing.Size(276, 600);
 			this.dataGridView_cities.TabIndex = 3;
+			this.dataGridView_cities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_cities_CellClickAsync);
+			this.dataGridView_cities.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_cities_ColumnHeaderMouseClick);
 			// 
 			// button_searchCities
 			// 
@@ -277,6 +281,7 @@
 			this.button_searchCities.TabIndex = 3;
 			this.button_searchCities.Text = "Search";
 			this.button_searchCities.UseVisualStyleBackColor = true;
+			this.button_searchCities.Click += new System.EventHandler(this.Button_searchCities_Click);
 			// 
 			// textBox_searchCities
 			// 
@@ -446,6 +451,7 @@
 			this.button_editCity.TabIndex = 7;
 			this.button_editCity.Text = "Edit";
 			this.button_editCity.UseVisualStyleBackColor = true;
+			this.button_editCity.Click += new System.EventHandler(this.Button_editCity_ClickAsync);
 			// 
 			// numericUpDown_editCityPopulation
 			// 
@@ -588,6 +594,7 @@
 			this.button_addCity.TabIndex = 7;
 			this.button_addCity.Text = "Add";
 			this.button_addCity.UseVisualStyleBackColor = true;
+			this.button_addCity.Click += new System.EventHandler(this.Button_addCity_ClickAsync);
 			// 
 			// label_addCityRegion
 			// 
@@ -639,6 +646,7 @@
 			this.button_deleteCity.TabIndex = 0;
 			this.button_deleteCity.Text = "Delete";
 			this.button_deleteCity.UseVisualStyleBackColor = true;
+			this.button_deleteCity.Click += new System.EventHandler(this.Button_deleteCity_Click);
 			// 
 			// groupBox_deleteCountry
 			// 

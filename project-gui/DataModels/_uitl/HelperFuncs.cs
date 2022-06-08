@@ -72,5 +72,17 @@
 
 			return message;
 		}
+
+		internal static List<dynamic>? SortTable(string property, List<dynamic>? list)
+		{
+			System.Reflection.PropertyInfo propertyInfo = list[0].GetType().GetProperty(property);
+
+			if (!list.OrderBy(s => propertyInfo.GetValue(s)).SequenceEqual(list))
+				list = list.OrderBy(s => propertyInfo.GetValue(s)).ToList();
+			else
+				list = list.OrderByDescending(s => propertyInfo.GetValue(s)).ToList();
+
+			return list;
+		}
 	}
 }

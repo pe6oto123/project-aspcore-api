@@ -12,7 +12,7 @@ namespace project_gui.DataModels
 		public string? Continent { get; set; }
 	}
 
-	public static class CountriesController
+	internal static class CountriesController
 	{
 		private static HttpResponseMessage? response;
 
@@ -54,53 +54,57 @@ namespace project_gui.DataModels
 			{
 				"Name" => searchList.Where(s => s.Name == searchParam).ToList(),
 				"Continent" => searchList.Where(s => s.Continent == searchParam).ToList(),
-				_ => null,
+				_ => null
 			};
 		}
 
-		internal static async Task CreateCountry(Countries? country)
+		internal static async Task<bool> CreateCountry(Countries? country)
 		{
-			response = await Client.GetClient().PostAsJsonAsync($"api/Countries/", new { name = country.Name, continent = country.Continent });
+			response = await Client.GetClient().PostAsJsonAsync($"api/Countries/", country);
 
 			if (response.IsSuccessStatusCode)
 			{
-				return;
+				return true;
 			}
 			else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
 			{
 				dynamic responseBody = JObject.Parse(await response.Content.ReadAsStringAsync());
 				MessageBox.Show(HelperFuncs.RequiredFieldsError(responseBody), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
 			}
 
 			MessageBox.Show("There was a problem while creating the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return false;
 		}
 
-		internal static async Task UpdateCountry(Countries? country)
+		internal static async Task<bool> UpdateCountry(Countries? country)
 		{
 			response = await Client.GetClient().PutAsJsonAsync($"api/Countries/{country.Id}", country);
 
 			if (response.IsSuccessStatusCode)
 			{
-				return;
+				return true;
 			}
 			else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
 			{
 				dynamic responseBody = JObject.Parse(await response.Content.ReadAsStringAsync());
 				MessageBox.Show(HelperFuncs.RequiredFieldsError(responseBody), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return false;
 			}
 			MessageBox.Show("There was a problem while updating the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return false;
 		}
 
-		public static async Task DeleteCountry(int? id)
+		public static async Task<bool> DeleteCountry(int? id)
 		{
 			if (MessageBox.Show($"Are you sure you want to delete the country with id: {id}", "Delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
 				response = await Client.GetClient().DeleteAsync($"api/Countries/{id}");
 				if (response.IsSuccessStatusCode)
-					return;
-
-				MessageBox.Show("There was a problem while deleting the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return true;
 			}
+			MessageBox.Show("There was a problem while deleting the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return false;
 		}
 	}
 }
