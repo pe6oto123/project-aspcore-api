@@ -142,10 +142,12 @@
 			this.dataGridView_departments.BackgroundColor = System.Drawing.Color.White;
 			this.dataGridView_departments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_departments.Location = new System.Drawing.Point(6, 51);
+			this.dataGridView_departments.MultiSelect = false;
 			this.dataGridView_departments.Name = "dataGridView_departments";
 			this.dataGridView_departments.ReadOnly = true;
 			this.dataGridView_departments.RowHeadersVisible = false;
 			this.dataGridView_departments.RowTemplate.Height = 25;
+			this.dataGridView_departments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_departments.Size = new System.Drawing.Size(276, 266);
 			this.dataGridView_departments.TabIndex = 2;
 			// 
@@ -276,12 +278,16 @@
 			this.dataGridView_subjects.BackgroundColor = System.Drawing.Color.White;
 			this.dataGridView_subjects.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_subjects.Location = new System.Drawing.Point(6, 51);
+			this.dataGridView_subjects.MultiSelect = false;
 			this.dataGridView_subjects.Name = "dataGridView_subjects";
 			this.dataGridView_subjects.ReadOnly = true;
 			this.dataGridView_subjects.RowHeadersVisible = false;
 			this.dataGridView_subjects.RowTemplate.Height = 25;
+			this.dataGridView_subjects.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_subjects.Size = new System.Drawing.Size(276, 268);
 			this.dataGridView_subjects.TabIndex = 3;
+			this.dataGridView_subjects.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_subjects_CellClick);
+			this.dataGridView_subjects.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_subjects_ColumnHeaderMouseClick);
 			// 
 			// button_searchSubjects
 			// 
@@ -291,6 +297,7 @@
 			this.button_searchSubjects.TabIndex = 3;
 			this.button_searchSubjects.Text = "Search";
 			this.button_searchSubjects.UseVisualStyleBackColor = true;
+			this.button_searchSubjects.Click += new System.EventHandler(this.Button_searchSubjects_Click);
 			// 
 			// textBox_searchSubjects
 			// 
@@ -493,6 +500,7 @@
 			this.button_editSubject.TabIndex = 7;
 			this.button_editSubject.Text = "Edit";
 			this.button_editSubject.UseVisualStyleBackColor = true;
+			this.button_editSubject.Click += new System.EventHandler(this.Button_editSubject_Click);
 			// 
 			// label6
 			// 
@@ -530,6 +538,7 @@
 			this.button_addSubject.TabIndex = 7;
 			this.button_addSubject.Text = "Add";
 			this.button_addSubject.UseVisualStyleBackColor = true;
+			this.button_addSubject.Click += new System.EventHandler(this.Button_addSubject_Click);
 			// 
 			// textBox_addSubjectName
 			// 
@@ -565,6 +574,7 @@
 			this.button_deleteSubject.TabIndex = 0;
 			this.button_deleteSubject.Text = "Delete";
 			this.button_deleteSubject.UseVisualStyleBackColor = true;
+			this.button_deleteSubject.Click += new System.EventHandler(this.Button_deleteSubject_Click);
 			// 
 			// groupBox_deleteDepartment
 			// 
@@ -603,6 +613,7 @@
 			this.button_reset.TabIndex = 0;
 			this.button_reset.Text = "Reset";
 			this.button_reset.UseVisualStyleBackColor = true;
+			this.button_reset.Click += new System.EventHandler(this.Button_reset_Click);
 			// 
 			// groupBox_universitiesTable
 			// 
@@ -626,10 +637,12 @@
 			this.dataGridView_universities.BackgroundColor = System.Drawing.Color.White;
 			this.dataGridView_universities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_universities.Location = new System.Drawing.Point(6, 51);
+			this.dataGridView_universities.MultiSelect = false;
 			this.dataGridView_universities.Name = "dataGridView_universities";
 			this.dataGridView_universities.ReadOnly = true;
 			this.dataGridView_universities.RowHeadersVisible = false;
 			this.dataGridView_universities.RowTemplate.Height = 25;
+			this.dataGridView_universities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_universities.Size = new System.Drawing.Size(276, 598);
 			this.dataGridView_universities.TabIndex = 2;
 			// 

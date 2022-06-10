@@ -79,9 +79,9 @@ namespace project_gui.Forms.DataForms
 			if (checkedButton == null)
 				return;
 
-			var searchList = CountriesController
-				.GetCountriesByAttribute(
-					checkedButton.Text,
+			var searchList = HelperFuncs
+				.GetObjectByAttribute(
+					checkedButton.Tag.ToString(),
 					!string.IsNullOrEmpty(textBox_searchCountries.Text) ? textBox_searchCountries.Text : null,
 					((IEnumerable<dynamic>)dataGridView_countries.DataSource).ToList()
 				);
@@ -229,9 +229,9 @@ namespace project_gui.Forms.DataForms
 			if (checkedButton == null)
 				return;
 
-			var searchList = CitiesController
-				.GetCitiesByAttribute(
-					checkedButton.Text,
+			var searchList = HelperFuncs
+				.GetObjectByAttribute(
+					checkedButton.Tag.ToString(),
 					!string.IsNullOrEmpty(textBox_searchCities.Text) ? textBox_searchCities.Text : null,
 					((IEnumerable<dynamic>)dataGridView_cities.DataSource).ToList()
 				);
@@ -297,20 +297,6 @@ namespace project_gui.Forms.DataForms
 				groupBox_editCity
 			});
 		}
-		#endregion
-
-		private void Button_reset_Click(object sender, EventArgs e)
-		{
-			_ = UpdateCountriesTableAsync();
-			_ = UpdateCitiesTableAsync(null);
-			HelperFuncs.ClearFields(new List<GroupBox>()
-			{
-				groupBox_addCity,
-				groupBox_editCity,
-				groupBox_addCountry,
-				groupBox_editCountry
-			});
-		}
 
 		private void CheckBox_CityCountry_CheckedChanged(object sender, EventArgs e)
 		{
@@ -330,6 +316,21 @@ namespace project_gui.Forms.DataForms
 						comboBox_editCityCountry.Enabled = false;
 					break;
 			}
+		}
+
+		#endregion
+
+		private void Button_reset_Click(object sender, EventArgs e)
+		{
+			_ = UpdateCountriesTableAsync();
+			_ = UpdateCitiesTableAsync(null);
+			HelperFuncs.ClearFields(new List<GroupBox>()
+			{
+				groupBox_addCity,
+				groupBox_editCity,
+				groupBox_addCountry,
+				groupBox_editCountry
+			});
 		}
 	}
 }

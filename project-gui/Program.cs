@@ -13,8 +13,9 @@ namespace project_gui
 			// To customize application configuration such as set high DPI settings or default font,
 			// see https://aka.ms/applicationconfiguration.
 			ApplicationConfiguration.Initialize();
-			Application.Run(new LocationWindow());
+			//Application.Run(new LocationWindow());
 			//Application.Run(new ErrorBoxFlex("asd", "asd"));
+			Application.Run(new UniversityWindow());
 		}
 	}
 }

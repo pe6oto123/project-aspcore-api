@@ -1,4 +1,6 @@
-﻿namespace project_gui.DataModels._uitl
+﻿using System.Reflection;
+
+namespace project_gui.DataModels._uitl
 {
 	internal class HelperFuncs
 	{
@@ -75,14 +77,21 @@
 
 		internal static List<dynamic>? SortTable(string property, List<dynamic>? list)
 		{
-			System.Reflection.PropertyInfo propertyInfo = list[0].GetType().GetProperty(property);
+			PropertyInfo propertyInfo = list[0].GetType().GetProperty(property);
 
-			if (!list.OrderBy(s => propertyInfo.GetValue(s)).SequenceEqual(list))
-				list = list.OrderBy(s => propertyInfo.GetValue(s)).ToList();
+			if (!list.OrderBy(s => propertyInfo.GetValue(s).ToString()).SequenceEqual(list))
+				list = list.OrderBy(s => propertyInfo.GetValue(s).ToString()).ToList();
 			else
-				list = list.OrderByDescending(s => propertyInfo.GetValue(s)).ToList();
+				list = list.OrderByDescending(s => propertyInfo.GetValue(s).ToString()).ToList();
 
 			return list;
+		}
+
+		internal static List<dynamic>? GetObjectByAttribute(string? property, dynamic? searchParam, List<dynamic> list)
+		{
+			PropertyInfo propertyInfo = list[0].GetType().GetProperty(property);
+
+			return list.Where(s => propertyInfo.GetValue(s).ToString() == searchParam).ToList();
 		}
 	}
 }

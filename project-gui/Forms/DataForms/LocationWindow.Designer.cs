@@ -182,6 +182,7 @@
 			this.radioButton_cityPopulation.Name = "radioButton_cityPopulation";
 			this.radioButton_cityPopulation.Size = new System.Drawing.Size(83, 19);
 			this.radioButton_cityPopulation.TabIndex = 5;
+			this.radioButton_cityPopulation.Tag = "Population";
 			this.radioButton_cityPopulation.Text = "Population";
 			this.radioButton_cityPopulation.UseVisualStyleBackColor = true;
 			// 
@@ -192,6 +193,7 @@
 			this.radioButton_cityRegion.Name = "radioButton_cityRegion";
 			this.radioButton_cityRegion.Size = new System.Drawing.Size(62, 19);
 			this.radioButton_cityRegion.TabIndex = 4;
+			this.radioButton_cityRegion.Tag = "Region";
 			this.radioButton_cityRegion.Text = "Region";
 			this.radioButton_cityRegion.UseVisualStyleBackColor = true;
 			// 
@@ -204,6 +206,7 @@
 			this.radioButton_cityName.Size = new System.Drawing.Size(57, 19);
 			this.radioButton_cityName.TabIndex = 3;
 			this.radioButton_cityName.TabStop = true;
+			this.radioButton_cityName.Tag = "Name";
 			this.radioButton_cityName.Text = "Name";
 			this.radioButton_cityName.UseVisualStyleBackColor = true;
 			// 
@@ -225,6 +228,7 @@
 			this.radioButton_countryContinent.Name = "radioButton_countryContinent";
 			this.radioButton_countryContinent.Size = new System.Drawing.Size(78, 19);
 			this.radioButton_countryContinent.TabIndex = 1;
+			this.radioButton_countryContinent.Tag = "Continent";
 			this.radioButton_countryContinent.Text = "Continent";
 			this.radioButton_countryContinent.UseVisualStyleBackColor = true;
 			// 
@@ -237,6 +241,7 @@
 			this.radioButton_countryName.Size = new System.Drawing.Size(57, 19);
 			this.radioButton_countryName.TabIndex = 0;
 			this.radioButton_countryName.TabStop = true;
+			this.radioButton_countryName.Tag = "Name";
 			this.radioButton_countryName.Text = "Name";
 			this.radioButton_countryName.UseVisualStyleBackColor = true;
 			// 

@@ -49,25 +49,6 @@ namespace project_gui.DataModels
 			return null;
 		}
 
-		internal static List<dynamic>? GetCitiesByAttribute(string attribute, string? searchParam, List<dynamic> dataSource)
-		{
-			var searchList = dataSource;
-
-			return attribute switch
-			{
-				"Name" => searchList.Where(s => s.Name == searchParam).ToList(),
-				"Region" => searchList.Where(s => s.Region == searchParam).ToList(),
-				"Population" => searchList.Where(s => s.Population == ToNullableInt(searchParam) ?? -1).ToList(),
-				_ => null
-			};
-
-			static int? ToNullableInt(string? str)
-			{
-				if (int.TryParse(str, out int i)) return i;
-				return null;
-			}
-		}
-
 		internal static async Task<bool> CreateCity(Cities? city)
 		{
 			response = await Client.GetClient().PostAsJsonAsync($"api/Cities/", city);

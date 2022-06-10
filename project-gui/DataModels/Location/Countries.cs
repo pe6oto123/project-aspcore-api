@@ -46,18 +46,6 @@ namespace project_gui.DataModels
 			return null;
 		}
 
-		internal static List<dynamic>? GetCountriesByAttribute(string attribute, string? searchParam, List<dynamic> dataSource)
-		{
-			var searchList = dataSource;
-
-			return attribute switch
-			{
-				"Name" => searchList.Where(s => s.Name == searchParam).ToList(),
-				"Continent" => searchList.Where(s => s.Continent == searchParam).ToList(),
-				_ => null
-			};
-		}
-
 		internal static async Task<bool> CreateCountry(Countries? country)
 		{
 			response = await Client.GetClient().PostAsJsonAsync($"api/Countries/", country);
