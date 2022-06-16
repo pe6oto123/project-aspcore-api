@@ -18,7 +18,7 @@ namespace project_gui.DataModels
 		private static HttpResponseMessage? response;
 		internal static async Task<List<dynamic>?> GetSubjects()
 		{
-			response = await Client.GetClient().GetAsync("api/Subjects");
+			response = await Client.GetClient().GetAsync($"api/Subjects");
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -27,24 +27,55 @@ namespace project_gui.DataModels
 							select new
 							{
 								subject.Id,
-								subject.Name
+								subject.Name,
+								Department = subject.Department?.Name
 							};
 				return query.ToList<dynamic>();
 			}
 			return null;
 		}
 
-		internal static async Task<Subjects?> GetSubjectById(int? id)
+		internal static async Task<List<dynamic>?> GetSubjectsInDepartment(int? id)
 		{
-			response = await Client.GetClient().GetAsync($"api/Subjects/{id}");
+			response = await Client.GetClient().GetAsync($"api/Subjects/Department/{id}");
 			if (response.IsSuccessStatusCode)
 			{
-				return await response.Content.ReadFromJsonAsync<Subjects>();
+				var subjects = await response.Content.ReadFromJsonAsync<IEnumerable<Subjects>>();
+				var query = from subject in subjects
+							select new
+							{
+								subject.Id,
+								subject.Name,
+								Department = subject.Department?.Name
+							};
+				return query.ToList<dynamic>();
 			}
 			return null;
 		}
 
-		internal static async Task<Subjects?> GetSubjectsById(int? id)
+		internal static async Task<List<dynamic>?> GetAvailableSubjects(int? id)
+		{
+			if (id == null)
+				return null;
+
+			response = await Client.GetClient().GetAsync($"api/Subjects/Department/{id}?isAlsoFree=true");
+			if (response.IsSuccessStatusCode)
+			{
+				var subjects = await response.Content.ReadFromJsonAsync<IEnumerable<Subjects>>();
+				var query = from subject in subjects
+							select new
+							{
+								subject.Id,
+								subject.Name,
+								DepartmentId = subject.Department?.Id
+							};
+
+				return query.ToList<dynamic>();
+			}
+			return null;
+		}
+
+		internal static async Task<Subjects?> GetSubjectById(int? id)
 		{
 			response = await Client.GetClient().GetAsync($"api/Subjects/{id}");
 			if (response.IsSuccessStatusCode)

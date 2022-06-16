@@ -34,7 +34,7 @@
 			this.textBox_searchDepartments = new System.Windows.Forms.TextBox();
 			this.groupBox_search = new System.Windows.Forms.GroupBox();
 			this.groupBox_searchUniversity = new System.Windows.Forms.GroupBox();
-			this.radioButton1 = new System.Windows.Forms.RadioButton();
+			this.radioButton_universityName = new System.Windows.Forms.RadioButton();
 			this.groupBox_searchSubject = new System.Windows.Forms.GroupBox();
 			this.radioButton_subjectName = new System.Windows.Forms.RadioButton();
 			this.groupBox_searchDepartment = new System.Windows.Forms.GroupBox();
@@ -45,17 +45,13 @@
 			this.button_searchSubjects = new System.Windows.Forms.Button();
 			this.textBox_searchSubjects = new System.Windows.Forms.TextBox();
 			this.groupBox_editDepartment = new System.Windows.Forms.GroupBox();
-			this.label_editSubjectsDepartment = new System.Windows.Forms.Label();
 			this.checkBox_editDepartmentUniversity = new System.Windows.Forms.CheckBox();
-			this.checkedListBox_editSubjectsDepartment = new System.Windows.Forms.CheckedListBox();
-			this.comboBox_editDeparmtentUniversity = new System.Windows.Forms.ComboBox();
+			this.comboBox_editDepartmentUniversity = new System.Windows.Forms.ComboBox();
 			this.button_editDepartment = new System.Windows.Forms.Button();
 			this.label_editDepartmentUniversity = new System.Windows.Forms.Label();
 			this.textBox_editDepartmentName = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.groupBox_addDepartment = new System.Windows.Forms.GroupBox();
-			this.label_addSubjectsDepartment = new System.Windows.Forms.Label();
-			this.checkedListBox_addSubjectsDepartment = new System.Windows.Forms.CheckedListBox();
 			this.checkBox_addDepartmentUniversity = new System.Windows.Forms.CheckBox();
 			this.comboBox_addDepartmentUniversity = new System.Windows.Forms.ComboBox();
 			this.button_addDepartment = new System.Windows.Forms.Button();
@@ -63,11 +59,17 @@
 			this.label_addDepartmentName = new System.Windows.Forms.Label();
 			this.textBox_addDepartmentName = new System.Windows.Forms.TextBox();
 			this.groupBox_editSubject = new System.Windows.Forms.GroupBox();
+			this.checkBox_editSubjectDepartment = new System.Windows.Forms.CheckBox();
 			this.button_editSubject = new System.Windows.Forms.Button();
+			this.comboBox_editSubjectDepartment = new System.Windows.Forms.ComboBox();
+			this.label_editSubjectDepartment = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.textBox_editSubjectName = new System.Windows.Forms.TextBox();
 			this.groupBox_addSubject = new System.Windows.Forms.GroupBox();
+			this.checkBox_addSubjectDepartment = new System.Windows.Forms.CheckBox();
 			this.button_addSubject = new System.Windows.Forms.Button();
+			this.comboBox_addSubjectDepartment = new System.Windows.Forms.ComboBox();
+			this.label_addSubjectDepartment = new System.Windows.Forms.Label();
 			this.textBox_addSubjectName = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.groupBox_deleteSubject = new System.Windows.Forms.GroupBox();
@@ -83,6 +85,7 @@
 			this.groupBox_deleteUniversity = new System.Windows.Forms.GroupBox();
 			this.button_deleteUniversity = new System.Windows.Forms.Button();
 			this.groupBox_addUniversity = new System.Windows.Forms.GroupBox();
+			this.checkBox_addUniversityCity = new System.Windows.Forms.CheckBox();
 			this.label_addUniversityCity = new System.Windows.Forms.Label();
 			this.comboBox_addUniversityCity = new System.Windows.Forms.ComboBox();
 			this.textBox_addUniversityAddress = new System.Windows.Forms.TextBox();
@@ -91,6 +94,7 @@
 			this.textBox_addUniversityName = new System.Windows.Forms.TextBox();
 			this.label_addUniversityName = new System.Windows.Forms.Label();
 			this.groupBox_editUniversity = new System.Windows.Forms.GroupBox();
+			this.checkBox_editUniversityCity = new System.Windows.Forms.CheckBox();
 			this.label_editUniversityCity = new System.Windows.Forms.Label();
 			this.comboBox_editUniversityCity = new System.Windows.Forms.ComboBox();
 			this.textBox_editUniversityAddress = new System.Windows.Forms.TextBox();
@@ -98,6 +102,9 @@
 			this.button_editUniversity = new System.Windows.Forms.Button();
 			this.textBox_editUniversityName = new System.Windows.Forms.TextBox();
 			this.label_editUniversityName = new System.Windows.Forms.Label();
+			this.radioButton_searchUniversityAddress = new System.Windows.Forms.RadioButton();
+			this.radioButton_searchUniversityCity = new System.Windows.Forms.RadioButton();
+			this.radioButton_searchSubjectDepartment = new System.Windows.Forms.RadioButton();
 			this.groupBox_departmentsTable.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView_departments)).BeginInit();
 			this.groupBox_search.SuspendLayout();
@@ -150,6 +157,8 @@
 			this.dataGridView_departments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_departments.Size = new System.Drawing.Size(276, 266);
 			this.dataGridView_departments.TabIndex = 2;
+			this.dataGridView_departments.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_departments_CellClick);
+			this.dataGridView_departments.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_departments_ColumnHeaderMouseClick);
 			// 
 			// button_searchDepartments
 			// 
@@ -159,6 +168,7 @@
 			this.button_searchDepartments.TabIndex = 1;
 			this.button_searchDepartments.Text = "Search";
 			this.button_searchDepartments.UseVisualStyleBackColor = true;
+			this.button_searchDepartments.Click += new System.EventHandler(this.Button_searchDepartments_Click);
 			// 
 			// textBox_searchDepartments
 			// 
@@ -181,28 +191,31 @@
 			// 
 			// groupBox_searchUniversity
 			// 
-			this.groupBox_searchUniversity.Controls.Add(this.radioButton1);
+			this.groupBox_searchUniversity.Controls.Add(this.radioButton_searchUniversityCity);
+			this.groupBox_searchUniversity.Controls.Add(this.radioButton_searchUniversityAddress);
+			this.groupBox_searchUniversity.Controls.Add(this.radioButton_universityName);
 			this.groupBox_searchUniversity.Location = new System.Drawing.Point(6, 24);
 			this.groupBox_searchUniversity.Name = "groupBox_searchUniversity";
 			this.groupBox_searchUniversity.Size = new System.Drawing.Size(154, 121);
 			this.groupBox_searchUniversity.TabIndex = 5;
 			this.groupBox_searchUniversity.TabStop = false;
-			this.groupBox_searchUniversity.Text = "Subject";
+			this.groupBox_searchUniversity.Text = "University";
 			// 
-			// radioButton1
+			// radioButton_universityName
 			// 
-			this.radioButton1.AutoSize = true;
-			this.radioButton1.Checked = true;
-			this.radioButton1.Location = new System.Drawing.Point(19, 22);
-			this.radioButton1.Name = "radioButton1";
-			this.radioButton1.Size = new System.Drawing.Size(57, 19);
-			this.radioButton1.TabIndex = 3;
-			this.radioButton1.TabStop = true;
-			this.radioButton1.Text = "Name";
-			this.radioButton1.UseVisualStyleBackColor = true;
+			this.radioButton_universityName.AutoSize = true;
+			this.radioButton_universityName.Checked = true;
+			this.radioButton_universityName.Location = new System.Drawing.Point(19, 22);
+			this.radioButton_universityName.Name = "radioButton_universityName";
+			this.radioButton_universityName.Size = new System.Drawing.Size(57, 19);
+			this.radioButton_universityName.TabIndex = 3;
+			this.radioButton_universityName.Tag = "Name";
+			this.radioButton_universityName.Text = "Name";
+			this.radioButton_universityName.UseVisualStyleBackColor = true;
 			// 
 			// groupBox_searchSubject
 			// 
+			this.groupBox_searchSubject.Controls.Add(this.radioButton_searchSubjectDepartment);
 			this.groupBox_searchSubject.Controls.Add(this.radioButton_subjectName);
 			this.groupBox_searchSubject.Location = new System.Drawing.Point(6, 278);
 			this.groupBox_searchSubject.Name = "groupBox_searchSubject";
@@ -219,7 +232,7 @@
 			this.radioButton_subjectName.Name = "radioButton_subjectName";
 			this.radioButton_subjectName.Size = new System.Drawing.Size(57, 19);
 			this.radioButton_subjectName.TabIndex = 3;
-			this.radioButton_subjectName.TabStop = true;
+			this.radioButton_subjectName.Tag = "Name";
 			this.radioButton_subjectName.Text = "Name";
 			this.radioButton_subjectName.UseVisualStyleBackColor = true;
 			// 
@@ -241,6 +254,7 @@
 			this.radioButton_departmentUniversity.Name = "radioButton_departmentUniversity";
 			this.radioButton_departmentUniversity.Size = new System.Drawing.Size(77, 19);
 			this.radioButton_departmentUniversity.TabIndex = 1;
+			this.radioButton_departmentUniversity.Tag = "University";
 			this.radioButton_departmentUniversity.Text = "University";
 			this.radioButton_departmentUniversity.UseVisualStyleBackColor = true;
 			// 
@@ -253,6 +267,7 @@
 			this.radioButton_departmentName.Size = new System.Drawing.Size(57, 19);
 			this.radioButton_departmentName.TabIndex = 0;
 			this.radioButton_departmentName.TabStop = true;
+			this.radioButton_departmentName.Tag = "Name";
 			this.radioButton_departmentName.Text = "Name";
 			this.radioButton_departmentName.UseVisualStyleBackColor = true;
 			// 
@@ -308,29 +323,18 @@
 			// 
 			// groupBox_editDepartment
 			// 
-			this.groupBox_editDepartment.Controls.Add(this.label_editSubjectsDepartment);
 			this.groupBox_editDepartment.Controls.Add(this.checkBox_editDepartmentUniversity);
-			this.groupBox_editDepartment.Controls.Add(this.checkedListBox_editSubjectsDepartment);
-			this.groupBox_editDepartment.Controls.Add(this.comboBox_editDeparmtentUniversity);
+			this.groupBox_editDepartment.Controls.Add(this.comboBox_editDepartmentUniversity);
 			this.groupBox_editDepartment.Controls.Add(this.button_editDepartment);
 			this.groupBox_editDepartment.Controls.Add(this.label_editDepartmentUniversity);
 			this.groupBox_editDepartment.Controls.Add(this.textBox_editDepartmentName);
 			this.groupBox_editDepartment.Controls.Add(this.label2);
-			this.groupBox_editDepartment.Location = new System.Drawing.Point(1016, 193);
+			this.groupBox_editDepartment.Location = new System.Drawing.Point(1016, 258);
 			this.groupBox_editDepartment.Name = "groupBox_editDepartment";
-			this.groupBox_editDepartment.Size = new System.Drawing.Size(236, 351);
+			this.groupBox_editDepartment.Size = new System.Drawing.Size(236, 186);
 			this.groupBox_editDepartment.TabIndex = 8;
 			this.groupBox_editDepartment.TabStop = false;
 			this.groupBox_editDepartment.Text = "Edit Department";
-			// 
-			// label_editSubjectsDepartment
-			// 
-			this.label_editSubjectsDepartment.AutoSize = true;
-			this.label_editSubjectsDepartment.Location = new System.Drawing.Point(6, 125);
-			this.label_editSubjectsDepartment.Name = "label_editSubjectsDepartment";
-			this.label_editSubjectsDepartment.Size = new System.Drawing.Size(51, 15);
-			this.label_editSubjectsDepartment.TabIndex = 23;
-			this.label_editSubjectsDepartment.Text = "Subjects";
 			// 
 			// checkBox_editDepartmentUniversity
 			// 
@@ -340,33 +344,30 @@
 			this.checkBox_editDepartmentUniversity.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.checkBox_editDepartmentUniversity.Size = new System.Drawing.Size(190, 19);
 			this.checkBox_editDepartmentUniversity.TabIndex = 20;
+			this.checkBox_editDepartmentUniversity.Tag = "comboBox_editDepartmentUniversity";
 			this.checkBox_editDepartmentUniversity.Text = "?Add department to a univerity";
 			this.checkBox_editDepartmentUniversity.UseVisualStyleBackColor = true;
+			this.checkBox_editDepartmentUniversity.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
-			// checkedListBox_editSubjectsDepartment
+			// comboBox_editDepartmentUniversity
 			// 
-			this.checkedListBox_editSubjectsDepartment.FormattingEnabled = true;
-			this.checkedListBox_editSubjectsDepartment.Location = new System.Drawing.Point(80, 125);
-			this.checkedListBox_editSubjectsDepartment.Name = "checkedListBox_editSubjectsDepartment";
-			this.checkedListBox_editSubjectsDepartment.Size = new System.Drawing.Size(150, 166);
-			this.checkedListBox_editSubjectsDepartment.TabIndex = 22;
-			// 
-			// comboBox_editDeparmtentUniversity
-			// 
-			this.comboBox_editDeparmtentUniversity.FormattingEnabled = true;
-			this.comboBox_editDeparmtentUniversity.Location = new System.Drawing.Point(80, 60);
-			this.comboBox_editDeparmtentUniversity.Name = "comboBox_editDeparmtentUniversity";
-			this.comboBox_editDeparmtentUniversity.Size = new System.Drawing.Size(150, 23);
-			this.comboBox_editDeparmtentUniversity.TabIndex = 20;
+			this.comboBox_editDepartmentUniversity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_editDepartmentUniversity.Enabled = false;
+			this.comboBox_editDepartmentUniversity.FormattingEnabled = true;
+			this.comboBox_editDepartmentUniversity.Location = new System.Drawing.Point(80, 60);
+			this.comboBox_editDepartmentUniversity.Name = "comboBox_editDepartmentUniversity";
+			this.comboBox_editDepartmentUniversity.Size = new System.Drawing.Size(150, 23);
+			this.comboBox_editDepartmentUniversity.TabIndex = 20;
 			// 
 			// button_editDepartment
 			// 
-			this.button_editDepartment.Location = new System.Drawing.Point(150, 322);
+			this.button_editDepartment.Location = new System.Drawing.Point(150, 157);
 			this.button_editDepartment.Name = "button_editDepartment";
 			this.button_editDepartment.Size = new System.Drawing.Size(80, 23);
 			this.button_editDepartment.TabIndex = 7;
 			this.button_editDepartment.Text = "Edit";
 			this.button_editDepartment.UseVisualStyleBackColor = true;
+			this.button_editDepartment.Click += new System.EventHandler(this.Button_editDepartment_Click);
 			// 
 			// label_editDepartmentUniversity
 			// 
@@ -395,37 +396,18 @@
 			// 
 			// groupBox_addDepartment
 			// 
-			this.groupBox_addDepartment.Controls.Add(this.label_addSubjectsDepartment);
-			this.groupBox_addDepartment.Controls.Add(this.checkedListBox_addSubjectsDepartment);
 			this.groupBox_addDepartment.Controls.Add(this.checkBox_addDepartmentUniversity);
 			this.groupBox_addDepartment.Controls.Add(this.comboBox_addDepartmentUniversity);
 			this.groupBox_addDepartment.Controls.Add(this.button_addDepartment);
 			this.groupBox_addDepartment.Controls.Add(this.label_addDepartmentUniversity);
 			this.groupBox_addDepartment.Controls.Add(this.label_addDepartmentName);
 			this.groupBox_addDepartment.Controls.Add(this.textBox_addDepartmentName);
-			this.groupBox_addDepartment.Location = new System.Drawing.Point(774, 193);
+			this.groupBox_addDepartment.Location = new System.Drawing.Point(774, 258);
 			this.groupBox_addDepartment.Name = "groupBox_addDepartment";
-			this.groupBox_addDepartment.Size = new System.Drawing.Size(236, 351);
+			this.groupBox_addDepartment.Size = new System.Drawing.Size(236, 186);
 			this.groupBox_addDepartment.TabIndex = 7;
 			this.groupBox_addDepartment.TabStop = false;
 			this.groupBox_addDepartment.Text = "Add Department";
-			// 
-			// label_addSubjectsDepartment
-			// 
-			this.label_addSubjectsDepartment.AutoSize = true;
-			this.label_addSubjectsDepartment.Location = new System.Drawing.Point(6, 125);
-			this.label_addSubjectsDepartment.Name = "label_addSubjectsDepartment";
-			this.label_addSubjectsDepartment.Size = new System.Drawing.Size(51, 15);
-			this.label_addSubjectsDepartment.TabIndex = 21;
-			this.label_addSubjectsDepartment.Text = "Subjects";
-			// 
-			// checkedListBox_addSubjectsDepartment
-			// 
-			this.checkedListBox_addSubjectsDepartment.FormattingEnabled = true;
-			this.checkedListBox_addSubjectsDepartment.Location = new System.Drawing.Point(80, 125);
-			this.checkedListBox_addSubjectsDepartment.Name = "checkedListBox_addSubjectsDepartment";
-			this.checkedListBox_addSubjectsDepartment.Size = new System.Drawing.Size(150, 166);
-			this.checkedListBox_addSubjectsDepartment.TabIndex = 20;
 			// 
 			// checkBox_addDepartmentUniversity
 			// 
@@ -435,11 +417,15 @@
 			this.checkBox_addDepartmentUniversity.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.checkBox_addDepartmentUniversity.Size = new System.Drawing.Size(190, 19);
 			this.checkBox_addDepartmentUniversity.TabIndex = 19;
+			this.checkBox_addDepartmentUniversity.Tag = "comboBox_addDepartmentUniversity";
 			this.checkBox_addDepartmentUniversity.Text = "?Add department to a univerity";
 			this.checkBox_addDepartmentUniversity.UseVisualStyleBackColor = true;
+			this.checkBox_addDepartmentUniversity.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
 			// comboBox_addDepartmentUniversity
 			// 
+			this.comboBox_addDepartmentUniversity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_addDepartmentUniversity.Enabled = false;
 			this.comboBox_addDepartmentUniversity.FormattingEnabled = true;
 			this.comboBox_addDepartmentUniversity.Location = new System.Drawing.Point(80, 61);
 			this.comboBox_addDepartmentUniversity.Name = "comboBox_addDepartmentUniversity";
@@ -448,12 +434,13 @@
 			// 
 			// button_addDepartment
 			// 
-			this.button_addDepartment.Location = new System.Drawing.Point(150, 322);
+			this.button_addDepartment.Location = new System.Drawing.Point(150, 157);
 			this.button_addDepartment.Name = "button_addDepartment";
 			this.button_addDepartment.Size = new System.Drawing.Size(80, 23);
 			this.button_addDepartment.TabIndex = 1;
 			this.button_addDepartment.Text = "Add";
 			this.button_addDepartment.UseVisualStyleBackColor = true;
+			this.button_addDepartment.Click += new System.EventHandler(this.Button_addDepartment_Click);
 			// 
 			// label_addDepartmentUniversity
 			// 
@@ -482,25 +469,60 @@
 			// 
 			// groupBox_editSubject
 			// 
+			this.groupBox_editSubject.Controls.Add(this.checkBox_editSubjectDepartment);
 			this.groupBox_editSubject.Controls.Add(this.button_editSubject);
+			this.groupBox_editSubject.Controls.Add(this.comboBox_editSubjectDepartment);
+			this.groupBox_editSubject.Controls.Add(this.label_editSubjectDepartment);
 			this.groupBox_editSubject.Controls.Add(this.label6);
 			this.groupBox_editSubject.Controls.Add(this.textBox_editSubjectName);
-			this.groupBox_editSubject.Location = new System.Drawing.Point(1016, 550);
+			this.groupBox_editSubject.Location = new System.Drawing.Point(1016, 450);
 			this.groupBox_editSubject.Name = "groupBox_editSubject";
-			this.groupBox_editSubject.Size = new System.Drawing.Size(236, 119);
+			this.groupBox_editSubject.Size = new System.Drawing.Size(236, 219);
 			this.groupBox_editSubject.TabIndex = 10;
 			this.groupBox_editSubject.TabStop = false;
 			this.groupBox_editSubject.Text = "Edit Subject";
 			// 
+			// checkBox_editSubjectDepartment
+			// 
+			this.checkBox_editSubjectDepartment.AutoSize = true;
+			this.checkBox_editSubjectDepartment.Location = new System.Drawing.Point(57, 90);
+			this.checkBox_editSubjectDepartment.Name = "checkBox_editSubjectDepartment";
+			this.checkBox_editSubjectDepartment.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_editSubjectDepartment.Size = new System.Drawing.Size(173, 19);
+			this.checkBox_editSubjectDepartment.TabIndex = 25;
+			this.checkBox_editSubjectDepartment.Tag = "comboBox_editSubjectDepartment";
+			this.checkBox_editSubjectDepartment.Text = "?Add subject to department";
+			this.checkBox_editSubjectDepartment.UseVisualStyleBackColor = true;
+			this.checkBox_editSubjectDepartment.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+			// 
 			// button_editSubject
 			// 
-			this.button_editSubject.Location = new System.Drawing.Point(150, 90);
+			this.button_editSubject.Location = new System.Drawing.Point(150, 190);
 			this.button_editSubject.Name = "button_editSubject";
 			this.button_editSubject.Size = new System.Drawing.Size(80, 23);
 			this.button_editSubject.TabIndex = 7;
 			this.button_editSubject.Text = "Edit";
 			this.button_editSubject.UseVisualStyleBackColor = true;
 			this.button_editSubject.Click += new System.EventHandler(this.Button_editSubject_Click);
+			// 
+			// comboBox_editSubjectDepartment
+			// 
+			this.comboBox_editSubjectDepartment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_editSubjectDepartment.Enabled = false;
+			this.comboBox_editSubjectDepartment.FormattingEnabled = true;
+			this.comboBox_editSubjectDepartment.Location = new System.Drawing.Point(80, 61);
+			this.comboBox_editSubjectDepartment.Name = "comboBox_editSubjectDepartment";
+			this.comboBox_editSubjectDepartment.Size = new System.Drawing.Size(150, 23);
+			this.comboBox_editSubjectDepartment.TabIndex = 24;
+			// 
+			// label_editSubjectDepartment
+			// 
+			this.label_editSubjectDepartment.AutoSize = true;
+			this.label_editSubjectDepartment.Location = new System.Drawing.Point(6, 65);
+			this.label_editSubjectDepartment.Name = "label_editSubjectDepartment";
+			this.label_editSubjectDepartment.Size = new System.Drawing.Size(70, 15);
+			this.label_editSubjectDepartment.TabIndex = 23;
+			this.label_editSubjectDepartment.Text = "Department";
 			// 
 			// label6
 			// 
@@ -520,25 +542,60 @@
 			// 
 			// groupBox_addSubject
 			// 
+			this.groupBox_addSubject.Controls.Add(this.checkBox_addSubjectDepartment);
 			this.groupBox_addSubject.Controls.Add(this.button_addSubject);
+			this.groupBox_addSubject.Controls.Add(this.comboBox_addSubjectDepartment);
+			this.groupBox_addSubject.Controls.Add(this.label_addSubjectDepartment);
 			this.groupBox_addSubject.Controls.Add(this.textBox_addSubjectName);
 			this.groupBox_addSubject.Controls.Add(this.label4);
-			this.groupBox_addSubject.Location = new System.Drawing.Point(774, 550);
+			this.groupBox_addSubject.Location = new System.Drawing.Point(774, 450);
 			this.groupBox_addSubject.Name = "groupBox_addSubject";
-			this.groupBox_addSubject.Size = new System.Drawing.Size(236, 120);
+			this.groupBox_addSubject.Size = new System.Drawing.Size(236, 220);
 			this.groupBox_addSubject.TabIndex = 9;
 			this.groupBox_addSubject.TabStop = false;
 			this.groupBox_addSubject.Text = "Add Subject";
 			// 
+			// checkBox_addSubjectDepartment
+			// 
+			this.checkBox_addSubjectDepartment.AutoSize = true;
+			this.checkBox_addSubjectDepartment.Location = new System.Drawing.Point(57, 90);
+			this.checkBox_addSubjectDepartment.Name = "checkBox_addSubjectDepartment";
+			this.checkBox_addSubjectDepartment.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_addSubjectDepartment.Size = new System.Drawing.Size(173, 19);
+			this.checkBox_addSubjectDepartment.TabIndex = 22;
+			this.checkBox_addSubjectDepartment.Tag = "comboBox_addSubjectDepartment";
+			this.checkBox_addSubjectDepartment.Text = "?Add subject to department";
+			this.checkBox_addSubjectDepartment.UseVisualStyleBackColor = true;
+			this.checkBox_addSubjectDepartment.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+			// 
 			// button_addSubject
 			// 
-			this.button_addSubject.Location = new System.Drawing.Point(150, 89);
+			this.button_addSubject.Location = new System.Drawing.Point(150, 191);
 			this.button_addSubject.Name = "button_addSubject";
 			this.button_addSubject.Size = new System.Drawing.Size(80, 23);
 			this.button_addSubject.TabIndex = 7;
 			this.button_addSubject.Text = "Add";
 			this.button_addSubject.UseVisualStyleBackColor = true;
 			this.button_addSubject.Click += new System.EventHandler(this.Button_addSubject_Click);
+			// 
+			// comboBox_addSubjectDepartment
+			// 
+			this.comboBox_addSubjectDepartment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_addSubjectDepartment.Enabled = false;
+			this.comboBox_addSubjectDepartment.FormattingEnabled = true;
+			this.comboBox_addSubjectDepartment.Location = new System.Drawing.Point(80, 61);
+			this.comboBox_addSubjectDepartment.Name = "comboBox_addSubjectDepartment";
+			this.comboBox_addSubjectDepartment.Size = new System.Drawing.Size(150, 23);
+			this.comboBox_addSubjectDepartment.TabIndex = 21;
+			// 
+			// label_addSubjectDepartment
+			// 
+			this.label_addSubjectDepartment.AutoSize = true;
+			this.label_addSubjectDepartment.Location = new System.Drawing.Point(6, 65);
+			this.label_addSubjectDepartment.Name = "label_addSubjectDepartment";
+			this.label_addSubjectDepartment.Size = new System.Drawing.Size(70, 15);
+			this.label_addSubjectDepartment.TabIndex = 20;
+			this.label_addSubjectDepartment.Text = "Department";
 			// 
 			// textBox_addSubjectName
 			// 
@@ -594,6 +651,7 @@
 			this.button_deleteDepartment.TabIndex = 0;
 			this.button_deleteDepartment.Text = "Delete";
 			this.button_deleteDepartment.UseVisualStyleBackColor = true;
+			this.button_deleteDepartment.Click += new System.EventHandler(this.Button_deleteDepartment_Click);
 			// 
 			// groupBox_reset
 			// 
@@ -645,6 +703,8 @@
 			this.dataGridView_universities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_universities.Size = new System.Drawing.Size(276, 598);
 			this.dataGridView_universities.TabIndex = 2;
+			this.dataGridView_universities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_universities_CellClick);
+			this.dataGridView_universities.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_universities_ColumnHeaderMouseClick);
 			// 
 			// button_searchUniversity
 			// 
@@ -654,6 +714,7 @@
 			this.button_searchUniversity.TabIndex = 1;
 			this.button_searchUniversity.Text = "Search";
 			this.button_searchUniversity.UseVisualStyleBackColor = true;
+			this.button_searchUniversity.Click += new System.EventHandler(this.Button_searchUniversity_Click);
 			// 
 			// textBox_searchUniversity
 			// 
@@ -680,9 +741,11 @@
 			this.button_deleteUniversity.TabIndex = 0;
 			this.button_deleteUniversity.Text = "Delete";
 			this.button_deleteUniversity.UseVisualStyleBackColor = true;
+			this.button_deleteUniversity.Click += new System.EventHandler(this.Button_deleteUniversity_Click);
 			// 
 			// groupBox_addUniversity
 			// 
+			this.groupBox_addUniversity.Controls.Add(this.checkBox_addUniversityCity);
 			this.groupBox_addUniversity.Controls.Add(this.label_addUniversityCity);
 			this.groupBox_addUniversity.Controls.Add(this.comboBox_addUniversityCity);
 			this.groupBox_addUniversity.Controls.Add(this.textBox_addUniversityAddress);
@@ -692,10 +755,23 @@
 			this.groupBox_addUniversity.Controls.Add(this.label_addUniversityName);
 			this.groupBox_addUniversity.Location = new System.Drawing.Point(774, 13);
 			this.groupBox_addUniversity.Name = "groupBox_addUniversity";
-			this.groupBox_addUniversity.Size = new System.Drawing.Size(236, 174);
+			this.groupBox_addUniversity.Size = new System.Drawing.Size(236, 239);
 			this.groupBox_addUniversity.TabIndex = 10;
 			this.groupBox_addUniversity.TabStop = false;
 			this.groupBox_addUniversity.Text = "Add University";
+			// 
+			// checkBox_addUniversityCity
+			// 
+			this.checkBox_addUniversityCity.AutoSize = true;
+			this.checkBox_addUniversityCity.Location = new System.Drawing.Point(155, 129);
+			this.checkBox_addUniversityCity.Name = "checkBox_addUniversityCity";
+			this.checkBox_addUniversityCity.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_addUniversityCity.Size = new System.Drawing.Size(75, 19);
+			this.checkBox_addUniversityCity.TabIndex = 22;
+			this.checkBox_addUniversityCity.Tag = "comboBox_addUniversityCity";
+			this.checkBox_addUniversityCity.Text = "?Add city";
+			this.checkBox_addUniversityCity.UseVisualStyleBackColor = true;
+			this.checkBox_addUniversityCity.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
 			// label_addUniversityCity
 			// 
@@ -708,6 +784,8 @@
 			// 
 			// comboBox_addUniversityCity
 			// 
+			this.comboBox_addUniversityCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_addUniversityCity.Enabled = false;
 			this.comboBox_addUniversityCity.FormattingEnabled = true;
 			this.comboBox_addUniversityCity.Location = new System.Drawing.Point(80, 100);
 			this.comboBox_addUniversityCity.Name = "comboBox_addUniversityCity";
@@ -732,12 +810,13 @@
 			// 
 			// button_addUniversity
 			// 
-			this.button_addUniversity.Location = new System.Drawing.Point(150, 145);
+			this.button_addUniversity.Location = new System.Drawing.Point(150, 210);
 			this.button_addUniversity.Name = "button_addUniversity";
 			this.button_addUniversity.Size = new System.Drawing.Size(80, 23);
 			this.button_addUniversity.TabIndex = 7;
 			this.button_addUniversity.Text = "Add";
 			this.button_addUniversity.UseVisualStyleBackColor = true;
+			this.button_addUniversity.Click += new System.EventHandler(this.Button_addUniversity_Click);
 			// 
 			// textBox_addUniversityName
 			// 
@@ -757,6 +836,7 @@
 			// 
 			// groupBox_editUniversity
 			// 
+			this.groupBox_editUniversity.Controls.Add(this.checkBox_editUniversityCity);
 			this.groupBox_editUniversity.Controls.Add(this.label_editUniversityCity);
 			this.groupBox_editUniversity.Controls.Add(this.comboBox_editUniversityCity);
 			this.groupBox_editUniversity.Controls.Add(this.textBox_editUniversityAddress);
@@ -766,10 +846,23 @@
 			this.groupBox_editUniversity.Controls.Add(this.label_editUniversityName);
 			this.groupBox_editUniversity.Location = new System.Drawing.Point(1016, 13);
 			this.groupBox_editUniversity.Name = "groupBox_editUniversity";
-			this.groupBox_editUniversity.Size = new System.Drawing.Size(236, 174);
+			this.groupBox_editUniversity.Size = new System.Drawing.Size(236, 239);
 			this.groupBox_editUniversity.TabIndex = 25;
 			this.groupBox_editUniversity.TabStop = false;
 			this.groupBox_editUniversity.Text = "Edit University";
+			// 
+			// checkBox_editUniversityCity
+			// 
+			this.checkBox_editUniversityCity.AutoSize = true;
+			this.checkBox_editUniversityCity.Location = new System.Drawing.Point(155, 129);
+			this.checkBox_editUniversityCity.Name = "checkBox_editUniversityCity";
+			this.checkBox_editUniversityCity.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_editUniversityCity.Size = new System.Drawing.Size(75, 19);
+			this.checkBox_editUniversityCity.TabIndex = 25;
+			this.checkBox_editUniversityCity.Tag = "comboBox_editUniversityCity";
+			this.checkBox_editUniversityCity.Text = "?Add city";
+			this.checkBox_editUniversityCity.UseVisualStyleBackColor = true;
+			this.checkBox_editUniversityCity.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
 			// label_editUniversityCity
 			// 
@@ -782,6 +875,8 @@
 			// 
 			// comboBox_editUniversityCity
 			// 
+			this.comboBox_editUniversityCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_editUniversityCity.Enabled = false;
 			this.comboBox_editUniversityCity.FormattingEnabled = true;
 			this.comboBox_editUniversityCity.Location = new System.Drawing.Point(80, 100);
 			this.comboBox_editUniversityCity.Name = "comboBox_editUniversityCity";
@@ -806,12 +901,13 @@
 			// 
 			// button_editUniversity
 			// 
-			this.button_editUniversity.Location = new System.Drawing.Point(150, 145);
+			this.button_editUniversity.Location = new System.Drawing.Point(150, 210);
 			this.button_editUniversity.Name = "button_editUniversity";
 			this.button_editUniversity.Size = new System.Drawing.Size(80, 23);
 			this.button_editUniversity.TabIndex = 7;
 			this.button_editUniversity.Text = "Edit";
 			this.button_editUniversity.UseVisualStyleBackColor = true;
+			this.button_editUniversity.Click += new System.EventHandler(this.Button_editUniversity_Click);
 			// 
 			// textBox_editUniversityName
 			// 
@@ -828,6 +924,39 @@
 			this.label_editUniversityName.Size = new System.Drawing.Size(44, 15);
 			this.label_editUniversityName.TabIndex = 9;
 			this.label_editUniversityName.Text = "Name*";
+			// 
+			// radioButton_searchUniversityAddress
+			// 
+			this.radioButton_searchUniversityAddress.AutoSize = true;
+			this.radioButton_searchUniversityAddress.Location = new System.Drawing.Point(19, 47);
+			this.radioButton_searchUniversityAddress.Name = "radioButton_searchUniversityAddress";
+			this.radioButton_searchUniversityAddress.Size = new System.Drawing.Size(67, 19);
+			this.radioButton_searchUniversityAddress.TabIndex = 4;
+			this.radioButton_searchUniversityAddress.Tag = "MainAddress";
+			this.radioButton_searchUniversityAddress.Text = "Address";
+			this.radioButton_searchUniversityAddress.UseVisualStyleBackColor = true;
+			// 
+			// radioButton_searchUniversityCity
+			// 
+			this.radioButton_searchUniversityCity.AutoSize = true;
+			this.radioButton_searchUniversityCity.Location = new System.Drawing.Point(19, 72);
+			this.radioButton_searchUniversityCity.Name = "radioButton_searchUniversityCity";
+			this.radioButton_searchUniversityCity.Size = new System.Drawing.Size(46, 19);
+			this.radioButton_searchUniversityCity.TabIndex = 5;
+			this.radioButton_searchUniversityCity.Tag = "CityName";
+			this.radioButton_searchUniversityCity.Text = "City";
+			this.radioButton_searchUniversityCity.UseVisualStyleBackColor = true;
+			// 
+			// radioButton_searchSubjectDepartment
+			// 
+			this.radioButton_searchSubjectDepartment.AutoSize = true;
+			this.radioButton_searchSubjectDepartment.Location = new System.Drawing.Point(19, 47);
+			this.radioButton_searchSubjectDepartment.Name = "radioButton_searchSubjectDepartment";
+			this.radioButton_searchSubjectDepartment.Size = new System.Drawing.Size(88, 19);
+			this.radioButton_searchSubjectDepartment.TabIndex = 4;
+			this.radioButton_searchSubjectDepartment.Tag = "Department";
+			this.radioButton_searchSubjectDepartment.Text = "Department";
+			this.radioButton_searchSubjectDepartment.UseVisualStyleBackColor = true;
 			// 
 			// UniversityWindow
 			// 
@@ -927,14 +1056,10 @@
 		private TextBox textBox_addSubjectName;
 		private Label label4;
 		private Label label_addDepartmentUniversity;
-		private ComboBox comboBox_editDeparmtentUniversity;
+		private ComboBox comboBox_editDepartmentUniversity;
 		private ComboBox comboBox_addDepartmentUniversity;
 		private CheckBox checkBox_addDepartmentUniversity;
 		private CheckBox checkBox_editDepartmentUniversity;
-		private Label label_addSubjectsDepartment;
-		private CheckedListBox checkedListBox_addSubjectsDepartment;
-		private Label label_editSubjectsDepartment;
-		private CheckedListBox checkedListBox_editSubjectsDepartment;
 		private RadioButton radioButton_departmentUniversity;
 		private GroupBox groupBox_universitiesTable;
 		private DataGridView dataGridView_universities;
@@ -943,7 +1068,7 @@
 		private GroupBox groupBox_deleteUniversity;
 		private Button button_deleteUniversity;
 		private GroupBox groupBox_searchUniversity;
-		private RadioButton radioButton1;
+		private RadioButton radioButton_universityName;
 		private GroupBox groupBox_addUniversity;
 		private Button button_addUniversity;
 		private TextBox textBox_addUniversityName;
@@ -960,5 +1085,16 @@
 		private Button button_editUniversity;
 		private TextBox textBox_editUniversityName;
 		private Label label_editUniversityName;
+		private CheckBox checkBox_addUniversityCity;
+		private CheckBox checkBox_editUniversityCity;
+		private CheckBox checkBox_editSubjectDepartment;
+		private ComboBox comboBox_editSubjectDepartment;
+		private Label label_editSubjectDepartment;
+		private CheckBox checkBox_addSubjectDepartment;
+		private ComboBox comboBox_addSubjectDepartment;
+		private Label label_addSubjectDepartment;
+		private RadioButton radioButton_searchSubjectDepartment;
+		private RadioButton radioButton_searchUniversityCity;
+		private RadioButton radioButton_searchUniversityAddress;
 	}
 }

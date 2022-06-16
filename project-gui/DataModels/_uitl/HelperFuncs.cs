@@ -20,6 +20,10 @@ namespace project_gui.DataModels._uitl
 
 				foreach (CheckBox checkBox in groupBox.Controls.OfType<CheckBox>())
 					checkBox.Checked = false;
+
+				foreach (CheckedListBox checkBox in groupBox.Controls.OfType<CheckedListBox>())
+					while (checkBox.CheckedIndices.Count > 0)
+						checkBox.SetItemChecked(checkBox.CheckedIndices[0], false);
 			}
 		}
 
@@ -35,6 +39,20 @@ namespace project_gui.DataModels._uitl
 			{
 				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return null;
+			}
+		}
+
+		internal static void SelectRowById(int? selectedRowIndex, DataGridView dataGridView, Action<object, DataGridViewCellEventArgs> action)
+		{
+			if (selectedRowIndex != null)
+			{
+				DataGridViewRow row = dataGridView.Rows
+					.Cast<DataGridViewRow>()
+					.Where(s => s.Cells[0].Value.ToString().Equals(selectedRowIndex.ToString()))
+					.First();
+
+				dataGridView.Rows[row.Index].Selected = true;
+				action.Invoke(dataGridView, new DataGridViewCellEventArgs(0, (int)selectedRowIndex));
 			}
 		}
 
@@ -79,10 +97,10 @@ namespace project_gui.DataModels._uitl
 		{
 			PropertyInfo propertyInfo = list[0].GetType().GetProperty(property);
 
-			if (!list.OrderBy(s => propertyInfo.GetValue(s).ToString()).SequenceEqual(list))
-				list = list.OrderBy(s => propertyInfo.GetValue(s).ToString()).ToList();
+			if (!list.OrderBy(s => propertyInfo.GetValue(s)).SequenceEqual(list))
+				list = list.OrderBy(s => propertyInfo.GetValue(s)).ToList();
 			else
-				list = list.OrderByDescending(s => propertyInfo.GetValue(s).ToString()).ToList();
+				list = list.OrderByDescending(s => propertyInfo.GetValue(s)).ToList();
 
 			return list;
 		}
@@ -91,7 +109,28 @@ namespace project_gui.DataModels._uitl
 		{
 			PropertyInfo propertyInfo = list[0].GetType().GetProperty(property);
 
-			return list.Where(s => propertyInfo.GetValue(s).ToString() == searchParam).ToList();
+			return list.Where(s => propertyInfo.GetValue(s) == searchParam).ToList();
+		}
+
+		internal static void HandleComboBoxes(CheckBox checkBox, Control control)
+		{
+			IEnumerable<Control> controls = GetControls(control, typeof(ComboBox));
+			ComboBox? comboBox = controls.OfType<ComboBox>()
+				.SingleOrDefault(s => s.Name == checkBox.Tag.ToString());
+
+			if (checkBox.Checked)
+				comboBox.Enabled = true;
+			else
+				comboBox.Enabled = false;
+
+
+			IEnumerable<Control> GetControls(Control control, Type type)
+			{
+				var controls = control.Controls.OfType<Control>();
+				return controls.SelectMany(s => GetControls(s, type))
+					.Concat(controls)
+					.Where(c => c.GetType() == type);
+			}
 		}
 	}
 }

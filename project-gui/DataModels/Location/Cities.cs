@@ -18,9 +18,9 @@ namespace project_gui.DataModels
 	{
 		private static HttpResponseMessage? response;
 
-		internal static async Task<List<dynamic>?> GetCities(int? countryId)
+		internal static async Task<List<dynamic>?> GetCities()
 		{
-			response = await Client.GetClient().GetAsync($"api/Cities{(countryId != null ? $"?countryId={countryId}" : "")}");
+			response = await Client.GetClient().GetAsync($"api/Cities");
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -31,16 +31,37 @@ namespace project_gui.DataModels
 								city.Id,
 								city.Name,
 								city.Region,
-								city.Population
+								city.Population,
 							};
 				return query.ToList<dynamic>();
 			}
+			return null;
+		}
 
+		internal static async Task<List<dynamic>?> GetCitiesInCountry(int? id)
+		{
+			response = await Client.GetClient().GetAsync($"api/Cities/Country/{id}");
+			if (response.IsSuccessStatusCode)
+			{
+				var cities = await response.Content.ReadFromJsonAsync<IEnumerable<Cities>>();
+				var query = from city in cities
+							select new
+							{
+								city.Id,
+								city.Name,
+								city.Region,
+								city.Population,
+							};
+				return query.ToList<dynamic>();
+			}
 			return null;
 		}
 
 		internal static async Task<Cities?> GetCityById(int? id)
 		{
+			if (id == null)
+				return null;
+
 			response = await Client.GetClient().GetAsync($"api/Cities/{id}");
 			if (response.IsSuccessStatusCode)
 			{

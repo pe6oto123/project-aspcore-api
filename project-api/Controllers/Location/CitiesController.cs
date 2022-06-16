@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using project_api.Contexts;
 using project_api.Entities;
 
@@ -19,20 +18,27 @@ namespace project_api.Controllers.Location
 
 		// GET: api/Cities
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Cities>>> GetCities(int? countryId)
+		public async Task<ActionResult<IEnumerable<Cities>>> GetCities()
 		{
 			if (_context.Cities == null)
 			{
 				return NotFound();
 			}
-			if (countryId != null)
-			{
-				var cities = await _context.Cities.Include(s => s.Country).Where(s => s.Country.Id == countryId).ToListAsync();
-				if (!cities.Any())
-					return NotFound();
-				return cities;
-			}
 			return await _context.Cities.Include(s => s.Country).ToListAsync();
+		}
+
+		[HttpGet("Country/{countryId}")]
+		public async Task<ActionResult<IEnumerable<Cities>>> GetCitiesInCountry(int countryId)
+		{
+			if (_context.Countries == null || _context.Cities == null)
+			{
+				return NotFound();
+			}
+
+			return await _context.Cities
+				.Include(s => s.Country)
+				.Where(s => s.Country.Id == countryId)
+				.ToListAsync();
 		}
 
 		// GET: api/Cities/5
@@ -61,17 +67,12 @@ namespace project_api.Controllers.Location
 			if (id != cities.Id)
 				return BadRequest();
 
-			//	AsNoTracking() => creates a read-only entry and its not tracked when updating the state
-			var country = await _context.Countries.AsNoTracking().Where(s => s.Id == cities.Country.Id).FirstOrDefaultAsync();
-			if (JsonConvert.SerializeObject(cities.Country) != JsonConvert.SerializeObject(country))
-				return BadRequest(new
-				{
-					title = "Bad Request",
-					status = 400,
-					reason = "Country with set parameters do not exist"
-				});
+			if (cities.Country == null)
+				_context.Entry(cities).Reference(s => s.Country).IsModified = true;
 
-			_context.Update(cities).State = EntityState.Modified;
+			_context.Cities.Attach(cities);
+			_context.Entry(cities).State = EntityState.Modified;
+
 			try
 			{
 				await _context.SaveChangesAsync();
@@ -86,6 +87,16 @@ namespace project_api.Controllers.Location
 				{
 					throw;
 				}
+			}
+			catch (DbUpdateException ex)
+			{
+				return BadRequest(
+					new
+					{
+						title = "Bad Request",
+						status = 400,
+						reason = ex.InnerException.Message,
+					});
 			}
 
 			return NoContent();

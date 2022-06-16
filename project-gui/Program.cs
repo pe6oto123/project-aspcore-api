@@ -14,7 +14,6 @@ namespace project_gui
 			// see https://aka.ms/applicationconfiguration.
 			ApplicationConfiguration.Initialize();
 			//Application.Run(new LocationWindow());
-			//Application.Run(new ErrorBoxFlex("asd", "asd"));
 			Application.Run(new UniversityWindow());
 		}
 	}

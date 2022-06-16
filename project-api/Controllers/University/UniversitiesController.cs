@@ -24,7 +24,10 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-			return await _context.Universities.ToListAsync();
+			return await _context.Universities
+				.Include(s => s.Address)
+				.Include(s => s.Address.City)
+				.ToListAsync();
 		}
 
 		// GET: api/Universities/5
@@ -35,7 +38,10 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-			var universities = await _context.Universities.FindAsync(id);
+			var universities = await _context.Universities
+				.Include(s => s.Address)
+				.Include(s => s.Address.City)
+				.SingleOrDefaultAsync(s => s.Id == id);
 
 			if (universities == null)
 			{
@@ -55,6 +61,13 @@ namespace project_api.Controllers.University
 				return BadRequest();
 			}
 
+			_context.Universities.Attach(universities);
+			_context.Entry(universities).Reference(s => s.Address).IsModified = false;
+			if (universities.Address != null)
+			{
+				_context.Entry(universities.Address).Reference(s => s.City).IsModified = true;
+				_context.Update(universities.Address).State = EntityState.Modified;
+			}
 			_context.Entry(universities).State = EntityState.Modified;
 
 			try
@@ -72,6 +85,16 @@ namespace project_api.Controllers.University
 					throw;
 				}
 			}
+			catch (DbUpdateException ex)
+			{
+				return BadRequest(
+					new
+					{
+						title = "Bad Request",
+						status = 400,
+						reason = ex.InnerException.Message,
+					});
+			}
 
 			return NoContent();
 		}
@@ -85,7 +108,9 @@ namespace project_api.Controllers.University
 			{
 				return Problem("Entity set 'DatabaseContext.Universities'  is null.");
 			}
-			_context.Universities.Add(universities);
+
+			_context.Universities.Attach(universities);
+			_context.Entry(universities).State = EntityState.Added;
 			await _context.SaveChangesAsync();
 
 			return CreatedAtAction("GetUniversities", new { id = universities.Id }, universities);
@@ -107,6 +132,7 @@ namespace project_api.Controllers.University
 
 			_context.Students.Include(s => s.Universities).Where(s => s.Universities.Id == id).Load();
 			_context.Teachers.Include(s => s.Universities).Where(s => s.Universities.Id == id).Load();
+			_context.Departments.Include(s => s.University).Where(s => s.University.Id == id).Load();
 			_context.Universities.Remove(universities);
 			await _context.SaveChangesAsync();
 

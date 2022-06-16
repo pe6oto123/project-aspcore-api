@@ -24,7 +24,8 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-			return await _context.Subjects.ToListAsync();
+
+			return await _context.Subjects.Include(s => s.Department).ToListAsync();
 		}
 
 		// GET: api/Subjects/5
@@ -35,7 +36,8 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-			var subjects = await _context.Subjects.FindAsync(id);
+
+			var subjects = await _context.Subjects.Include(s => s.Department).Where(s => s.Id == id).SingleAsync();
 
 			if (subjects == null)
 			{
@@ -43,6 +45,27 @@ namespace project_api.Controllers.University
 			}
 
 			return subjects;
+		}
+
+		// GET: api/Subjects/Department/5
+		[HttpGet("Department/{departmentId}")]
+		public async Task<ActionResult<IEnumerable<Subjects>>> GetSubjectsInDepartment(int departmentId, bool isAlsoFree = false)
+		{
+			if (_context.Departments == null || _context.Subjects == null)
+			{
+				return NotFound();
+			}
+
+			if (isAlsoFree)
+				return await _context.Subjects
+				.Include(s => s.Department)
+				.Where(s => s.Department.Id == departmentId || s.Department == null)
+				.ToListAsync();
+
+			return await _context.Subjects
+				.Include(s => s.Department)
+				.Where(s => s.Department.Id == departmentId)
+				.ToListAsync();
 		}
 
 		// PUT: api/Subjects/5
@@ -55,6 +78,10 @@ namespace project_api.Controllers.University
 				return BadRequest();
 			}
 
+			_context.Subjects.Attach(subjects);
+			_context.Entry(subjects).Reference(s => s.Department).IsModified = true;
+			if (subjects.Department != null)
+				_context.Entry(subjects.Department).Reference(s => s.University).IsModified = false;
 			_context.Entry(subjects).State = EntityState.Modified;
 
 			try
@@ -71,6 +98,17 @@ namespace project_api.Controllers.University
 				{
 					throw;
 				}
+
+			}
+			catch (DbUpdateException ex)
+			{
+				return BadRequest(
+					new
+					{
+						title = "Bad Request",
+						status = 400,
+						reason = ex.InnerException.Message,
+					});
 			}
 
 			return NoContent();
@@ -85,7 +123,10 @@ namespace project_api.Controllers.University
 			{
 				return Problem("Entity set 'DatabaseContext.Subjects'  is null.");
 			}
-			_context.Subjects.Add(subjects);
+			_context.Entry(subjects).Reference(s => s.Department).IsModified = true;
+			_context.Subjects.Attach(subjects);
+			_context.Entry(subjects).State = EntityState.Added;
+			//_context.Subjects.Add(subjects);
 			await _context.SaveChangesAsync();
 
 			return CreatedAtAction("GetSubjects", new { id = subjects.Id }, subjects);

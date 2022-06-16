@@ -275,7 +275,7 @@
 			this.dataGridView_cities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_cities.Size = new System.Drawing.Size(276, 600);
 			this.dataGridView_cities.TabIndex = 3;
-			this.dataGridView_cities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_cities_CellClickAsync);
+			this.dataGridView_cities.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_cities_CellClick);
 			this.dataGridView_cities.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_cities_ColumnHeaderMouseClick);
 			// 
 			// button_searchCities
@@ -434,9 +434,10 @@
 			this.checkBox_editCityCountry.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.checkBox_editCityCountry.Size = new System.Drawing.Size(142, 19);
 			this.checkBox_editCityCountry.TabIndex = 19;
+			this.checkBox_editCityCountry.Tag = "comboBox_editCityCountry";
 			this.checkBox_editCityCountry.Text = "?Add city to a country";
 			this.checkBox_editCityCountry.UseVisualStyleBackColor = true;
-			this.checkBox_editCityCountry.CheckedChanged += new System.EventHandler(this.CheckBox_CityCountry_CheckedChanged);
+			this.checkBox_editCityCountry.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
 			// comboBox_editCityCountry
 			// 
@@ -547,9 +548,10 @@
 			this.checkBox_addCityCountry.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.checkBox_addCityCountry.Size = new System.Drawing.Size(142, 19);
 			this.checkBox_addCityCountry.TabIndex = 18;
+			this.checkBox_addCityCountry.Tag = "comboBox_addCityCountry";
 			this.checkBox_addCityCountry.Text = "?Add city to a country";
 			this.checkBox_addCityCountry.UseVisualStyleBackColor = true;
-			this.checkBox_addCityCountry.CheckedChanged += new System.EventHandler(this.CheckBox_CityCountry_CheckedChanged);
+			this.checkBox_addCityCountry.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
 			// comboBox_addCityCountry
 			// 

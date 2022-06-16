@@ -35,7 +35,7 @@ namespace project_api.Controllers.Location
 			{
 				return NotFound();
 			}
-			var addresses = await _context.Address.FindAsync(id);
+			var addresses = await _context.Address.Include(s => s.City).SingleOrDefaultAsync(s => s.Id == id);
 
 			if (addresses == null)
 			{

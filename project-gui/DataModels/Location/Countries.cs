@@ -38,6 +38,9 @@ namespace project_gui.DataModels
 
 		internal static async Task<Countries?> GetCountryById(int? id)
 		{
+			if (id == null)
+				return null;
+
 			response = await Client.GetClient().GetAsync($"api/Countries/{id}");
 			if (response.IsSuccessStatusCode)
 			{

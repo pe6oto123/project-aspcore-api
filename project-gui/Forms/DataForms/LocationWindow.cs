@@ -17,7 +17,7 @@ namespace project_gui.Forms.DataForms
 		{
 			dataGridView_countries.DataSource = await CountriesController.GetCountries();
 			dataGridView_countries.ClearSelection();
-			await UpdateCountriesComboboxes();
+			await UpdateCountriesComboBoxes();
 
 			if (dataGridView_countries.Rows.Count == 0)
 				return;
@@ -26,7 +26,7 @@ namespace project_gui.Forms.DataForms
 				.Columns[dataGridView_countries.ColumnCount - 1]
 				.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-			async Task UpdateCountriesComboboxes()
+			async Task UpdateCountriesComboBoxes()
 			{
 				comboBox_addCityCountry.DataSource = await CountriesController.GetCountries();
 				comboBox_editCityCountry.DataSource = await CountriesController.GetCountries();
@@ -58,7 +58,6 @@ namespace project_gui.Forms.DataForms
 		{
 			if (e.RowIndex == -1 || dataGridView_countries.Rows.Count == 0)
 				return;
-
 
 			var country = await CountriesController.GetCountryById(HelperFuncs.GetSelectedRowId(dataGridView_countries));
 			if (country == null)
@@ -121,12 +120,12 @@ namespace project_gui.Forms.DataForms
 				Continent = !string.IsNullOrEmpty(textBox_editCountryContinent.Text) ? textBox_editCountryContinent.Text : null
 			};
 
-			int selectedRowIndex = dataGridView_countries.SelectedCells[0].RowIndex;
+			int? selectedRowIndex = HelperFuncs.GetSelectedRowId(dataGridView_countries);
 
 			if (await CountriesController.UpdateCountry(country))
 				await UpdateCountriesTableAsync();
 
-			dataGridView_countries.Rows[selectedRowIndex].Selected = true;
+			HelperFuncs.SelectRowById(selectedRowIndex, dataGridView_countries, DataGridView_countries_CellClick);
 		}
 		private async void Button_deleteCountry_Click(object sender, EventArgs e)
 		{
@@ -148,7 +147,11 @@ namespace project_gui.Forms.DataForms
 		#region Cities
 		private async Task UpdateCitiesTableAsync(int? countryId)
 		{
-			dataGridView_cities.DataSource = await CitiesController.GetCities(countryId);
+			if (countryId == null)
+				dataGridView_cities.DataSource = await CitiesController.GetCities();
+			else
+				dataGridView_cities.DataSource = await CitiesController.GetCitiesInCountry(countryId);
+
 			dataGridView_cities.ClearSelection();
 
 			if (dataGridView_cities.Rows.Count == 0)
@@ -205,7 +208,7 @@ namespace project_gui.Forms.DataForms
 			});
 		}
 
-		private async void DataGridView_cities_CellClickAsync(object sender, DataGridViewCellEventArgs e)
+		private async void DataGridView_cities_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex == -1 || dataGridView_cities.Rows.Count == 0)
 				return;
@@ -220,6 +223,11 @@ namespace project_gui.Forms.DataForms
 			textBox_editCityRegion.Text = city.Region;
 			numericUpDown_editCityPopulation.Value = city.Population != null ? (int)city.Population : 0;
 			comboBox_editCityCountry.SelectedValue = city.Country?.Id ?? -1;
+
+			if (city.Country == null)
+				checkBox_editCityCountry.Checked = false;
+			else
+				checkBox_editCityCountry.Checked = true;
 		}
 
 		private void Button_searchCities_Click(object sender, EventArgs e)
@@ -249,7 +257,9 @@ namespace project_gui.Forms.DataForms
 				Name = textBox_addCityName.Text,
 				Region = textBox_addCityRegion.Text,
 				Population = (int?)numericUpDown_addCityPopulation.Value,
-				Country = checkBox_addCityCountry.Checked ? await CountriesController.GetCountryById((int?)comboBox_addCityCountry.SelectedValue) : null
+				Country = checkBox_addCityCountry.Checked
+					? await CountriesController.GetCountryById((int?)comboBox_addCityCountry.SelectedValue)
+					: null
 			};
 
 			if (await CitiesController.CreateCity(city))
@@ -272,15 +282,17 @@ namespace project_gui.Forms.DataForms
 				Name = textBox_editCityName.Text,
 				Region = textBox_editCityRegion.Text,
 				Population = (int?)numericUpDown_editCityPopulation.Value,
-				Country = checkBox_editCityCountry.Checked ? await CountriesController.GetCountryById((int?)comboBox_editCityCountry.SelectedValue) : null
+				Country = checkBox_editCityCountry.Checked
+					? await CountriesController.GetCountryById((int?)comboBox_editCityCountry.SelectedValue)
+					: null
 			};
 
-			int selectedRowIndex = dataGridView_cities.SelectedCells[0].RowIndex;
+			int? selectedRowIndex = HelperFuncs.GetSelectedRowId(dataGridView_cities);
 
 			if (await CitiesController.UpdateCity(city))
 				await UpdateCitiesTableAsync(null);
 
-			dataGridView_cities.Rows[selectedRowIndex].Selected = true;
+			HelperFuncs.SelectRowById(selectedRowIndex, dataGridView_cities, DataGridView_cities_CellClick);
 		}
 
 		private async void Button_deleteCity_Click(object sender, EventArgs e)
@@ -298,24 +310,9 @@ namespace project_gui.Forms.DataForms
 			});
 		}
 
-		private void CheckBox_CityCountry_CheckedChanged(object sender, EventArgs e)
+		private void CheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			switch (((CheckBox)sender).Name)
-			{
-				case "checkBox_addCityCountry":
-					if (checkBox_addCityCountry.Checked)
-						comboBox_addCityCountry.Enabled = true;
-					else
-						comboBox_addCityCountry.Enabled = false;
-					break;
-
-				case "checkBox_editCityCountry":
-					if (checkBox_editCityCountry.Checked)
-						comboBox_editCityCountry.Enabled = true;
-					else
-						comboBox_editCityCountry.Enabled = false;
-					break;
-			}
+			HelperFuncs.HandleComboBoxes((CheckBox)sender, this);
 		}
 
 		#endregion

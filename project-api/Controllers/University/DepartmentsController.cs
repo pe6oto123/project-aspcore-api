@@ -24,7 +24,10 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-			return await _context.Departments.ToListAsync();
+			return await _context.Departments
+				.Include(s => s.University)
+				.Include(s => s.University.Address)
+				.ToListAsync();
 		}
 
 		// GET: api/Departments/5
@@ -35,7 +38,10 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-			var departments = await _context.Departments.FindAsync(id);
+			var departments = await _context.Departments
+				.Include(s => s.University)
+				.Include(s => s.University.Address)
+				.SingleOrDefaultAsync(s => s.Id == id);
 
 			if (departments == null)
 			{
@@ -43,6 +49,20 @@ namespace project_api.Controllers.University
 			}
 
 			return departments;
+		}
+
+		[HttpGet("University/{universityId}")]
+		public async Task<ActionResult<IEnumerable<Departments>>> GetDepartmentsInUniversity(int universityId)
+		{
+			if (_context.Departments == null || _context.Universities == null)
+			{
+				return NotFound();
+			}
+
+			return await _context.Departments
+				.Include(s => s.University)
+				.Where(s => s.University.Id == universityId)
+				.ToListAsync();
 		}
 
 		// PUT: api/Departments/5
@@ -55,6 +75,10 @@ namespace project_api.Controllers.University
 				return BadRequest();
 			}
 
+			_context.Departments.Attach(departments);
+			_context.Entry(departments).Reference(s => s.University).IsModified = true;
+			if (departments.University != null)
+				_context.Entry(departments.University).Reference(s => s.Address).IsModified = true;
 			_context.Entry(departments).State = EntityState.Modified;
 
 			try
@@ -85,6 +109,10 @@ namespace project_api.Controllers.University
 			{
 				return Problem("Entity set 'DatabaseContext.Departments'  is null.");
 			}
+
+			if (departments.University == null)
+				_context.Entry(departments).Reference(s => s.University).IsModified = true;
+			_context.Departments.Attach(departments);
 			_context.Departments.Add(departments);
 			await _context.SaveChangesAsync();
 
