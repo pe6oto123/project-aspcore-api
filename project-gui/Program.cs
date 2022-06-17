@@ -15,6 +15,7 @@ namespace project_gui
 			ApplicationConfiguration.Initialize();
 			//Application.Run(new LocationWindow());
 			Application.Run(new UniversityWindow());
+			Application.Run(new TeachersWindow());
 		}
 	}
 }

@@ -134,7 +134,7 @@ namespace project_api.Controllers.Location
 				return NotFound();
 			}
 
-			_context.Address.Include(s => s.City).Where(s => s.City.Id == id).Load();
+			await _context.Address.Include(s => s.City).Where(s => s.City.Id == id).LoadAsync();
 			_context.Cities.Remove(cities);
 			await _context.SaveChangesAsync();
 

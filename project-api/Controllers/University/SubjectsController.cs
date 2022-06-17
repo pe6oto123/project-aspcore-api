@@ -126,7 +126,6 @@ namespace project_api.Controllers.University
 			_context.Entry(subjects).Reference(s => s.Department).IsModified = true;
 			_context.Subjects.Attach(subjects);
 			_context.Entry(subjects).State = EntityState.Added;
-			//_context.Subjects.Add(subjects);
 			await _context.SaveChangesAsync();
 
 			return CreatedAtAction("GetSubjects", new { id = subjects.Id }, subjects);

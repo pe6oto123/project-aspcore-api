@@ -93,8 +93,9 @@ namespace project_gui.DataModels
 				response = await Client.GetClient().DeleteAsync($"api/Countries/{id}");
 				if (response.IsSuccessStatusCode)
 					return true;
+
+				MessageBox.Show("There was a problem while deleting the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			MessageBox.Show("There was a problem while deleting the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			return false;
 		}
 	}

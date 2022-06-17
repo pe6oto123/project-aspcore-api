@@ -149,7 +149,7 @@ namespace project_api.Database.Migrations
                     Position = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AddressId = table.Column<int>(type: "int", nullable: false),
-                    UniversitiesId = table.Column<int>(type: "int", nullable: true)
+                    UniversitiesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,7 +164,8 @@ namespace project_api.Database.Migrations
                         name: "FK_Teachers_Universities_UniversitiesId",
                         column: x => x.UniversitiesId,
                         principalTable: "Universities",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -178,9 +179,12 @@ namespace project_api.Database.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    EnrolmentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    FacultyNumber = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     AddressId = table.Column<int>(type: "int", nullable: false),
-                    UniversitiesId = table.Column<int>(type: "int", nullable: true),
-                    DepartmentId = table.Column<int>(type: "int", nullable: true)
+                    UniversitiesId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -195,12 +199,14 @@ namespace project_api.Database.Migrations
                         name: "FK_Students_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Students_Universities_UniversitiesId",
                         column: x => x.UniversitiesId,
                         principalTable: "Universities",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -226,7 +232,7 @@ namespace project_api.Database.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DepartmentsTeachers",
+                name: "TeachersDepartments",
                 columns: table => new
                 {
                     DepartmentsId = table.Column<int>(type: "int", nullable: false),
@@ -234,38 +240,17 @@ namespace project_api.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentsTeachers", x => new { x.DepartmentsId, x.TeachersId });
+                    table.PrimaryKey("PK_TeachersDepartments", x => new { x.DepartmentsId, x.TeachersId });
                     table.ForeignKey(
-                        name: "FK_DepartmentsTeachers_Departments_DepartmentsId",
+                        name: "FK_TeachersDepartments_Departments_DepartmentsId",
                         column: x => x.DepartmentsId,
                         principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DepartmentsTeachers_Teachers_TeachersId",
+                        name: "FK_TeachersDepartments_Teachers_TeachersId",
                         column: x => x.TeachersId,
                         principalTable: "Teachers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Enrolments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    EnrolmentDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    FacultyNumber = table.Column<string>(type: "varchar(12)", maxLength: 12, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Enrolments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Enrolments_Students_Id",
-                        column: x => x.Id,
-                        principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -314,11 +299,6 @@ namespace project_api.Database.Migrations
                 column: "UniversityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartmentsTeachers_TeachersId",
-                table: "DepartmentsTeachers",
-                column: "TeachersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Students_AddressId",
                 table: "Students",
                 column: "AddressId");
@@ -354,6 +334,11 @@ namespace project_api.Database.Migrations
                 column: "UniversitiesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeachersDepartments_TeachersId",
+                table: "TeachersDepartments",
+                column: "TeachersId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Universities_AddressId",
                 table: "Universities",
                 column: "AddressId");
@@ -365,22 +350,19 @@ namespace project_api.Database.Migrations
                 name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "DepartmentsTeachers");
-
-            migrationBuilder.DropTable(
-                name: "Enrolments");
-
-            migrationBuilder.DropTable(
                 name: "StudentsSubjects");
 
             migrationBuilder.DropTable(
-                name: "Teachers");
+                name: "TeachersDepartments");
 
             migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Subjects");
+
+            migrationBuilder.DropTable(
+                name: "Teachers");
 
             migrationBuilder.DropTable(
                 name: "Departments");

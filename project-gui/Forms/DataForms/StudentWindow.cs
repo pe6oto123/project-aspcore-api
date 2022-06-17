@@ -1,8 +1,8 @@
 ﻿namespace project_gui.Forms.DataForms
 {
-	public partial class TeachersWindow : Form
+	public partial class StudentWindow : Form
 	{
-		public TeachersWindow()
+		public StudentWindow()
 		{
 			InitializeComponent();
 		}

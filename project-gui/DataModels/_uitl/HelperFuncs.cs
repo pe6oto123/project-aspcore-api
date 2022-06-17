@@ -21,6 +21,9 @@ namespace project_gui.DataModels._uitl
 				foreach (CheckBox checkBox in groupBox.Controls.OfType<CheckBox>())
 					checkBox.Checked = false;
 
+				/*foreach (ComboBox comboBox in groupBox.Controls.OfType<ComboBox>())
+					comboBox.SelectedIndex = -1;*/
+
 				foreach (CheckedListBox checkBox in groupBox.Controls.OfType<CheckedListBox>())
 					while (checkBox.CheckedIndices.Count > 0)
 						checkBox.SetItemChecked(checkBox.CheckedIndices[0], false);

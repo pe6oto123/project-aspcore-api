@@ -13,6 +13,6 @@ namespace project_api.Entities
 
 		public virtual Universities? University { get; set; }
 
-		public virtual ICollection<Teachers>? Teachers { get; set; }
+		public virtual ICollection<TeachersDepartments>? TeachersDepartments { get; set; }
 	}
 }

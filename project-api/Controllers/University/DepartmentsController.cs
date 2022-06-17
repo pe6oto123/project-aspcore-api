@@ -61,6 +61,7 @@ namespace project_api.Controllers.University
 
 			return await _context.Departments
 				.Include(s => s.University)
+				.Include(s => s.University.Address)
 				.Where(s => s.University.Id == universityId)
 				.ToListAsync();
 		}
@@ -75,15 +76,36 @@ namespace project_api.Controllers.University
 				return BadRequest();
 			}
 
-			_context.Departments.Attach(departments);
-			_context.Entry(departments).Reference(s => s.University).IsModified = true;
-			if (departments.University != null)
-				_context.Entry(departments.University).Reference(s => s.Address).IsModified = true;
-			_context.Entry(departments).State = EntityState.Modified;
-
 			try
 			{
+				var departmentFK = new Departments();
+				departmentFK = await _context.Departments
+					.Include(s => s.University)
+					.AsNoTracking()
+					.SingleAsync(s => s.Id == departments.Id);
+
+				_context.Departments.Attach(departments);
+				_context.Entry(departments).Reference(s => s.University).IsModified = true;
+				if (departments.University != null)
+					_context.Entry(departments.University).Reference(s => s.Address).IsModified = true;
+				_context.Entry(departments).State = EntityState.Modified;
+
 				await _context.SaveChangesAsync();
+				_context.Entry(departments).State = EntityState.Detached;
+				_context.ChangeTracker.Clear();
+
+				if (departments.University.Id != departmentFK.University.Id)
+				{
+					var departmentsList = await _context.Departments
+						.Include(s => s.TeachersDepartments)
+						.SingleAsync(s => s.Id == departmentFK.Id);
+
+					_context.Departments.Attach(departmentsList);
+					foreach (var department in departmentsList.TeachersDepartments)
+						_context.Entry(department).State = EntityState.Deleted;
+
+					await _context.SaveChangesAsync();
+				}
 			}
 			catch (DbUpdateConcurrencyException)
 			{
@@ -133,7 +155,7 @@ namespace project_api.Controllers.University
 				return NotFound();
 			}
 
-			_context.Subjects.Include(s => s.Department).Where(s => s.Department.Id == id).Load();
+			await _context.Subjects.Include(s => s.Department).Where(s => s.Department.Id == id).LoadAsync();
 			_context.Departments.Remove(departments);
 			await _context.SaveChangesAsync();
 

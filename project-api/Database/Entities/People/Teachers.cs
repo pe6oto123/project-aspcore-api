@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace project_api.Entities
 {
@@ -22,8 +23,22 @@ namespace project_api.Entities
 		[Required]
 		public virtual Addresses? Address { get; set; }
 
+		[Required]
 		public virtual Universities? Universities { get; set; }
 
-		public virtual ICollection<Departments>? Departments { get; set; }
+		public virtual ICollection<TeachersDepartments>? TeachersDepartments { get; set; }
+	}
+
+	public class TeachersDepartments
+	{
+		[Key, Column(Order = 0)]
+		public int DepartmentsId { get; set; }
+
+		[Key, Column(Order = 1)]
+		public int TeachersId { get; set; }
+
+		public virtual Departments? Department { get; set; }
+
+		public virtual Teachers? Teacher { get; set; }
 	}
 }

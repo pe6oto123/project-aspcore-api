@@ -11,10 +11,10 @@ namespace project_gui.Forms.DataForms
 			_ = UpdateSubjectsTableAsync(null);
 			_ = UpdateDeparmentsTableAsync(null);
 			_ = UpdateUniversitiesTableAsync();
-			_ = InitializeCities();
+			_ = InitializeForeignTables();
 		}
 
-		private async Task InitializeCities()
+		private async Task InitializeForeignTables()
 		{
 			comboBox_addUniversityCity.DataSource = await CitiesController.GetCities();
 			comboBox_editUniversityCity.DataSource = await CitiesController.GetCities();
@@ -116,7 +116,8 @@ namespace project_gui.Forms.DataForms
 
 			HelperFuncs.ClearFields(new List<GroupBox>
 			{
-				groupBox_addSubject
+				groupBox_addSubject,
+				groupBox_editSubject
 			});
 
 			dataGridView_departments.ClearSelection();
@@ -186,10 +187,13 @@ namespace project_gui.Forms.DataForms
 				comboBox_addSubjectDepartment.DataSource = await DepartmentsController.GetDepartments();
 				comboBox_editSubjectDepartment.DataSource = await DepartmentsController.GetDepartments();
 
-				comboBox_addSubjectDepartment.ValueMember = "Id";
-				comboBox_addSubjectDepartment.DisplayMember = "Name";
-				comboBox_editSubjectDepartment.ValueMember = "Id";
-				comboBox_editSubjectDepartment.DisplayMember = "Name";
+				if (comboBox_addSubjectDepartment.Items.Count != 0)
+				{
+					comboBox_addSubjectDepartment.ValueMember = "Id";
+					comboBox_addSubjectDepartment.DisplayMember = "Name";
+					comboBox_editSubjectDepartment.ValueMember = "Id";
+					comboBox_editSubjectDepartment.DisplayMember = "Name";
+				}
 			}
 		}
 
@@ -273,6 +277,7 @@ namespace project_gui.Forms.DataForms
 			HelperFuncs.ClearFields(new List<GroupBox>
 			{
 				groupBox_addDepartment,
+				groupBox_editDepartment,
 				groupBox_addSubject,
 				groupBox_editSubject
 			});
@@ -434,6 +439,7 @@ namespace project_gui.Forms.DataForms
 			HelperFuncs.ClearFields(new List<GroupBox>
 			{
 				groupBox_addUniversity,
+				groupBox_editUniversity,
 				groupBox_addDepartment,
 				groupBox_editDepartment
 			});

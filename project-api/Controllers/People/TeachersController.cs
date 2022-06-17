@@ -24,7 +24,11 @@ namespace project_api.Controllers.People
 			{
 				return NotFound();
 			}
-			return await _context.Teachers.ToListAsync();
+			return await _context.Teachers
+				.Include(s => s.Address)
+				.Include(s => s.Address.City)
+				.Include(s => s.Universities)
+				.ToListAsync();
 		}
 
 		// GET: api/Teachers/5
@@ -35,7 +39,11 @@ namespace project_api.Controllers.People
 			{
 				return NotFound();
 			}
-			var teachers = await _context.Teachers.FindAsync(id);
+			var teachers = await _context.Teachers
+				.Include(s => s.Address)
+				.Include(s => s.Address.City)
+				.Include(s => s.Universities)
+				.SingleOrDefaultAsync(s => s.Id == id);
 
 			if (teachers == null)
 			{
@@ -43,6 +51,23 @@ namespace project_api.Controllers.People
 			}
 
 			return teachers;
+		}
+
+		[HttpGet("DepartmentsIds/{id}")]
+		public async Task<ActionResult<IEnumerable<int>>> GetDepartmentsIds(int id)
+		{
+			if (_context.Teachers == null)
+			{
+				return NotFound();
+			}
+
+			var teachersDepartments = await _context.TeachersDepartments
+				.Where(s => s.TeachersId == id)
+				.ToListAsync();
+
+			var ids = teachersDepartments.Select(s => s.DepartmentsId).ToList();
+
+			return ids.ToList();
 		}
 
 		// PUT: api/Teachers/5
@@ -55,11 +80,76 @@ namespace project_api.Controllers.People
 				return BadRequest();
 			}
 
-			_context.Entry(teachers).State = EntityState.Modified;
+			/*_context.Teachers.Attach(teachers);
+			*//*foreach (var item in teachers.TeachersDepartments)
+				_context.TeachersDepartments.Attach(item);*//*
+			var test = new List<TeachersDepartments>();
+			test = teachers.TeachersDepartments.ToList();
+			_context.TeachersDepartments.AttachRange(test);
+
+			await _context.TeachersDepartments.LoadAsync();
+
+			if (await _context.TeachersDepartments.Where(s => s.TeachersId == teachers.Id).AnyAsync())
+				teachers.TeachersDepartments.Clear();
+			//(await _context.TeachersDepartments.Where(s => s.TeachersId == teachers.Id).ToListAsync()).Clear();
+			//teachers.TeachersDepartments.Clear();
+
+			*//*if (teachers.TeachersDepartments != null)
+				await _context.TeachersDepartments.AddRangeAsync(test);*//*
+
+			if (teachers.Universities.Address != null)
+				_context.Entry(teachers.Universities.Address).Reference(s => s.City).IsModified = true;
+
+			_context.Update(teachers).State = EntityState.Modified;
 
 			try
 			{
 				await _context.SaveChangesAsync();
+				_context.Entry(teachers).State = EntityState.Detached;
+				//_context.Update(test).State = EntityState.Modified;
+				foreach (var item in test)
+					_context.Entry(item).State = EntityState.Added;
+				await _context.SaveChangesAsync();
+			}*/
+			try
+			{
+				var teachersDepartments = new List<TeachersDepartments>();
+				if (teachers.TeachersDepartments != null)
+					teachersDepartments.AddRange(teachers.TeachersDepartments);
+
+				await _context.TeachersDepartments.LoadAsync();
+				if (await _context.TeachersDepartments.Where(s => s.TeachersId == teachers.Id).AnyAsync())
+				{
+					var teacherParent = await _context.Teachers
+						.Include(s => s.TeachersDepartments)
+						.SingleAsync(s => s.Id == teachers.Id);
+
+					foreach (var department in teacherParent.TeachersDepartments)
+						_context.Entry(department).State = EntityState.Deleted;
+				}
+
+				await _context.SaveChangesAsync();
+				_context.ChangeTracker.Clear();
+
+				_context.Teachers.Attach(teachers);
+
+				if (teachers.Universities.Address != null)
+					_context.Entry(teachers.Universities.Address).Reference(s => s.City).IsModified = true;
+				_context.Update(teachers).State = EntityState.Modified;
+
+				await _context.SaveChangesAsync();
+
+				_context.Entry(teachers).State = EntityState.Detached;
+				_context.ChangeTracker.Clear();
+
+				if (teachersDepartments != null)
+				{
+					_context.TeachersDepartments.AttachRange(teachersDepartments);
+					foreach (var item in teachersDepartments)
+						_context.Entry(item).State = EntityState.Added;
+
+					await _context.SaveChangesAsync();
+				}
 			}
 			catch (DbUpdateConcurrencyException)
 			{
@@ -85,6 +175,14 @@ namespace project_api.Controllers.People
 			{
 				return Problem("Entity set 'DatabaseContext.Teachers'  is null.");
 			}
+
+			var test = await _context.Teachers.SingleOrDefaultAsync(s => s.Id == teachers.Id);
+
+			if (teachers.Universities.Address != null)
+				_context.Entry(teachers.Universities.Address).Reference(s => s.City).IsModified = true;
+
+			_context.Teachers.Attach(teachers);
+
 			_context.Teachers.Add(teachers);
 			await _context.SaveChangesAsync();
 

@@ -14,7 +14,7 @@ namespace project_gui.DataModels
 		public virtual Countries? Country { get; set; }
 	}
 
-	internal static class CitiesController
+	internal class CitiesController
 	{
 		private static HttpResponseMessage? response;
 

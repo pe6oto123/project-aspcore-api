@@ -55,6 +55,17 @@ namespace project_gui.DataModels
 			return null;
 		}
 
+		internal static async Task<IEnumerable<Departments>?> GetDepatmentsInUniversityFull(int? universityId)
+		{
+			response = await Client.GetClient().GetAsync($"api/Departments/University/{universityId}");
+
+			if (response.IsSuccessStatusCode)
+			{
+				return await response.Content.ReadFromJsonAsync<IEnumerable<Departments>>();
+			}
+			return null;
+		}
+
 		internal static async Task<Departments?> GetDepartmentById(int? id)
 		{
 			if (id == null)
@@ -109,9 +120,9 @@ namespace project_gui.DataModels
 				response = await Client.GetClient().DeleteAsync($"api/Departments/{id}");
 				if (response.IsSuccessStatusCode)
 					return true;
-			}
 
-			MessageBox.Show("There was a problem while deleting the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("There was a problem while deleting the entry", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			return false;
 		}
 	}

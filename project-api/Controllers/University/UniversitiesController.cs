@@ -124,15 +124,19 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-			var universities = await _context.Universities.FindAsync(id);
+			var universities = await _context.Universities
+				.Include(s => s.Address)
+				.SingleOrDefaultAsync(s => s.Id == id);
 			if (universities == null)
 			{
 				return NotFound();
 			}
 
-			_context.Students.Include(s => s.Universities).Where(s => s.Universities.Id == id).Load();
-			_context.Teachers.Include(s => s.Universities).Where(s => s.Universities.Id == id).Load();
-			_context.Departments.Include(s => s.University).Where(s => s.University.Id == id).Load();
+			await _context.Students.Include(s => s.Universities).Where(s => s.Universities.Id == id).LoadAsync();
+			await _context.Teachers.Include(s => s.Universities).Where(s => s.Universities.Id == id).LoadAsync();
+			await _context.Departments.Include(s => s.University).Where(s => s.University.Id == id).LoadAsync();
+			if (universities.Address != null)
+				_context.Entry(universities.Address).State = EntityState.Deleted;
 			_context.Universities.Remove(universities);
 			await _context.SaveChangesAsync();
 

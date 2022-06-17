@@ -11,7 +11,7 @@ using project_api.Contexts;
 namespace project_api.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220615110427_Initialize")]
+    [Migration("20220617185933_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,21 +20,6 @@ namespace project_api.Database.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("DepartmentsTeachers", b =>
-                {
-                    b.Property<int>("DepartmentsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeachersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DepartmentsId", "TeachersId");
-
-                    b.HasIndex("TeachersId");
-
-                    b.ToTable("DepartmentsTeachers");
-                });
 
             modelBuilder.Entity("project_api.Entities.Accounts", b =>
                 {
@@ -149,24 +134,6 @@ namespace project_api.Database.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("project_api.Entities.Enrolment", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EnrolmentDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FacultyNumber")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("varchar(12)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Enrolments");
-                });
-
             modelBuilder.Entity("project_api.Entities.Students", b =>
                 {
                     b.Property<int>("Id")
@@ -176,8 +143,16 @@ namespace project_api.Database.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("EnrolmentDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FacultyNumber")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("varchar(12)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -189,7 +164,7 @@ namespace project_api.Database.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("UniversitiesId")
+                    b.Property<int>("UniversitiesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -269,7 +244,7 @@ namespace project_api.Database.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<int?>("UniversitiesId")
+                    b.Property<int>("UniversitiesId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -279,6 +254,23 @@ namespace project_api.Database.Migrations
                     b.HasIndex("UniversitiesId");
 
                     b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("project_api.Entities.TeachersDepartments", b =>
+                {
+                    b.Property<int>("DepartmentsId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.HasKey("DepartmentsId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("TeachersDepartments");
                 });
 
             modelBuilder.Entity("project_api.Entities.Universities", b =>
@@ -300,21 +292,6 @@ namespace project_api.Database.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("Universities");
-                });
-
-            modelBuilder.Entity("DepartmentsTeachers", b =>
-                {
-                    b.HasOne("project_api.Entities.Departments", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("project_api.Entities.Teachers", null)
-                        .WithMany()
-                        .HasForeignKey("TeachersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("project_api.Entities.Addresses", b =>
@@ -344,17 +321,6 @@ namespace project_api.Database.Migrations
                     b.Navigation("University");
                 });
 
-            modelBuilder.Entity("project_api.Entities.Enrolment", b =>
-                {
-                    b.HasOne("project_api.Entities.Students", "Student")
-                        .WithOne("Enrolment")
-                        .HasForeignKey("project_api.Entities.Enrolment", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("project_api.Entities.Students", b =>
                 {
                     b.HasOne("project_api.Entities.Addresses", "Address")
@@ -365,11 +331,15 @@ namespace project_api.Database.Migrations
 
                     b.HasOne("project_api.Entities.Departments", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("project_api.Entities.Universities", "Universities")
                         .WithMany()
-                        .HasForeignKey("UniversitiesId");
+                        .HasForeignKey("UniversitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
 
@@ -416,11 +386,32 @@ namespace project_api.Database.Migrations
 
                     b.HasOne("project_api.Entities.Universities", "Universities")
                         .WithMany()
-                        .HasForeignKey("UniversitiesId");
+                        .HasForeignKey("UniversitiesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
 
                     b.Navigation("Universities");
+                });
+
+            modelBuilder.Entity("project_api.Entities.TeachersDepartments", b =>
+                {
+                    b.HasOne("project_api.Entities.Departments", "Department")
+                        .WithMany("TeachersDepartments")
+                        .HasForeignKey("DepartmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("project_api.Entities.Teachers", "Teacher")
+                        .WithMany("TeachersDepartments")
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("project_api.Entities.Universities", b =>
@@ -434,17 +425,24 @@ namespace project_api.Database.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("project_api.Entities.Departments", b =>
+                {
+                    b.Navigation("TeachersDepartments");
+                });
+
             modelBuilder.Entity("project_api.Entities.Students", b =>
                 {
-                    b.Navigation("Enrolment")
-                        .IsRequired();
-
                     b.Navigation("StudentsSubjects");
                 });
 
             modelBuilder.Entity("project_api.Entities.Subjects", b =>
                 {
                     b.Navigation("StudentsSubjects");
+                });
+
+            modelBuilder.Entity("project_api.Entities.Teachers", b =>
+                {
+                    b.Navigation("TeachersDepartments");
                 });
 #pragma warning restore 612, 618
         }

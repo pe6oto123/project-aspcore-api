@@ -17,24 +17,6 @@ namespace project_api.Entities
 		public string? LastName { get; set; }
 
 		[Required]
-		public virtual Enrolment? Enrolment { get; set; }
-
-		[Required]
-		public virtual Addresses? Address { get; set; }
-
-		public virtual Universities? Universities { get; set; }
-
-		public virtual Departments? Department { get; set; }
-
-		public virtual ICollection<StudentsSubjects>? StudentsSubjects { get; set; }
-	}
-
-	public class Enrolment
-	{
-		[Key]
-		public int Id { get; set; }
-
-		[Required]
 		public DateTime EnrolmentDate { get; set; }
 
 		[Required]
@@ -42,7 +24,15 @@ namespace project_api.Entities
 		public string? FacultyNumber { get; set; }
 
 		[Required]
-		public virtual Students? Student { get; set; }
+		public virtual Addresses? Address { get; set; }
+
+		[Required]
+		public virtual Universities? Universities { get; set; }
+
+		[Required]
+		public virtual Departments? Department { get; set; }
+
+		public virtual ICollection<StudentsSubjects>? StudentsSubjects { get; set; }
 	}
 
 	public class StudentsSubjects

@@ -317,10 +317,8 @@ namespace project_gui.Forms.DataForms
 
 		#endregion
 
-		private void Button_reset_Click(object sender, EventArgs e)
+		private async void Button_reset_Click(object sender, EventArgs e)
 		{
-			_ = UpdateCountriesTableAsync();
-			_ = UpdateCitiesTableAsync(null);
 			HelperFuncs.ClearFields(new List<GroupBox>()
 			{
 				groupBox_addCity,
@@ -328,6 +326,9 @@ namespace project_gui.Forms.DataForms
 				groupBox_addCountry,
 				groupBox_editCountry
 			});
+
+			await UpdateCountriesTableAsync();
+			await UpdateCitiesTableAsync(null);
 		}
 	}
 }
