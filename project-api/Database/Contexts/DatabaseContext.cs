@@ -8,6 +8,8 @@ namespace project_api.Contexts
 		public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
 		{
 			// Default constructor
+			//ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
+			//ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
 		}
 
 		public DbSet<Accounts> Accounts => Set<Accounts>();
@@ -44,39 +46,29 @@ namespace project_api.Contexts
 				.Entity<TeachersDepartments>()
 				.HasOne(s => s.Teacher)
 				.WithMany(s => s.TeachersDepartments)
-				.HasForeignKey(table => table.TeachersId);
+				.HasForeignKey(s => s.TeachersId);
+			//.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder
 				.Entity<TeachersDepartments>()
 				.HasOne(s => s.Department)
 				.WithMany(s => s.TeachersDepartments)
-				.HasForeignKey(table => table.DepartmentsId);
+				.HasForeignKey(s => s.DepartmentsId);
+			//.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder
 				.Entity<StudentsSubjects>()
 				.HasOne(s => s.Student)
 				.WithMany(s => s.StudentsSubjects)
-				.HasForeignKey(s => s.StudentsId)
-				.OnDelete(DeleteBehavior.Cascade);
-
-			modelBuilder
-				.Entity<StudentsSubjects>()
-				.HasOne(s => s.Student)
-				.WithMany(s => s.StudentsSubjects)
-				.HasForeignKey(table => table.StudentsId);
+				.HasForeignKey(s => s.StudentsId);
+			//.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder
 				.Entity<StudentsSubjects>()
 				.HasOne(s => s.Subject)
 				.WithMany(s => s.StudentsSubjects)
-				.HasForeignKey(table => table.SubjectsId);
-
-			modelBuilder
-				.Entity<StudentsSubjects>()
-				.HasOne(s => s.Subject)
-				.WithMany(s => s.StudentsSubjects)
-				.HasForeignKey(s => s.SubjectsId)
-				.OnDelete(DeleteBehavior.Cascade);
+				.HasForeignKey(s => s.SubjectsId);
+			//.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

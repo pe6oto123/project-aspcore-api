@@ -19,10 +19,13 @@ namespace project_gui.Forms.DataForms
 			comboBox_addUniversityCity.DataSource = await CitiesController.GetCities();
 			comboBox_editUniversityCity.DataSource = await CitiesController.GetCities();
 
-			comboBox_addUniversityCity.ValueMember = "Id";
-			comboBox_addUniversityCity.DisplayMember = "Name";
-			comboBox_editUniversityCity.ValueMember = "Id";
-			comboBox_editUniversityCity.DisplayMember = "Name";
+			if (comboBox_addUniversityCity.Items.Count != 0)
+			{
+				comboBox_addUniversityCity.ValueMember = "Id";
+				comboBox_addUniversityCity.DisplayMember = "Name";
+				comboBox_editUniversityCity.ValueMember = "Id";
+				comboBox_editUniversityCity.DisplayMember = "Name";
+			}
 		}
 
 		#region Subjects
@@ -126,7 +129,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_editSubject_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_subjects) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			Subjects subject = new()
 			{
@@ -148,7 +154,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_deleteSubject_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_subjects) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			if (await SubjectsController.DeleteSubject(HelperFuncs.GetSelectedRowId(dataGridView_subjects)))
 				await UpdateSubjectsTableAsync(null);
@@ -286,7 +295,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_editDepartment_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_departments) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			Departments? department = new()
 			{
@@ -311,7 +323,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_deleteDepartment_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_departments) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			if (await DepartmentsController.DeleteDepartment(HelperFuncs.GetSelectedRowId(dataGridView_departments)))
 				await UpdateDeparmentsTableAsync(null);
@@ -346,10 +361,13 @@ namespace project_gui.Forms.DataForms
 				comboBox_addDepartmentUniversity.DataSource = await UniversitiesController.GetUniversities();
 				comboBox_editDepartmentUniversity.DataSource = await UniversitiesController.GetUniversities();
 
-				comboBox_addDepartmentUniversity.ValueMember = "Id";
-				comboBox_addDepartmentUniversity.DisplayMember = "Name";
-				comboBox_editDepartmentUniversity.ValueMember = "Id";
-				comboBox_editDepartmentUniversity.DisplayMember = "Name";
+				if (comboBox_addDepartmentUniversity.Items.Count != 0)
+				{
+					comboBox_addDepartmentUniversity.ValueMember = "Id";
+					comboBox_addDepartmentUniversity.DisplayMember = "Name";
+					comboBox_editDepartmentUniversity.ValueMember = "Id";
+					comboBox_editDepartmentUniversity.DisplayMember = "Name";
+				}
 			}
 		}
 
@@ -448,7 +466,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_editUniversity_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_universities) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			Universities? university = await UniversitiesController
 				.GetUniversityById(HelperFuncs.GetSelectedRowId(dataGridView_universities));
@@ -468,7 +489,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_deleteUniversity_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_universities) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			if (await UniversitiesController.DeleteUniversity(HelperFuncs.GetSelectedRowId(dataGridView_universities)))
 				await UpdateUniversitiesTableAsync();

@@ -31,10 +31,13 @@ namespace project_gui.Forms.DataForms
 				comboBox_addCityCountry.DataSource = await CountriesController.GetCountries();
 				comboBox_editCityCountry.DataSource = await CountriesController.GetCountries();
 
-				comboBox_addCityCountry.ValueMember = "Id";
-				comboBox_addCityCountry.DisplayMember = "Name";
-				comboBox_editCityCountry.ValueMember = "Id";
-				comboBox_editCityCountry.DisplayMember = "Name";
+				if (comboBox_addCityCountry.Items.Count != 0)
+				{
+					comboBox_addCityCountry.ValueMember = "Id";
+					comboBox_addCityCountry.DisplayMember = "Name";
+					comboBox_editCityCountry.ValueMember = "Id";
+					comboBox_editCityCountry.DisplayMember = "Name";
+				}
 			}
 		}
 
@@ -111,7 +114,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_editCountry_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_countries) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			Countries? country = new()
 			{
@@ -130,7 +136,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_deleteCountry_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_countries) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			if (await CountriesController.DeleteCountry(HelperFuncs.GetSelectedRowId(dataGridView_countries)))
 				await UpdateCountriesTableAsync();
@@ -274,7 +283,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_editCity_ClickAsync(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_cities) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			Cities? city = new()
 			{
@@ -298,7 +310,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_deleteCity_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_cities) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			if (await CitiesController.DeleteCity(HelperFuncs.GetSelectedRowId(dataGridView_cities)))
 				await UpdateCitiesTableAsync(null);

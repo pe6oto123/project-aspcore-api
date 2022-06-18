@@ -34,9 +34,6 @@
 			this.textBox_search = new System.Windows.Forms.TextBox();
 			this.groupBox_search = new System.Windows.Forms.GroupBox();
 			this.radioButton_university = new System.Windows.Forms.RadioButton();
-			this.radioButton_department = new System.Windows.Forms.RadioButton();
-			this.radioButton_address = new System.Windows.Forms.RadioButton();
-			this.radioButton_factultyNum = new System.Windows.Forms.RadioButton();
 			this.radioButton_lastName = new System.Windows.Forms.RadioButton();
 			this.radioButton_firstName = new System.Windows.Forms.RadioButton();
 			this.groupBox_add = new System.Windows.Forms.GroupBox();
@@ -77,6 +74,7 @@
 			this.label_editUniversity = new System.Windows.Forms.Label();
 			this.label_editFirstName = new System.Windows.Forms.Label();
 			this.textBox_editFirstName = new System.Windows.Forms.TextBox();
+			this.radioButton_position = new System.Windows.Forms.RadioButton();
 			this.groupBox_table.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView_teachers)).BeginInit();
 			this.groupBox_search.SuspendLayout();
@@ -140,10 +138,8 @@
 			// 
 			// groupBox_search
 			// 
+			this.groupBox_search.Controls.Add(this.radioButton_position);
 			this.groupBox_search.Controls.Add(this.radioButton_university);
-			this.groupBox_search.Controls.Add(this.radioButton_department);
-			this.groupBox_search.Controls.Add(this.radioButton_address);
-			this.groupBox_search.Controls.Add(this.radioButton_factultyNum);
 			this.groupBox_search.Controls.Add(this.radioButton_lastName);
 			this.groupBox_search.Controls.Add(this.radioButton_firstName);
 			this.groupBox_search.Location = new System.Drawing.Point(600, 13);
@@ -156,42 +152,13 @@
 			// radioButton_university
 			// 
 			this.radioButton_university.AutoSize = true;
-			this.radioButton_university.Location = new System.Drawing.Point(6, 147);
+			this.radioButton_university.Location = new System.Drawing.Point(6, 97);
 			this.radioButton_university.Name = "radioButton_university";
 			this.radioButton_university.Size = new System.Drawing.Size(77, 19);
 			this.radioButton_university.TabIndex = 6;
+			this.radioButton_university.Tag = "University";
 			this.radioButton_university.Text = "University";
 			this.radioButton_university.UseVisualStyleBackColor = true;
-			// 
-			// radioButton_department
-			// 
-			this.radioButton_department.AutoSize = true;
-			this.radioButton_department.Location = new System.Drawing.Point(6, 122);
-			this.radioButton_department.Name = "radioButton_department";
-			this.radioButton_department.Size = new System.Drawing.Size(88, 19);
-			this.radioButton_department.TabIndex = 5;
-			this.radioButton_department.Text = "Department";
-			this.radioButton_department.UseVisualStyleBackColor = true;
-			// 
-			// radioButton_address
-			// 
-			this.radioButton_address.AutoSize = true;
-			this.radioButton_address.Location = new System.Drawing.Point(6, 97);
-			this.radioButton_address.Name = "radioButton_address";
-			this.radioButton_address.Size = new System.Drawing.Size(67, 19);
-			this.radioButton_address.TabIndex = 4;
-			this.radioButton_address.Text = "Address";
-			this.radioButton_address.UseVisualStyleBackColor = true;
-			// 
-			// radioButton_factultyNum
-			// 
-			this.radioButton_factultyNum.AutoSize = true;
-			this.radioButton_factultyNum.Location = new System.Drawing.Point(6, 72);
-			this.radioButton_factultyNum.Name = "radioButton_factultyNum";
-			this.radioButton_factultyNum.Size = new System.Drawing.Size(110, 19);
-			this.radioButton_factultyNum.TabIndex = 3;
-			this.radioButton_factultyNum.Text = "Faculty Number";
-			this.radioButton_factultyNum.UseVisualStyleBackColor = true;
 			// 
 			// radioButton_lastName
 			// 
@@ -200,6 +167,7 @@
 			this.radioButton_lastName.Name = "radioButton_lastName";
 			this.radioButton_lastName.Size = new System.Drawing.Size(81, 19);
 			this.radioButton_lastName.TabIndex = 2;
+			this.radioButton_lastName.Tag = "LastName";
 			this.radioButton_lastName.Text = "Last Name";
 			this.radioButton_lastName.UseVisualStyleBackColor = true;
 			// 
@@ -212,6 +180,7 @@
 			this.radioButton_firstName.Size = new System.Drawing.Size(82, 19);
 			this.radioButton_firstName.TabIndex = 0;
 			this.radioButton_firstName.TabStop = true;
+			this.radioButton_firstName.Tag = "FirstName";
 			this.radioButton_firstName.Text = "First Name";
 			this.radioButton_firstName.UseVisualStyleBackColor = true;
 			// 
@@ -591,6 +560,17 @@
 			this.textBox_editFirstName.Size = new System.Drawing.Size(189, 23);
 			this.textBox_editFirstName.TabIndex = 3;
 			// 
+			// radioButton_position
+			// 
+			this.radioButton_position.AutoSize = true;
+			this.radioButton_position.Location = new System.Drawing.Point(6, 72);
+			this.radioButton_position.Name = "radioButton_position";
+			this.radioButton_position.Size = new System.Drawing.Size(68, 19);
+			this.radioButton_position.TabIndex = 7;
+			this.radioButton_position.Tag = "Position";
+			this.radioButton_position.Text = "Position";
+			this.radioButton_position.UseVisualStyleBackColor = true;
+			// 
 			// TeachersWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -635,7 +615,6 @@
 		private Button button_search;
 		private TextBox textBox_search;
 		private DataGridView dataGridView_teachers;
-		private RadioButton radioButton_factultyNum;
 		private RadioButton radioButton_lastName;
 		private RadioButton radioButton_firstName;
 		private CheckedListBox checkedListBox_addDepartments;
@@ -644,8 +623,6 @@
 		private Label label_addUniversity;
 		private Label label_addFirstName;
 		private TextBox textBox_addFirstName;
-		private RadioButton radioButton_department;
-		private RadioButton radioButton_address;
 		private RadioButton radioButton_university;
 		private Label label_addLastName;
 		private TextBox textBox_addLastName;
@@ -674,5 +651,6 @@
 		private TextBox textBox_addPosition;
 		private Label label_editPostition;
 		private TextBox textBox_editPosition;
+		private RadioButton radioButton_position;
 	}
 }

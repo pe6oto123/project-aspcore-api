@@ -61,7 +61,7 @@ namespace project_gui.DataModels
 			return null;
 		}
 
-		internal static async Task<IEnumerable<int?>?> GetDepartmentsIds(int? id)
+		internal static async Task<List<int?>?> GetDepartmentsIds(int? id)
 		{
 			if (id == null)
 				return null;
@@ -69,7 +69,7 @@ namespace project_gui.DataModels
 			response = await Client.GetClient().GetAsync($"api/Teachers/DepartmentsIds/{id}");
 			if (response.IsSuccessStatusCode)
 			{
-				return await response.Content.ReadFromJsonAsync<IEnumerable<int?>>();
+				return await response.Content.ReadFromJsonAsync<List<int?>>();
 			}
 			return null;
 		}

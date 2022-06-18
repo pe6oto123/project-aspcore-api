@@ -19,7 +19,6 @@ namespace project_api.Entities
 		[Required]
 		public DateTime EnrolmentDate { get; set; }
 
-		[Required]
 		[StringLength(12)]
 		public string? FacultyNumber { get; set; }
 

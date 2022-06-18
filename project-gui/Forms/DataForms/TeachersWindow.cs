@@ -9,34 +9,35 @@ namespace project_gui.Forms.DataForms
 		public TeachersWindow()
 		{
 			InitializeComponent();
-			_ = UpdateTeachersTableAsync();
 			_ = InitializeForeignTables();
 		}
 
 		private async Task InitializeForeignTables()
 		{
+			await UpdateTeachersTableAsync();
 			await AwaitUpdates();
 
 			async Task AwaitUpdates()
 			{
 				comboBox_addCity.DataSource = await CitiesController.GetCities();
 				comboBox_editCity.DataSource = await CitiesController.GetCities();
-				comboBox_addCity.ValueMember = "Id";
-				comboBox_addCity.DisplayMember = "Name";
-				comboBox_editCity.ValueMember = "Id";
-				comboBox_editCity.DisplayMember = "Name";
+				if (comboBox_addCity.Items.Count != 0)
+				{
+					comboBox_addCity.ValueMember = "Id";
+					comboBox_addCity.DisplayMember = "Name";
+					comboBox_editCity.ValueMember = "Id";
+					comboBox_editCity.DisplayMember = "Name";
+				}
 
 				comboBox_addUniversity.DataSource = await UniversitiesController.GetUniversities();
 				comboBox_editUniversity.DataSource = await UniversitiesController.GetUniversities();
-				comboBox_addUniversity.ValueMember = "Id";
-				comboBox_addUniversity.DisplayMember = "Name";
-				comboBox_editUniversity.ValueMember = "Id";
-				comboBox_editUniversity.DisplayMember = "Name";
-
-				checkedListBox_addDepartments.DataSource = await DepartmentsController
-					.GetDepatmentsInUniversityFull((int?)comboBox_addUniversity.SelectedValue);
-				checkedListBox_addDepartments.ValueMember = "Id";
-				checkedListBox_addDepartments.DisplayMember = "Name";
+				if (comboBox_addUniversity.Items.Count != 0)
+				{
+					comboBox_addUniversity.ValueMember = "Id";
+					comboBox_addUniversity.DisplayMember = "Name";
+					comboBox_editUniversity.ValueMember = "Id";
+					comboBox_editUniversity.DisplayMember = "Name";
+				}
 			}
 		}
 
@@ -99,6 +100,20 @@ namespace project_gui.Forms.DataForms
 				comboBox_editUniversity.SelectedIndex = -1;
 			else
 				comboBox_editUniversity.SelectedValue = teacher.Universities?.Id ?? -1;
+
+			checkedListBox_editDepartments.DataSource = await DepartmentsController
+				.GetDepatmentsInUniversityFull((int?)comboBox_editUniversity.SelectedValue);
+			if (checkedListBox_editDepartments.Items.Count != 0)
+			{
+				checkedListBox_editDepartments.ValueMember = "Id";
+				checkedListBox_editDepartments.DisplayMember = "Name";
+				var selectedDepartments = teacher.TeachersDepartments?.Select(s => s.DepartmentsId).ToList();
+				for (int i = 0; i < checkedListBox_editDepartments.Items.Count; i++)
+					if (selectedDepartments.Contains(((Departments)checkedListBox_editDepartments.Items[i]).Id))
+						checkedListBox_editDepartments.SetItemChecked(i, true);
+					else
+						checkedListBox_editDepartments.SetItemChecked(i, false);
+			}
 		}
 
 		private void Button_search_Click(object sender, EventArgs e)
@@ -159,7 +174,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_edit_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_teachers) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			var checkedDepartments = from department in checkedListBox_editDepartments.CheckedItems.Cast<Departments>()
 									 select new TeachersDepartments
@@ -173,6 +191,7 @@ namespace project_gui.Forms.DataForms
 			teacher.FirstName = textBox_editFirstName.Text;
 			teacher.LastName = textBox_editLastName.Text;
 			teacher.Position = textBox_editPosition.Text;
+			teacher.Address.MainAddress = textBox_editAddress.Text;
 			teacher.Address.City = checkBox_editCity.Checked
 						? await CitiesController.GetCityById((int?)comboBox_editCity.SelectedValue)
 						: null;
@@ -189,7 +208,10 @@ namespace project_gui.Forms.DataForms
 		private async void Button_delete_Click(object sender, EventArgs e)
 		{
 			if (HelperFuncs.GetSelectedRowId(dataGridView_teachers) == null)
+			{
+				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
+			}
 
 			if (await TeachersController.DeleteTeacher(HelperFuncs.GetSelectedRowId(dataGridView_teachers)))
 				await UpdateTeachersTableAsync();
@@ -228,14 +250,16 @@ namespace project_gui.Forms.DataForms
 			{
 				checkedListBox_editDepartments.DataSource = await DepartmentsController
 					.GetDepatmentsInUniversityFull((int?)((ComboBox)sender).SelectedValue);
-
-				checkedListBox_editDepartments.ValueMember = "Id";
-				checkedListBox_editDepartments.DisplayMember = "Name";
+				if (checkedListBox_editDepartments.Items.Count != 0)
+				{
+					checkedListBox_editDepartments.ValueMember = "Id";
+					checkedListBox_editDepartments.DisplayMember = "Name";
+				}
 			}
 			else
 				checkedListBox_editDepartments.DataSource = null;
 
-			/*var ids = await TeachersController.GetDepartmentsIds(HelperFuncs.GetSelectedRowId(dataGridView_teachers));
+			var ids = await TeachersController.GetDepartmentsIds(HelperFuncs.GetSelectedRowId(dataGridView_teachers));
 			if (ids != null)
 				for (int i = 0; i < checkedListBox_editDepartments.Items.Count; i++)
 				{
@@ -244,7 +268,7 @@ namespace project_gui.Forms.DataForms
 						checkedListBox_editDepartments.SetItemChecked(i, true);
 					else
 						checkedListBox_editDepartments.SetItemChecked(i, false);
-				}*/
+				}
 		}
 
 		private async void Button_reset_Click(object sender, EventArgs e)

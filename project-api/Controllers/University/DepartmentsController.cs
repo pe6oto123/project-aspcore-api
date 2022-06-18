@@ -78,8 +78,7 @@ namespace project_api.Controllers.University
 
 			try
 			{
-				var departmentFK = new Departments();
-				departmentFK = await _context.Departments
+				var departmentFK = await _context.Departments
 					.Include(s => s.University)
 					.AsNoTracking()
 					.SingleAsync(s => s.Id == departments.Id);
@@ -94,15 +93,15 @@ namespace project_api.Controllers.University
 				_context.Entry(departments).State = EntityState.Detached;
 				_context.ChangeTracker.Clear();
 
-				if (departments.University.Id != departmentFK.University.Id)
+				if (departments.University?.Id != departmentFK.University?.Id)
 				{
-					var departmentsList = await _context.Departments
+					var department = await _context.Departments
 						.Include(s => s.TeachersDepartments)
 						.SingleAsync(s => s.Id == departmentFK.Id);
 
-					_context.Departments.Attach(departmentsList);
-					foreach (var department in departmentsList.TeachersDepartments)
-						_context.Entry(department).State = EntityState.Deleted;
+					_context.Departments.Attach(department);
+					foreach (var d in department.TeachersDepartments)
+						_context.Entry(d).State = EntityState.Deleted;
 
 					await _context.SaveChangesAsync();
 				}

@@ -11,7 +11,7 @@ using project_api.Contexts;
 namespace project_api.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220617185933_Initialize")]
+    [Migration("20220618013209_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,7 +150,6 @@ namespace project_api.Database.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("FacultyNumber")
-                        .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("varchar(12)");
 

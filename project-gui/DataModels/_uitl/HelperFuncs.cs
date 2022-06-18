@@ -40,7 +40,6 @@ namespace project_gui.DataModels._uitl
 			}
 			catch (ArgumentOutOfRangeException)
 			{
-				MessageBox.Show("No row selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return null;
 			}
 		}

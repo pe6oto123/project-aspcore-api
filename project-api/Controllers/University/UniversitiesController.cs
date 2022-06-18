@@ -131,7 +131,7 @@ namespace project_api.Controllers.University
 			{
 				return NotFound();
 			}
-
+			//TODO handle teachers in departments
 			await _context.Students.Include(s => s.Universities).Where(s => s.Universities.Id == id).LoadAsync();
 			await _context.Teachers.Include(s => s.Universities).Where(s => s.Universities.Id == id).LoadAsync();
 			await _context.Departments.Include(s => s.University).Where(s => s.University.Id == id).LoadAsync();

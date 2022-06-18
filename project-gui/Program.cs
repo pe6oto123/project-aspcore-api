@@ -1,4 +1,4 @@
-using project_gui.Forms.DataForms;
+using project_gui.Forms;
 
 namespace project_gui
 {
@@ -14,8 +14,11 @@ namespace project_gui
 			// see https://aka.ms/applicationconfiguration.
 			ApplicationConfiguration.Initialize();
 			//Application.Run(new LocationWindow());
-			Application.Run(new UniversityWindow());
-			Application.Run(new TeachersWindow());
+			//Application.Run(new UniversityWindow());
+			//Application.Run(new TeachersWindow());
+			//Application.Run(new StudentWindow());
+
+			Application.Run(new MainWindow());
 		}
 	}
 }

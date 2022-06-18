@@ -43,6 +43,7 @@ namespace project_api.Controllers.People
 				.Include(s => s.Address)
 				.Include(s => s.Address.City)
 				.Include(s => s.Universities)
+				.Include(s => s.TeachersDepartments)
 				.SingleOrDefaultAsync(s => s.Id == id);
 
 			if (teachers == null)
@@ -79,7 +80,7 @@ namespace project_api.Controllers.People
 			{
 				return BadRequest();
 			}
-
+			#region Backup
 			/*_context.Teachers.Attach(teachers);
 			*//*foreach (var item in teachers.TeachersDepartments)
 				_context.TeachersDepartments.Attach(item);*//*
@@ -111,6 +112,7 @@ namespace project_api.Controllers.People
 					_context.Entry(item).State = EntityState.Added;
 				await _context.SaveChangesAsync();
 			}*/
+			#endregion
 			try
 			{
 				var teachersDepartments = new List<TeachersDepartments>();
@@ -130,15 +132,15 @@ namespace project_api.Controllers.People
 
 				await _context.SaveChangesAsync();
 				_context.ChangeTracker.Clear();
+				//_context.Teachers.Attach(teachers);
 
-				_context.Teachers.Attach(teachers);
-
-				if (teachers.Universities.Address != null)
-					_context.Entry(teachers.Universities.Address).Reference(s => s.City).IsModified = true;
+				if (teachers.Address != null)
+					_context.Entry(teachers.Address).Reference(s => s.City).IsModified = true;
+				if (teachers.Address.City != null)
+					_context.Update(teachers.Address.City).State = EntityState.Modified;
 				_context.Update(teachers).State = EntityState.Modified;
 
 				await _context.SaveChangesAsync();
-
 				_context.Entry(teachers).State = EntityState.Detached;
 				_context.ChangeTracker.Clear();
 
@@ -176,12 +178,10 @@ namespace project_api.Controllers.People
 				return Problem("Entity set 'DatabaseContext.Teachers'  is null.");
 			}
 
-			var test = await _context.Teachers.SingleOrDefaultAsync(s => s.Id == teachers.Id);
+			_context.Teachers.Attach(teachers);
 
 			if (teachers.Universities.Address != null)
 				_context.Entry(teachers.Universities.Address).Reference(s => s.City).IsModified = true;
-
-			_context.Teachers.Attach(teachers);
 
 			_context.Teachers.Add(teachers);
 			await _context.SaveChangesAsync();
@@ -197,12 +197,16 @@ namespace project_api.Controllers.People
 			{
 				return NotFound();
 			}
-			var teachers = await _context.Teachers.FindAsync(id);
+			var teachers = await _context.Teachers
+				.Include(s => s.Address)
+				.SingleOrDefaultAsync(s => s.Id == id);
 			if (teachers == null)
 			{
 				return NotFound();
 			}
 
+			if (teachers.Address != null)
+				_context.Entry(teachers.Address).State = EntityState.Deleted;
 			_context.Teachers.Remove(teachers);
 			await _context.SaveChangesAsync();
 

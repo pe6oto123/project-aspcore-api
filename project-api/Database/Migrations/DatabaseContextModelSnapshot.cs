@@ -148,7 +148,6 @@ namespace project_api.Database.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("FacultyNumber")
-                        .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("varchar(12)");
 

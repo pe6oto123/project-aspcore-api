@@ -18,6 +18,7 @@ string mySqlConnectionStr = builder.Configuration.GetConnectionString("MySqlConn
 builder.Services.AddDbContextPool<DatabaseContext>(options =>
 {
 	options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr));
+	options.EnableSensitiveDataLogging();
 });
 builder.Services.AddControllers();
 

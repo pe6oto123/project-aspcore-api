@@ -39,7 +39,8 @@
 			this.radioButton_factultyNum = new System.Windows.Forms.RadioButton();
 			this.radioButton_lastName = new System.Windows.Forms.RadioButton();
 			this.radioButton_firstName = new System.Windows.Forms.RadioButton();
-			this.groupBox_addStudent = new System.Windows.Forms.GroupBox();
+			this.groupBox_add = new System.Windows.Forms.GroupBox();
+			this.checkBox_addCity = new System.Windows.Forms.CheckBox();
 			this.comboBox_addCity = new System.Windows.Forms.ComboBox();
 			this.label_addCity = new System.Windows.Forms.Label();
 			this.comboBox_addDepartment = new System.Windows.Forms.ComboBox();
@@ -61,7 +62,8 @@
 			this.button_delete = new System.Windows.Forms.Button();
 			this.groupBox_reset = new System.Windows.Forms.GroupBox();
 			this.button_reset = new System.Windows.Forms.Button();
-			this.groupBox_editStudent = new System.Windows.Forms.GroupBox();
+			this.groupBox_edit = new System.Windows.Forms.GroupBox();
+			this.checkBox_editCity = new System.Windows.Forms.CheckBox();
 			this.comboBox_editCity = new System.Windows.Forms.ComboBox();
 			this.label_editCity = new System.Windows.Forms.Label();
 			this.comboBox_editDepartment = new System.Windows.Forms.ComboBox();
@@ -82,11 +84,11 @@
 			this.groupBox_table.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView_students)).BeginInit();
 			this.groupBox_search.SuspendLayout();
-			this.groupBox_addStudent.SuspendLayout();
+			this.groupBox_add.SuspendLayout();
 			this.groupBox_addSubjects.SuspendLayout();
 			this.groupBox_delete.SuspendLayout();
 			this.groupBox_reset.SuspendLayout();
-			this.groupBox_editStudent.SuspendLayout();
+			this.groupBox_edit.SuspendLayout();
 			this.groupBox_editSubjects.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -112,12 +114,16 @@
 			this.dataGridView_students.BackgroundColor = System.Drawing.Color.White;
 			this.dataGridView_students.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dataGridView_students.Location = new System.Drawing.Point(6, 51);
+			this.dataGridView_students.MultiSelect = false;
 			this.dataGridView_students.Name = "dataGridView_students";
 			this.dataGridView_students.ReadOnly = true;
 			this.dataGridView_students.RowHeadersVisible = false;
 			this.dataGridView_students.RowTemplate.Height = 25;
+			this.dataGridView_students.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView_students.Size = new System.Drawing.Size(570, 600);
 			this.dataGridView_students.TabIndex = 2;
+			this.dataGridView_students.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_students_CellClick);
+			this.dataGridView_students.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_students_ColumnHeaderMouseClick);
 			// 
 			// button_search
 			// 
@@ -127,6 +133,7 @@
 			this.button_search.TabIndex = 1;
 			this.button_search.Text = "Search";
 			this.button_search.UseVisualStyleBackColor = true;
+			this.button_search.Click += new System.EventHandler(this.Button_search_Click);
 			// 
 			// textBox_search
 			// 
@@ -212,34 +219,49 @@
 			this.radioButton_firstName.Text = "First Name";
 			this.radioButton_firstName.UseVisualStyleBackColor = true;
 			// 
-			// groupBox_addStudent
+			// groupBox_add
 			// 
-			this.groupBox_addStudent.Controls.Add(this.comboBox_addCity);
-			this.groupBox_addStudent.Controls.Add(this.label_addCity);
-			this.groupBox_addStudent.Controls.Add(this.comboBox_addDepartment);
-			this.groupBox_addStudent.Controls.Add(this.label_addDepartment);
-			this.groupBox_addStudent.Controls.Add(this.groupBox_addSubjects);
-			this.groupBox_addStudent.Controls.Add(this.label_addAddress);
-			this.groupBox_addStudent.Controls.Add(this.label_addDate);
-			this.groupBox_addStudent.Controls.Add(this.textBox_addAddress);
-			this.groupBox_addStudent.Controls.Add(this.dateTimePicker_addDate);
-			this.groupBox_addStudent.Controls.Add(this.label_addLastName);
-			this.groupBox_addStudent.Controls.Add(this.textBox_addLastName);
-			this.groupBox_addStudent.Controls.Add(this.comboBox_addUniversity);
-			this.groupBox_addStudent.Controls.Add(this.button_add);
-			this.groupBox_addStudent.Controls.Add(this.label_addUniversity);
-			this.groupBox_addStudent.Controls.Add(this.label_addFirstName);
-			this.groupBox_addStudent.Controls.Add(this.textBox_addFirstName);
-			this.groupBox_addStudent.Location = new System.Drawing.Point(772, 12);
-			this.groupBox_addStudent.Name = "groupBox_addStudent";
-			this.groupBox_addStudent.Size = new System.Drawing.Size(480, 326);
-			this.groupBox_addStudent.TabIndex = 7;
-			this.groupBox_addStudent.TabStop = false;
-			this.groupBox_addStudent.Text = "Add Student";
+			this.groupBox_add.Controls.Add(this.checkBox_addCity);
+			this.groupBox_add.Controls.Add(this.comboBox_addCity);
+			this.groupBox_add.Controls.Add(this.label_addCity);
+			this.groupBox_add.Controls.Add(this.comboBox_addDepartment);
+			this.groupBox_add.Controls.Add(this.label_addDepartment);
+			this.groupBox_add.Controls.Add(this.groupBox_addSubjects);
+			this.groupBox_add.Controls.Add(this.label_addAddress);
+			this.groupBox_add.Controls.Add(this.label_addDate);
+			this.groupBox_add.Controls.Add(this.textBox_addAddress);
+			this.groupBox_add.Controls.Add(this.dateTimePicker_addDate);
+			this.groupBox_add.Controls.Add(this.label_addLastName);
+			this.groupBox_add.Controls.Add(this.textBox_addLastName);
+			this.groupBox_add.Controls.Add(this.comboBox_addUniversity);
+			this.groupBox_add.Controls.Add(this.button_add);
+			this.groupBox_add.Controls.Add(this.label_addUniversity);
+			this.groupBox_add.Controls.Add(this.label_addFirstName);
+			this.groupBox_add.Controls.Add(this.textBox_addFirstName);
+			this.groupBox_add.Location = new System.Drawing.Point(772, 12);
+			this.groupBox_add.Name = "groupBox_add";
+			this.groupBox_add.Size = new System.Drawing.Size(480, 326);
+			this.groupBox_add.TabIndex = 7;
+			this.groupBox_add.TabStop = false;
+			this.groupBox_add.Text = "Add Student";
+			// 
+			// checkBox_addCity
+			// 
+			this.checkBox_addCity.AutoSize = true;
+			this.checkBox_addCity.Location = new System.Drawing.Point(194, 138);
+			this.checkBox_addCity.Name = "checkBox_addCity";
+			this.checkBox_addCity.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_addCity.Size = new System.Drawing.Size(75, 19);
+			this.checkBox_addCity.TabIndex = 38;
+			this.checkBox_addCity.Tag = "comboBox_addCity";
+			this.checkBox_addCity.Text = "?Add city";
+			this.checkBox_addCity.UseVisualStyleBackColor = true;
+			this.checkBox_addCity.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
 			// comboBox_addCity
 			// 
 			this.comboBox_addCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_addCity.Enabled = false;
 			this.comboBox_addCity.FormattingEnabled = true;
 			this.comboBox_addCity.Location = new System.Drawing.Point(80, 109);
 			this.comboBox_addCity.Name = "comboBox_addCity";
@@ -259,15 +281,16 @@
 			// 
 			this.comboBox_addDepartment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox_addDepartment.FormattingEnabled = true;
-			this.comboBox_addDepartment.Location = new System.Drawing.Point(80, 197);
+			this.comboBox_addDepartment.Location = new System.Drawing.Point(80, 221);
 			this.comboBox_addDepartment.Name = "comboBox_addDepartment";
 			this.comboBox_addDepartment.Size = new System.Drawing.Size(189, 23);
 			this.comboBox_addDepartment.TabIndex = 33;
+			this.comboBox_addDepartment.SelectedIndexChanged += new System.EventHandler(this.ComboBox_addDepartment_SelectedIndexChanged);
 			// 
 			// label_addDepartment
 			// 
 			this.label_addDepartment.AutoSize = true;
-			this.label_addDepartment.Location = new System.Drawing.Point(6, 200);
+			this.label_addDepartment.Location = new System.Drawing.Point(6, 224);
 			this.label_addDepartment.Name = "label_addDepartment";
 			this.label_addDepartment.Size = new System.Drawing.Size(75, 15);
 			this.label_addDepartment.TabIndex = 32;
@@ -285,6 +308,7 @@
 			// 
 			// checkedListBox_addSubjects
 			// 
+			this.checkedListBox_addSubjects.CheckOnClick = true;
 			this.checkedListBox_addSubjects.FormattingEnabled = true;
 			this.checkedListBox_addSubjects.Location = new System.Drawing.Point(6, 22);
 			this.checkedListBox_addSubjects.Name = "checkedListBox_addSubjects";
@@ -303,7 +327,7 @@
 			// label_addDate
 			// 
 			this.label_addDate.AutoSize = true;
-			this.label_addDate.Location = new System.Drawing.Point(7, 172);
+			this.label_addDate.Location = new System.Drawing.Point(7, 196);
 			this.label_addDate.Name = "label_addDate";
 			this.label_addDate.Size = new System.Drawing.Size(94, 15);
 			this.label_addDate.TabIndex = 29;
@@ -318,7 +342,7 @@
 			// 
 			// dateTimePicker_addDate
 			// 
-			this.dateTimePicker_addDate.Location = new System.Drawing.Point(107, 168);
+			this.dateTimePicker_addDate.Location = new System.Drawing.Point(107, 192);
 			this.dateTimePicker_addDate.Name = "dateTimePicker_addDate";
 			this.dateTimePicker_addDate.Size = new System.Drawing.Size(162, 23);
 			this.dateTimePicker_addDate.TabIndex = 23;
@@ -343,10 +367,11 @@
 			// 
 			this.comboBox_addUniversity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox_addUniversity.FormattingEnabled = true;
-			this.comboBox_addUniversity.Location = new System.Drawing.Point(80, 139);
+			this.comboBox_addUniversity.Location = new System.Drawing.Point(80, 163);
 			this.comboBox_addUniversity.Name = "comboBox_addUniversity";
 			this.comboBox_addUniversity.Size = new System.Drawing.Size(189, 23);
 			this.comboBox_addUniversity.TabIndex = 19;
+			this.comboBox_addUniversity.SelectedIndexChanged += new System.EventHandler(this.ComboBox_addUniversity_SelectedIndexChanged);
 			// 
 			// button_add
 			// 
@@ -356,11 +381,12 @@
 			this.button_add.TabIndex = 1;
 			this.button_add.Text = "Add";
 			this.button_add.UseVisualStyleBackColor = true;
+			this.button_add.Click += new System.EventHandler(this.Button_add_Click);
 			// 
 			// label_addUniversity
 			// 
 			this.label_addUniversity.AutoSize = true;
-			this.label_addUniversity.Location = new System.Drawing.Point(6, 142);
+			this.label_addUniversity.Location = new System.Drawing.Point(6, 166);
 			this.label_addUniversity.Name = "label_addUniversity";
 			this.label_addUniversity.Size = new System.Drawing.Size(64, 15);
 			this.label_addUniversity.TabIndex = 6;
@@ -400,6 +426,7 @@
 			this.button_delete.TabIndex = 0;
 			this.button_delete.Text = "Delete";
 			this.button_delete.UseVisualStyleBackColor = true;
+			this.button_delete.Click += new System.EventHandler(this.Button_delete_Click);
 			// 
 			// groupBox_reset
 			// 
@@ -419,35 +446,51 @@
 			this.button_reset.TabIndex = 0;
 			this.button_reset.Text = "Reset";
 			this.button_reset.UseVisualStyleBackColor = true;
+			this.button_reset.Click += new System.EventHandler(this.Button_reset_Click);
 			// 
-			// groupBox_editStudent
+			// groupBox_edit
 			// 
-			this.groupBox_editStudent.Controls.Add(this.comboBox_editCity);
-			this.groupBox_editStudent.Controls.Add(this.label_editCity);
-			this.groupBox_editStudent.Controls.Add(this.comboBox_editDepartment);
-			this.groupBox_editStudent.Controls.Add(this.label_editDepartment);
-			this.groupBox_editStudent.Controls.Add(this.groupBox_editSubjects);
-			this.groupBox_editStudent.Controls.Add(this.label_editAddress);
-			this.groupBox_editStudent.Controls.Add(this.label_editDate);
-			this.groupBox_editStudent.Controls.Add(this.textBox_editAddress);
-			this.groupBox_editStudent.Controls.Add(this.dateTimePicker_editDate);
-			this.groupBox_editStudent.Controls.Add(this.label_editLastName);
-			this.groupBox_editStudent.Controls.Add(this.textBox_editLastName);
-			this.groupBox_editStudent.Controls.Add(this.comboBox_editUniversity);
-			this.groupBox_editStudent.Controls.Add(this.button_edit);
-			this.groupBox_editStudent.Controls.Add(this.label_editUniversity);
-			this.groupBox_editStudent.Controls.Add(this.label_editFirstName);
-			this.groupBox_editStudent.Controls.Add(this.textBox_editFirstName);
-			this.groupBox_editStudent.Location = new System.Drawing.Point(772, 344);
-			this.groupBox_editStudent.Name = "groupBox_editStudent";
-			this.groupBox_editStudent.Size = new System.Drawing.Size(480, 326);
-			this.groupBox_editStudent.TabIndex = 35;
-			this.groupBox_editStudent.TabStop = false;
-			this.groupBox_editStudent.Text = "Edit Student";
+			this.groupBox_edit.Controls.Add(this.checkBox_editCity);
+			this.groupBox_edit.Controls.Add(this.comboBox_editCity);
+			this.groupBox_edit.Controls.Add(this.label_editCity);
+			this.groupBox_edit.Controls.Add(this.comboBox_editDepartment);
+			this.groupBox_edit.Controls.Add(this.label_editDepartment);
+			this.groupBox_edit.Controls.Add(this.groupBox_editSubjects);
+			this.groupBox_edit.Controls.Add(this.label_editAddress);
+			this.groupBox_edit.Controls.Add(this.label_editDate);
+			this.groupBox_edit.Controls.Add(this.textBox_editAddress);
+			this.groupBox_edit.Controls.Add(this.dateTimePicker_editDate);
+			this.groupBox_edit.Controls.Add(this.label_editLastName);
+			this.groupBox_edit.Controls.Add(this.textBox_editLastName);
+			this.groupBox_edit.Controls.Add(this.comboBox_editUniversity);
+			this.groupBox_edit.Controls.Add(this.button_edit);
+			this.groupBox_edit.Controls.Add(this.label_editUniversity);
+			this.groupBox_edit.Controls.Add(this.label_editFirstName);
+			this.groupBox_edit.Controls.Add(this.textBox_editFirstName);
+			this.groupBox_edit.Location = new System.Drawing.Point(772, 344);
+			this.groupBox_edit.Name = "groupBox_edit";
+			this.groupBox_edit.Size = new System.Drawing.Size(480, 326);
+			this.groupBox_edit.TabIndex = 35;
+			this.groupBox_edit.TabStop = false;
+			this.groupBox_edit.Text = "Edit Student";
+			// 
+			// checkBox_editCity
+			// 
+			this.checkBox_editCity.AutoSize = true;
+			this.checkBox_editCity.Location = new System.Drawing.Point(194, 138);
+			this.checkBox_editCity.Name = "checkBox_editCity";
+			this.checkBox_editCity.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.checkBox_editCity.Size = new System.Drawing.Size(75, 19);
+			this.checkBox_editCity.TabIndex = 39;
+			this.checkBox_editCity.Tag = "comboBox_editCity";
+			this.checkBox_editCity.Text = "?Add city";
+			this.checkBox_editCity.UseVisualStyleBackColor = true;
+			this.checkBox_editCity.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
 			// 
 			// comboBox_editCity
 			// 
 			this.comboBox_editCity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBox_editCity.Enabled = false;
 			this.comboBox_editCity.FormattingEnabled = true;
 			this.comboBox_editCity.Location = new System.Drawing.Point(80, 109);
 			this.comboBox_editCity.Name = "comboBox_editCity";
@@ -467,15 +510,16 @@
 			// 
 			this.comboBox_editDepartment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox_editDepartment.FormattingEnabled = true;
-			this.comboBox_editDepartment.Location = new System.Drawing.Point(80, 197);
+			this.comboBox_editDepartment.Location = new System.Drawing.Point(80, 221);
 			this.comboBox_editDepartment.Name = "comboBox_editDepartment";
 			this.comboBox_editDepartment.Size = new System.Drawing.Size(189, 23);
 			this.comboBox_editDepartment.TabIndex = 33;
+			this.comboBox_editDepartment.SelectedIndexChanged += new System.EventHandler(this.ComboBox_editDepartment_SelectedIndexChanged);
 			// 
 			// label_editDepartment
 			// 
 			this.label_editDepartment.AutoSize = true;
-			this.label_editDepartment.Location = new System.Drawing.Point(6, 200);
+			this.label_editDepartment.Location = new System.Drawing.Point(6, 224);
 			this.label_editDepartment.Name = "label_editDepartment";
 			this.label_editDepartment.Size = new System.Drawing.Size(75, 15);
 			this.label_editDepartment.TabIndex = 32;
@@ -493,6 +537,7 @@
 			// 
 			// checkedListBox_editSubjects
 			// 
+			this.checkedListBox_editSubjects.CheckOnClick = true;
 			this.checkedListBox_editSubjects.FormattingEnabled = true;
 			this.checkedListBox_editSubjects.Location = new System.Drawing.Point(6, 22);
 			this.checkedListBox_editSubjects.Name = "checkedListBox_editSubjects";
@@ -511,7 +556,7 @@
 			// label_editDate
 			// 
 			this.label_editDate.AutoSize = true;
-			this.label_editDate.Location = new System.Drawing.Point(7, 172);
+			this.label_editDate.Location = new System.Drawing.Point(7, 196);
 			this.label_editDate.Name = "label_editDate";
 			this.label_editDate.Size = new System.Drawing.Size(94, 15);
 			this.label_editDate.TabIndex = 29;
@@ -526,7 +571,7 @@
 			// 
 			// dateTimePicker_editDate
 			// 
-			this.dateTimePicker_editDate.Location = new System.Drawing.Point(107, 168);
+			this.dateTimePicker_editDate.Location = new System.Drawing.Point(107, 192);
 			this.dateTimePicker_editDate.Name = "dateTimePicker_editDate";
 			this.dateTimePicker_editDate.Size = new System.Drawing.Size(162, 23);
 			this.dateTimePicker_editDate.TabIndex = 23;
@@ -551,7 +596,7 @@
 			// 
 			this.comboBox_editUniversity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBox_editUniversity.FormattingEnabled = true;
-			this.comboBox_editUniversity.Location = new System.Drawing.Point(80, 139);
+			this.comboBox_editUniversity.Location = new System.Drawing.Point(80, 163);
 			this.comboBox_editUniversity.Name = "comboBox_editUniversity";
 			this.comboBox_editUniversity.Size = new System.Drawing.Size(189, 23);
 			this.comboBox_editUniversity.TabIndex = 19;
@@ -564,11 +609,12 @@
 			this.button_edit.TabIndex = 1;
 			this.button_edit.Text = "Edit";
 			this.button_edit.UseVisualStyleBackColor = true;
+			this.button_edit.Click += new System.EventHandler(this.Button_edit_Click);
 			// 
 			// label_editUniversity
 			// 
 			this.label_editUniversity.AutoSize = true;
-			this.label_editUniversity.Location = new System.Drawing.Point(6, 142);
+			this.label_editUniversity.Location = new System.Drawing.Point(6, 166);
 			this.label_editUniversity.Name = "label_editUniversity";
 			this.label_editUniversity.Size = new System.Drawing.Size(64, 15);
 			this.label_editUniversity.TabIndex = 6;
@@ -595,10 +641,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1264, 681);
-			this.Controls.Add(this.groupBox_editStudent);
+			this.Controls.Add(this.groupBox_edit);
 			this.Controls.Add(this.groupBox_reset);
 			this.Controls.Add(this.groupBox_delete);
-			this.Controls.Add(this.groupBox_addStudent);
+			this.Controls.Add(this.groupBox_add);
 			this.Controls.Add(this.groupBox_search);
 			this.Controls.Add(this.groupBox_table);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -610,13 +656,13 @@
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView_students)).EndInit();
 			this.groupBox_search.ResumeLayout(false);
 			this.groupBox_search.PerformLayout();
-			this.groupBox_addStudent.ResumeLayout(false);
-			this.groupBox_addStudent.PerformLayout();
+			this.groupBox_add.ResumeLayout(false);
+			this.groupBox_add.PerformLayout();
 			this.groupBox_addSubjects.ResumeLayout(false);
 			this.groupBox_delete.ResumeLayout(false);
 			this.groupBox_reset.ResumeLayout(false);
-			this.groupBox_editStudent.ResumeLayout(false);
-			this.groupBox_editStudent.PerformLayout();
+			this.groupBox_edit.ResumeLayout(false);
+			this.groupBox_edit.PerformLayout();
 			this.groupBox_editSubjects.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -626,7 +672,7 @@
 
 		private GroupBox groupBox_table;
 		private GroupBox groupBox_search;
-		private GroupBox groupBox_addStudent;
+		private GroupBox groupBox_add;
 		private GroupBox groupBox_delete;
 		private Button button_delete;
 		private GroupBox groupBox_reset;
@@ -655,7 +701,7 @@
 		private GroupBox groupBox_addSubjects;
 		private ComboBox comboBox_addDepartment;
 		private Label label_addDepartment;
-		private GroupBox groupBox_editStudent;
+		private GroupBox groupBox_edit;
 		private ComboBox comboBox_editDepartment;
 		private Label label_editDepartment;
 		private GroupBox groupBox_editSubjects;
@@ -675,5 +721,7 @@
 		private Label label_addCity;
 		private ComboBox comboBox_editCity;
 		private Label label_editCity;
+		private CheckBox checkBox_addCity;
+		private CheckBox checkBox_editCity;
 	}
 }

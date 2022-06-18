@@ -10,7 +10,7 @@ namespace project_gui.DataModels
 		public int? Id { get; set; }
 		public string? Name { get; set; }
 		public virtual Departments? Department { get; set; }
-		public virtual ICollection<Students>? Students { get; set; }
+		public virtual ICollection<StudentsSubjects>? StudentsSubjects { get; set; }
 	}
 
 	internal class SubjectsController
@@ -53,7 +53,7 @@ namespace project_gui.DataModels
 			return null;
 		}
 
-		internal static async Task<List<dynamic>?> GetAvailableSubjects(int? id)
+		internal static async Task<IEnumerable<Subjects>?> GetSubjectsInDepartmentFull(int? id)
 		{
 			if (id == null)
 				return null;
@@ -61,16 +61,7 @@ namespace project_gui.DataModels
 			response = await Client.GetClient().GetAsync($"api/Subjects/Department/{id}?isAlsoFree=true");
 			if (response.IsSuccessStatusCode)
 			{
-				var subjects = await response.Content.ReadFromJsonAsync<IEnumerable<Subjects>>();
-				var query = from subject in subjects
-							select new
-							{
-								subject.Id,
-								subject.Name,
-								DepartmentId = subject.Department?.Id
-							};
-
-				return query.ToList<dynamic>();
+				return await response.Content.ReadFromJsonAsync<IEnumerable<Subjects>>();
 			}
 			return null;
 		}

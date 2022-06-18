@@ -49,18 +49,12 @@ namespace project_api.Controllers.University
 
 		// GET: api/Subjects/Department/5
 		[HttpGet("Department/{departmentId}")]
-		public async Task<ActionResult<IEnumerable<Subjects>>> GetSubjectsInDepartment(int departmentId, bool isAlsoFree = false)
+		public async Task<ActionResult<IEnumerable<Subjects>>> GetSubjectsInDepartment(int departmentId)
 		{
-			if (_context.Departments == null || _context.Subjects == null)
+			if (_context.Subjects == null)
 			{
 				return NotFound();
 			}
-
-			if (isAlsoFree)
-				return await _context.Subjects
-				.Include(s => s.Department)
-				.Where(s => s.Department.Id == departmentId || s.Department == null)
-				.ToListAsync();
 
 			return await _context.Subjects
 				.Include(s => s.Department)
@@ -78,15 +72,36 @@ namespace project_api.Controllers.University
 				return BadRequest();
 			}
 
-			_context.Subjects.Attach(subjects);
-			_context.Entry(subjects).Reference(s => s.Department).IsModified = true;
-			if (subjects.Department != null)
-				_context.Entry(subjects.Department).Reference(s => s.University).IsModified = false;
-			_context.Entry(subjects).State = EntityState.Modified;
-
 			try
 			{
+				var subjectFK = await _context.Subjects
+					.Include(s => s.Department)
+					.AsNoTracking()
+					.SingleAsync(s => s.Id == subjects.Department.Id);
+
+				_context.Subjects.Attach(subjects);
+				_context.Entry(subjects).Reference(s => s.Department).IsModified = true;
+				if (subjects.Department != null)
+					_context.Entry(subjects.Department).Reference(s => s.University).IsModified = false;
+				_context.Entry(subjects).State = EntityState.Modified;
+
 				await _context.SaveChangesAsync();
+				_context.Entry(subjects).State = EntityState.Detached;
+				_context.ChangeTracker.Clear();
+
+				if (subjects.Department?.Id != subjectFK.Department?.Id)
+				{
+					var subject = await _context.Subjects
+						.Include(s => s.StudentsSubjects)
+						.SingleAsync(s => s.Id == subjectFK.Id);
+
+					_context.Subjects.Attach(subject);
+					foreach (var s in subject.StudentsSubjects)
+						_context.Entry(s).State = EntityState.Deleted;
+
+					await _context.SaveChangesAsync();
+				}
+
 			}
 			catch (DbUpdateConcurrencyException)
 			{
